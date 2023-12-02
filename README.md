@@ -2,11 +2,11 @@
 
 ## Curso
 
-- Tecnologia em Sistemas para Internet - TSI | IFSP - Araraquara
+Tecnologia em Sistemas para Internet - TSI | IFSP - Araraquara
 
 ## Disciplina
 
-- Introdução à Orientação a Objetos - INOO
+Introdução à Orientação a Objetos - INOO
 
 ## Professor
 
