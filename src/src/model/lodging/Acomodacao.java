@@ -11,6 +11,18 @@ public class Acomodacao {
     private int andar;
     private int numeroQuarto;
 
+    /**
+     * Metodo construtor da classe Acomodacao
+     *
+     * @param codigo codigo da acomodacao
+     * @param descricao descricao da acomodacao
+     * @param totalRestante total de acomodacoes restantes
+     * @param precoDiaria preco da diaria
+     * @param maxAdultos numero maximo de adultos
+     * @param maxCriancas numero maximo de criancas
+     * @param andar andar da acomodacao
+     * @param numeroQuarto numero do quarto
+     */
     public Acomodacao(int codigo, String descricao, int totalRestante, double precoDiaria, int maxAdultos, int maxCriancas, int andar, int numeroQuarto) {
         this.codigo = codigo;
         this.descricao = descricao;
