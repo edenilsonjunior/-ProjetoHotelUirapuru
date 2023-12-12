@@ -3,6 +3,7 @@ package model.payment;
 import model.consumo.Consumo;
 import model.lodging.Hospedagem;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 public class Pagamento {
@@ -101,16 +102,41 @@ public class Pagamento {
         this.status = status;
     }
 
+    /**
+     * Metodo que realiza o processamento do pagamento, aplicando juros se feito após a data de vencimento
+     * e cobrando uma multa se a reserva for cancelada antes do check-in.
+     * Retorna uma mensagem indicando o status do pagamento detalhadamente.
+     *
+     * @return String contendo os detalhes do pagamento.
+     */
     public String fazerPagamento() {
         if (isStatus()) {
             return "Nome: " + hospedagem.getHospede().getNome() + "\n"
                     + "Pagamento realizado em: " + this.dataPagamento + "\n";
-        } else {
+        }
+        else if (this.dataPagamento.isAfter(this.dataVencimento)) {
             this.dataPagamento = LocalDate.now();
             this.dataVencimento = null;
             this.status = true;
-            return "Nome: " + hospedagem.getHospede().getNome() + "\n"
-                    + "Pagamento realizado com sucesso" + "\n";
         }
+        else {
+            this.dataPagamento = LocalDate.now();
+            this.dataVencimento = null;
+            this.status = true;
+        }
+        return "Nome: " + hospedagem.getHospede().getNome() + "\n"
+                + "Pagamento realizado com sucesso" + "\n"
+                + "Juros: R$" + calcularJuros() + "\n"
+                + "Multa: R$" + hospedagem.getMulta() + "\n"
+                + "Total: R$" + (hospedagem.totalDiarias() + hospedagem.getHospede().totalConsumo() + calcularJuros() + hospedagem.getMulta()) + "\n";
     }
+
+    private double calcularJuros() {
+        if (this.dataPagamento.isAfter(this.dataVencimento)) {
+            Duration duration = Duration.between(this.dataVencimento, this.dataPagamento);
+            return duration.toDays() * (this.juros/100);
+        }
+        return 0;
+    }
+
 }

@@ -3,6 +3,7 @@ package model.lodging;
 import model.people.Hospede;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Hospedagem {
@@ -90,7 +91,8 @@ public class Hospedagem {
     }
 
     /**
-     * Metodo que adiciona uma reserva a lista de reservas
+     * Metodo que remove uma reserva a lista de reservas.
+     * Se a reserva for cancelada após 12 horas antes do check-in, é adicionado uma multa.
      *
      * @param list lista de reservas
      * @param hospedagem dados da classe hospedagem
@@ -98,11 +100,15 @@ public class Hospedagem {
     public void removerReserva(List list, Hospedagem hospedagem) {
         if (!hospedagem.isStatus()) {
             list.remove(hospedagem);
+            LocalDateTime chegadatime = getChegada().atStartOfDay();
+            if (LocalDateTime.now().plusHours(12).isAfter(chegadatime)) {
+                hospedagem.setMulta(hospedagem.totalDiarias() * 0.1);
+            }
         }
     }
 
     /**
-     * Metodo que adiciona uma hospedagem a lista de hospedagens
+     * Metodo que remove uma hospedagem a lista de hospedagens
      *
      * @param list lista de hospedagens
      * @param hospedagem dados da classe hospedagem

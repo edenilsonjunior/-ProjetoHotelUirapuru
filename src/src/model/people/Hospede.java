@@ -85,20 +85,43 @@ public class Hospede extends Pessoa {
     public String getDescricao() {
         return "Nome: " + getNome() + ", Identificação: " + getIdentificacao() + ", Cargo: Hóspede";
     }
-    
+
+    /**
+     * Metodo que retorna um relatorio com os consumos do hospede.
+     * @return String contendo os consumos do hospede.
+     */
     public String relatorioConsumo() {
-        String relatorio = "";
+        StringBuilder relatorio = new StringBuilder();
         for (Consumo consumo : listaConsumo) {
-            relatorio += consumo.getDescricao() + "\n";
+            relatorio.append(consumo.getDescricao()).append("\n");
         }
-        return relatorio;
+        return relatorio.toString();
     }
 
+    /**
+     * Metodo que adiciona um consumo a lista de consumos do hospede.
+     */
     public void adicionarConsumo(Consumo consumo) {
         listaConsumo.add(consumo);
     }
 
+    /**
+     * Metodo que remove um consumo da lista de consumos do hospede.
+     */
     public void removerConsumo(Consumo consumo) {
         listaConsumo.remove(consumo);
     }
+
+    /**
+     * Metodo que retorna um calculo do total dos consumos do hospede.
+     * @return double contendo o total dos consumos do hospede.
+     */
+    public double totalConsumo() {
+        double total = 0;
+        for (Consumo consumo : listaConsumo) {
+            total += consumo.getValor();
+        }
+        return total;
+    }
+
 }
