@@ -7,14 +7,16 @@ public abstract class Pessoa {
     private String estado;
     private int telefone;
     private String dataNascimento;
+    private int senha;
 
-    public Pessoa(String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
+    public Pessoa(String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento, int senha) {
         this.nome = nome;
         this.endereco = endereco;
         this.cidade = cidade;
         this.estado = estado;
         this.telefone = telefone;
         this.dataNascimento = dataNascimento;
+        this.senha = senha;
     }
 
     public String getNome() {
@@ -63,6 +65,14 @@ public abstract class Pessoa {
 
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public int getSenha() {
+        return senha;
+    }
+
+    public void setSenha(int senha) {
+        this.senha = senha;
     }
 
     public abstract String getDescricao();

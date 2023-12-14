@@ -13,8 +13,8 @@ public class Hospede extends Pessoa {
     private int dadosCartao;
     private List<Consumo> listaConsumo;
 
-    public Hospede(String pais, String email, int identificacao, String nomePai, String nomeMae, int dadosCartao, String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
-        super(nome, endereco, cidade, estado, telefone, dataNascimento);
+    public Hospede(String pais, String email, int identificacao, String nomePai, String nomeMae, int dadosCartao, String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento, int senha) {
+        super(nome, endereco, cidade, estado, telefone, dataNascimento, senha);
         this.pais = pais;
         this.email = email;
         this.identificacao = identificacao;

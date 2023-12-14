@@ -25,16 +25,16 @@ public class Pagamento {
         this.juros = 10;
         this.status = false;
         if (opcao == TipoPagamento.DINHEIRO) {
-            this.dataPagamento = hospedagem.getChegada().plusDays(1);
+            this.dataVencimento = hospedagem.getChegada().plusDays(1);
         }
         else if (opcao == TipoPagamento.CHEQUE) {
-            this.dataPagamento = hospedagem.getChegada().plusDays(10);
+            this.dataVencimento = hospedagem.getChegada().plusDays(10);
         }
         else if (opcao == TipoPagamento.CREDITO) {
-            this.dataPagamento = hospedagem.getChegada().plusDays(30);
+            this.dataVencimento = hospedagem.getChegada().plusDays(30);
         }
         else if (opcao == TipoPagamento.FATURADO) {
-            this.dataPagamento = hospedagem.getSaida().plusDays(30);
+            this.dataVencimento = hospedagem.getSaida().plusDays(30);
         }
     }
 
@@ -124,7 +124,8 @@ public class Pagamento {
             this.dataVencimento = null;
             this.status = true;
         }
-        return "Nome: " + hospedagem.getHospede().getNome() + "\n"
+        return getNumeroFatura()    + "\n"
+                + "Nome: " + hospedagem.getHospede().getNome() + "\n"
                 + "Pagamento realizado com sucesso" + "\n"
                 + "Juros: R$" + calcularJuros() + "\n"
                 + "Multa: R$" + hospedagem.getMulta() + "\n"

@@ -91,35 +91,6 @@ public class Hospedagem {
     }
 
     /**
-     * Metodo que remove uma reserva a lista de reservas.
-     * Se a reserva for cancelada após 12 horas antes do check-in, é adicionado uma multa.
-     *
-     * @param list lista de reservas
-     * @param hospedagem dados da classe hospedagem
-     */
-    public void removerReserva(List list, Hospedagem hospedagem) {
-        if (!hospedagem.isStatus()) {
-            list.remove(hospedagem);
-            LocalDateTime chegadatime = getChegada().atStartOfDay();
-            if (LocalDateTime.now().plusHours(12).isAfter(chegadatime)) {
-                hospedagem.setMulta(hospedagem.totalDiarias() * 0.1);
-            }
-        }
-    }
-
-    /**
-     * Metodo que remove uma hospedagem a lista de hospedagens
-     *
-     * @param list lista de hospedagens
-     * @param hospedagem dados da classe hospedagem
-     */
-    public void removerHospedagem(List list, Hospedagem hospedagem) {
-        if (hospedagem.isStatus()) {
-            list.remove(hospedagem);
-        }
-    }
-
-    /**
      * Metodo que calcula o total de diarias
      *
      * @return total de diarias
@@ -140,7 +111,7 @@ public class Hospedagem {
     public String relatorioHospedagem() {
         return "Nome: " + getHospede().getNome() + "\n"
                 + "Código: " + getCodigo() + "\n"
-                + "Descrição: " + getAcomodacao().getDescricao() + "\n"
+                + "Descrição: " + getAcomodacao().getOpcao() + "\n"
                 + "Total de diárias: " + (saida.getDayOfYear() - chegada.getDayOfYear()) + "\n"
                 + "Preço da diária: " + getAcomodacao().getPrecoDiaria() + "\n"
                 + "Total: " + totalDiarias() + "\n"
