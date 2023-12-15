@@ -1,6 +1,4 @@
-package model.consumo;
-
-import java.util.List;
+package model.consumption;
 
 public class Consumo {
     private int codigo;
