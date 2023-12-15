@@ -24,19 +24,6 @@ public class Hotel {
         this.acomodacoes = new ArrayList<>();
     }
 
-    public List<Funcionario> getFuncionarios() {
-        return funcionarios;
-    }
-
-
-    public List<Hospedagem> getHospedagens() {
-        return hospedagens;
-    }
-
-
-
-
-
     /**
      * Metodo que adiciona um funcionario da lista de funcionarios.
      *
@@ -54,6 +41,17 @@ public class Hotel {
     public void removeFuncionario(Funcionario funcionario) {
         this.funcionarios.remove(funcionario);
     }
+    
+    /**
+     * Metodo que adiciona uma reserva a lista de hospedagens
+     *
+     * @param hospedagem dados da classe hospedagem
+     */
+    public void addReserva(Hospedagem hospedagem) {
+        if (!hospedagem.isStatus()) {
+            hospedagens.add(hospedagem);
+        }
+    }
 
     /**
      * Metodo que remove uma reserva da lista de hospedagens.
@@ -70,29 +68,7 @@ public class Hotel {
             }
         }
     }
-
-    /**
-     * Metodo que remove uma hospedagem a lista de hospedagens
-     *
-     * @param hospedagem dados da classe hospedagem
-     */
-    public void removeHospedagem(Hospedagem hospedagem) {
-        if (hospedagem.isStatus()) {
-            hospedagens.remove(hospedagem);
-        }
-    }
-
-    /**
-     * Metodo que adiciona uma reserva a lista de hospedagens
-     *
-     * @param hospedagem dados da classe hospedagem
-     */
-    public void addReserva(Hospedagem hospedagem) {
-        if (!hospedagem.isStatus()) {
-            hospedagens.add(hospedagem);
-        }
-    }
-
+    
     /**
      * Metodo que adiciona uma hospedagem a lista de hospedagens
      *
@@ -104,6 +80,16 @@ public class Hotel {
         }
     }
 
+    /**
+     * Metodo que remove uma hospedagem a lista de hospedagens
+     *
+     * @param hospedagem dados da classe hospedagem
+     */
+    public void removeHospedagem(Hospedagem hospedagem) {
+        if (hospedagem.isStatus()) {
+            hospedagens.remove(hospedagem);
+        }
+    }
 
     public String relatorioHospedes() {
         String hospedes = "";
@@ -124,7 +110,6 @@ public class Hotel {
         }
         return hospedes;
     }
-
 
     public String relatorioReservasHoje(){
         String reservas = "";
@@ -187,5 +172,37 @@ public class Hotel {
     public String relatorioAtrasados(){
         // TODO: Implementar (letra H)
         return "";    
+    }
+
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
+    }
+
+    public List<Hospedagem> getHospedagens() {
+        return hospedagens;
+    }
+
+    public void setHospedagens(List<Hospedagem> hospedagens) {
+        this.hospedagens = hospedagens;
+    }
+
+    public List<Pagamento> getPagamentos() {
+        return pagamentos;
+    }
+
+    public void setPagamentos(List<Pagamento> pagamentos) {
+        this.pagamentos = pagamentos;
+    }
+
+    public List<Acomodacao> getAcomodacoes() {
+        return acomodacoes;
+    }
+
+    public void setAcomodacoes(List<Acomodacao> acomodacoes) {
+        this.acomodacoes = acomodacoes;
     }
 }

@@ -9,21 +9,19 @@ public class Consumo {
     public Consumo(int codigo, TipoConsumo tipo, String descricao) {
         this.codigo = codigo;
         this.tipo = tipo;
+        this.descricao = descricao;
+
         if (tipo == TipoConsumo.RESTAURANTE) {
             this.valor = 50;
-            this.descricao = "Restaurante";
         }
         else if (tipo == TipoConsumo.FRIGOBAR) {
             this.valor = 20;
-            this.descricao = "Friobar";
         }
         else if (tipo == TipoConsumo.LAVANDERIA) {
             this.valor = 30;
-            this.descricao = "Lavanderia";
         }
         else if (tipo == TipoConsumo.TELEFONE) {
             this.valor = 10;
-            this.descricao = "Telefone";
         }
     }
 
@@ -58,7 +56,6 @@ public class Consumo {
     public void setValor(double valor) {
         this.valor = valor;
     }
-
 }
 
 

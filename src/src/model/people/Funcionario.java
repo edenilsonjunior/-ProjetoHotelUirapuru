@@ -9,6 +9,11 @@ public class Funcionario extends Pessoa{
         this.codigo = codigo;
     }
 
+    @Override
+    public String getDescricao() {
+        return "Nome: " + getNome() + ", Código: " + getCodigo() + ", Cargo: Funcionário";
+    }
+
     public int getCodigo() {
         return codigo;
     }
@@ -16,10 +21,4 @@ public class Funcionario extends Pessoa{
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-
-    @Override
-    public String getDescricao() {
-        return "Nome: " + getNome() + ", Código: " + getCodigo() + ", Cargo: Funcionário";
-    }
-
 }

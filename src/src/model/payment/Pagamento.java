@@ -24,18 +24,73 @@ public class Pagamento {
         this.dataPagamento = null;
         this.juros = 10;
         this.status = false;
-        if (opcao == TipoPagamento.DINHEIRO) {
-            this.dataVencimento = hospedagem.getChegada().plusDays(1);
+
+        switch (opcao) {
+            case DINHEIRO:
+                this.dataVencimento = hospedagem.getChegada().plusDays(1);
+                break;
+            case CHEQUE:
+                this.dataVencimento = hospedagem.getChegada().plusDays(10);
+                break;
+            case CREDITO:
+                this.dataVencimento = hospedagem.getChegada().plusDays(30);
+                break;
+            case FATURADO:
+                this.dataVencimento = hospedagem.getSaida().plusDays(30);
+                break;
         }
-        else if (opcao == TipoPagamento.CHEQUE) {
-            this.dataVencimento = hospedagem.getChegada().plusDays(10);
+    }
+
+    /**
+     * Metodo que realiza o processamento do pagamento, aplicando juros se feito após a data de vencimento
+     * e cobrando uma multa se a reserva for cancelada antes do check-in.
+     * Retorna uma mensagem indicando o status do pagamento detalhadamente.
+     *
+     * @return String contendo os detalhes do pagamento.
+     */
+    public String fazerPagamento() {
+
+        String mensagem = "";
+
+        if (isStatus()) {
+
+            mensagem = "Nome: " + hospedagem.getHospede().getNome() + "\n";
+            mensagem += "Pagamento realizado em: " + this.dataPagamento + "\n";
+
+            return mensagem;
         }
-        else if (opcao == TipoPagamento.CREDITO) {
-            this.dataVencimento = hospedagem.getChegada().plusDays(30);
+        else if (this.dataPagamento.isAfter(this.dataVencimento)) {
+            this.dataPagamento = LocalDate.now();
+            this.dataVencimento = null;
+            this.status = true;
         }
-        else if (opcao == TipoPagamento.FATURADO) {
-            this.dataVencimento = hospedagem.getSaida().plusDays(30);
+        else {
+            this.dataPagamento = LocalDate.now();
+            this.dataVencimento = null;
+            this.status = true;
         }
+
+        mensagem += getNumeroFatura() + "\n";
+        mensagem += "Nome: " + hospedagem.getHospede().getNome() + "\n";
+        mensagem += "Pagamento realizado com sucesso" + "\n";
+        mensagem += "Juros: R$" + calcularJuros() + "\n";
+        mensagem += "Multa: R$" + hospedagem.getMulta() + "\n";
+        mensagem += "Total: R$" + (hospedagem.totalDiarias() + hospedagem.getHospede().totalConsumo() + calcularJuros() + hospedagem.getMulta()) + "\n";
+    
+        return mensagem;    
+    }
+
+    private double calcularJuros() {
+        if (this.dataPagamento.isAfter(this.dataVencimento)) {
+            Duration duration = Duration.between(this.dataVencimento, this.dataPagamento);
+            return duration.toDays() * (this.juros/100);
+        }
+        return 0;
+    }
+
+    public String relatorioTipoFaturado(){
+        // TODO: Implementar (letra G)
+        return "";
     }
 
     public TipoPagamento getOpcao() {
@@ -100,48 +155,5 @@ public class Pagamento {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    /**
-     * Metodo que realiza o processamento do pagamento, aplicando juros se feito após a data de vencimento
-     * e cobrando uma multa se a reserva for cancelada antes do check-in.
-     * Retorna uma mensagem indicando o status do pagamento detalhadamente.
-     *
-     * @return String contendo os detalhes do pagamento.
-     */
-    public String fazerPagamento() {
-        if (isStatus()) {
-            return "Nome: " + hospedagem.getHospede().getNome() + "\n"
-                    + "Pagamento realizado em: " + this.dataPagamento + "\n";
-        }
-        else if (this.dataPagamento.isAfter(this.dataVencimento)) {
-            this.dataPagamento = LocalDate.now();
-            this.dataVencimento = null;
-            this.status = true;
-        }
-        else {
-            this.dataPagamento = LocalDate.now();
-            this.dataVencimento = null;
-            this.status = true;
-        }
-        return getNumeroFatura()    + "\n"
-                + "Nome: " + hospedagem.getHospede().getNome() + "\n"
-                + "Pagamento realizado com sucesso" + "\n"
-                + "Juros: R$" + calcularJuros() + "\n"
-                + "Multa: R$" + hospedagem.getMulta() + "\n"
-                + "Total: R$" + (hospedagem.totalDiarias() + hospedagem.getHospede().totalConsumo() + calcularJuros() + hospedagem.getMulta()) + "\n";
-    }
-
-    private double calcularJuros() {
-        if (this.dataPagamento.isAfter(this.dataVencimento)) {
-            Duration duration = Duration.between(this.dataVencimento, this.dataPagamento);
-            return duration.toDays() * (this.juros/100);
-        }
-        return 0;
-    }
-
-    public String relatorioTipoFaturado(){
-        // TODO: Implementar (letra G)
-        return "";
     }
 }

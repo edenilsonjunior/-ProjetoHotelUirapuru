@@ -28,7 +28,56 @@ public class Hospede extends Pessoa {
         acompanhantes = new ArrayList<String>();
     }
 
+    @Override
+    public String getDescricao() {
+        return "Nome: " + getNome() + ", Identificação: " + getIdentificacao() + ", Cargo: Hóspede";
+    }
 
+    /**
+     * Metodo que retorna um relatorio com os consumos do hospede.
+     * @return String contendo os consumos do hospede.
+     */
+    public String relatorioConsumo() {
+        StringBuilder relatorio = new StringBuilder();
+        for (Consumo consumo : listaConsumo) {
+            relatorio.append(consumo.getDescricao()).append("\n");
+        }
+        return relatorio.toString();
+    }
+
+    /**
+     * Metodo que adiciona um consumo a lista de consumos do hospede.
+     */
+    public void adicionarConsumo(Consumo consumo) {
+        listaConsumo.add(consumo);
+    }
+
+    /**
+     * Metodo que remove um consumo da lista de consumos do hospede.
+     */
+    public void removerConsumo(Consumo consumo) {
+        listaConsumo.remove(consumo);
+    }
+
+    /**
+     * Metodo que retorna um calculo do total dos consumos do hospede.
+     * @return double contendo o total dos consumos do hospede.
+     */
+    public double totalConsumo() {
+        double total = 0;
+        for (Consumo consumo : listaConsumo) {
+            total += consumo.getValor();
+        }
+        return total;
+    }
+
+    public void addAcompanhante(String acompanhante) {
+        acompanhantes.add(acompanhante);
+    }
+
+    public void removeAcompanhante(String acompanhante) {
+        acompanhantes.remove(acompanhante);
+    }
 
     public String getPais() {
         return pais;
@@ -86,58 +135,12 @@ public class Hospede extends Pessoa {
         this.listaConsumo = listaConsumo;
     }
 
-    @Override
-    public String getDescricao() {
-        return "Nome: " + getNome() + ", Identificação: " + getIdentificacao() + ", Cargo: Hóspede";
-    }
-
-    /**
-     * Metodo que retorna um relatorio com os consumos do hospede.
-     * @return String contendo os consumos do hospede.
-     */
-    public String relatorioConsumo() {
-        StringBuilder relatorio = new StringBuilder();
-        for (Consumo consumo : listaConsumo) {
-            relatorio.append(consumo.getDescricao()).append("\n");
-        }
-        return relatorio.toString();
-    }
-
-    /**
-     * Metodo que adiciona um consumo a lista de consumos do hospede.
-     */
-    public void adicionarConsumo(Consumo consumo) {
-        listaConsumo.add(consumo);
-    }
-
-    /**
-     * Metodo que remove um consumo da lista de consumos do hospede.
-     */
-    public void removerConsumo(Consumo consumo) {
-        listaConsumo.remove(consumo);
-    }
-
-    /**
-     * Metodo que retorna um calculo do total dos consumos do hospede.
-     * @return double contendo o total dos consumos do hospede.
-     */
-    public double totalConsumo() {
-        double total = 0;
-        for (Consumo consumo : listaConsumo) {
-            total += consumo.getValor();
-        }
-        return total;
-    }
-
-    public void addAcompanhante(String acompanhante) {
-        acompanhantes.add(acompanhante);
-    }
-
-    public void removeAcompanhante(String acompanhante) {
-        acompanhantes.remove(acompanhante);
-    }
-
     public List<String> getAcompanhantes() {
         return acompanhantes;
     }
+
+    public void setAcompanhantes(List<String> acompanhantes) {
+        this.acompanhantes = acompanhantes;
+    }
+
 }

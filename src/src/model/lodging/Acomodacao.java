@@ -4,33 +4,53 @@ public class Acomodacao {
 
     private int codigo;
     private TipoAcomodacao opcao;
-    private double precoDiaria;
+    private double diaria;
     private int maxAdultos;
     private int maxCriancas;
     private int andar;
     private int numeroQuarto;
-    private boolean statusOcupacao;
+    private boolean ocupado;
 
     /**
      * Metodo construtor da classe Acomodacao
      *
      * @param codigo codigo da acomodacao
      * @param opcao tipo da acomodacao
-     * @param precoDiaria preco da diaria
+     * @param diaria preco da diaria
      * @param maxAdultos numero maximo de adultos
      * @param maxCriancas numero maximo de criancas
      * @param andar andar da acomodacao
      * @param numeroQuarto numero do quarto
      */
-    public Acomodacao(int codigo, TipoAcomodacao opcao, double precoDiaria, int maxAdultos, int maxCriancas, int andar, int numeroQuarto) {
+    public Acomodacao(int codigo, TipoAcomodacao opcao, double diaria, int maxAdultos, int maxCriancas, int andar, int numeroQuarto) {
         this.codigo = codigo;
         this.opcao = opcao;
-        this.precoDiaria = precoDiaria;
+        this.diaria = diaria;
         this.maxAdultos = maxAdultos;
         this.maxCriancas = maxCriancas;
         this.andar = andar;
         this.numeroQuarto = numeroQuarto;
-        this.statusOcupacao = false;
+        this.ocupado = false;
+    }
+
+    /**
+     * Metodo que retorna a descricao da acomodacao
+     *
+     * @return descricao completa da acomodacao
+     */
+    public String getDescricao() {
+
+        String descricao = ""; 
+        descricao += "Código: " + getCodigo() + "\n";
+        descricao += "Tipo: " + getOpcao() + "\n";
+        descricao += "Preço da diária: " + getDiaria() + "\n";
+        descricao += "Número máximo de adultos: " + getMaxAdultos() + "\n";
+        descricao += "Número máximo de crianças: " + getMaxCriancas() + "\n";
+        descricao += "Andar: " + getAndar() + "\n";
+        descricao += "Número do quarto: " + getNumeroQuarto() + "\n";
+        descricao += "Status de ocupação: " + isOcupado() + "\n";
+
+        return descricao;
     }
 
     public int getCodigo() {
@@ -49,12 +69,12 @@ public class Acomodacao {
         this.opcao = opcao;
     }
 
-    public double getPrecoDiaria() {
-        return precoDiaria;
+    public double getDiaria() {
+        return diaria;
     }
 
-    public void setPrecoDiaria(double precoDiaria) {
-        this.precoDiaria = precoDiaria;
+    public void setDiaria(double diaria) {
+        this.diaria = diaria;
     }
 
     public int getMaxAdultos() {
@@ -88,27 +108,12 @@ public class Acomodacao {
     public void setNumeroQuarto(int numeroQuarto) {
         this.numeroQuarto = numeroQuarto;
     }
-    
-    public boolean isStatusOcupacao() {
-        return statusOcupacao;
+
+    public boolean isOcupado() {
+        return ocupado;
     }
 
-    public void setStatusOcupacao(boolean statusOcupacao) {
-        this.statusOcupacao = statusOcupacao;
-    }
-    
-    public String getDescricao() {
-
-        String descricao = "Código: " + getCodigo() + "\n";
-        descricao += "Tipo: " + getOpcao() + "\n";
-        descricao += "Preço da diária: " + getPrecoDiaria() + "\n";
-        descricao += "Número máximo de adultos: " + getMaxAdultos() + "\n";
-        descricao += "Número máximo de crianças: " + getMaxCriancas() + "\n";
-        descricao += "Andar: " + getAndar() + "\n";
-        descricao += "Número do quarto: " + getNumeroQuarto() + "\n";
-        descricao += "Status de ocupação: " + isStatusOcupacao() + "\n";
-
-        return descricao;
-    }
-
+    public void setOcupado(boolean ocupado) {
+        this.ocupado = ocupado;
+    }   
 }

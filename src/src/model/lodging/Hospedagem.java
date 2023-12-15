@@ -33,7 +33,36 @@ public class Hospedagem {
         this.multa = 0;
         this.status = status;
 
-        this.acomodacao.setStatusOcupacao(true);
+        this.acomodacao.setOcupado(true);
+    }
+
+    /**
+     * Metodo que calcula o total de diarias
+     *
+     * @return total de diarias
+     */
+    public double totalDiarias() {
+        if (isStatus()) {
+            return acomodacao.getDiaria() * (saida.getDayOfYear() - chegada.getDayOfYear());
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Metodo que gera um relatorio de hospedagem
+     *
+     * @return relatorio de hospedagem
+     */
+    public String relatorioHospedagem() {
+        return "Nome: " + getHospede().getNome() + "\n"
+                + "Código: " + getCodigo() + "\n"
+                + "Descrição: " + getAcomodacao().getOpcao() + "\n"
+                + "Total de diárias: " + (saida.getDayOfYear() - chegada.getDayOfYear()) + "\n"
+                + "Preço da diária: " + getAcomodacao().getDiaria() + "\n"
+                + "Total: " + totalDiarias() + "\n"
+                + "Multa: " + getMulta() + "\n"
+                + "Total a pagar: " + (totalDiarias() + getMulta()) + "\n";
     }
 
     public Acomodacao getAcomodacao() {
@@ -90,34 +119,5 @@ public class Hospedagem {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    /**
-     * Metodo que calcula o total de diarias
-     *
-     * @return total de diarias
-     */
-    public double totalDiarias() {
-        if (isStatus()) {
-            return acomodacao.getPrecoDiaria() * (saida.getDayOfYear() - chegada.getDayOfYear());
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Metodo que gera um relatorio de hospedagem
-     *
-     * @return relatorio de hospedagem
-     */
-    public String relatorioHospedagem() {
-        return "Nome: " + getHospede().getNome() + "\n"
-                + "Código: " + getCodigo() + "\n"
-                + "Descrição: " + getAcomodacao().getOpcao() + "\n"
-                + "Total de diárias: " + (saida.getDayOfYear() - chegada.getDayOfYear()) + "\n"
-                + "Preço da diária: " + getAcomodacao().getPrecoDiaria() + "\n"
-                + "Total: " + totalDiarias() + "\n"
-                + "Multa: " + getMulta() + "\n"
-                + "Total a pagar: " + (totalDiarias() + getMulta()) + "\n";
     }
 }
