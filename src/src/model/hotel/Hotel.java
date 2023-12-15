@@ -24,6 +24,19 @@ public class Hotel {
         this.acomodacoes = new ArrayList<>();
     }
 
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+
+    public List<Hospedagem> getHospedagens() {
+        return hospedagens;
+    }
+
+
+
+
+
     /**
      * Metodo que adiciona um funcionario da lista de funcionarios.
      *
