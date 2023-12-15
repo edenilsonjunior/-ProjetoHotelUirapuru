@@ -1,7 +1,8 @@
 # ProjetoHotelUirapuru
 
 ## UML
-![image](https://github.com/edenilsonjunior/ProjetoHotelUirapuru/assets/85528622/2991d3a2-f456-4484-bd58-99b03db111ec)
+![image](https://github.com/edenilsonjunior/ProjetoHotelUirapuru/assets/110670578/5cd0d5f2-871c-4b21-9ae4-9acd7db9c60a)
+
 
 ## Curso
 
