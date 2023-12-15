@@ -14,26 +14,21 @@ public class Sistema {
     public static void start(){
 
         Hotel hotel = new Hotel();
-
-        System.out.println("Hello World!");
         boolean superUser = false;
-
-        int opcao = 0;
-        String senha;
-        hotel.addFuncionario(new Funcionario(123, "henrique", "rua", "cidade", "estado", 123, "data"));
+        Hospede logado = null;
 
         String[] usuario = menuLogin();
 
+        // Se o usuario for admin
         if (usuario[0].equals("admin") && usuario[1].equals("admin")) {
 
             System.out.println("Bem vindo, administrador!");
             superUser = true;
         } 
         else{
-            for (Funcionario funcionario : hotel.getFuncionarios()) 
-            {
-                if (usuario[0].equals(funcionario.getLogin()) && usuario[1].equals(funcionario.getSenha())) 
-                {
+            for (Funcionario funcionario : hotel.getFuncionarios()) {
+                if (usuario[0].equals(funcionario.getLogin()) && usuario[1].equals(funcionario.getSenha())) {
+
                     System.out.println("Bem vindo, " + funcionario.getNome() + "!");
                     superUser = true;
                     break;
@@ -44,6 +39,7 @@ public class Sistema {
             for (Hospedagem hospedagem : hotel.getHospedagens()) {
                 if (usuario[0].equals(hospedagem.getHospede().getLogin()) && usuario[1].equals(hospedagem.getHospede().getSenha())) 
                 {
+                    logado = hospedagem.getHospede();
                     System.out.println("Bem vindo, " + hospedagem.getHospede().getNome() + "!, voce é hospede");
                     break;
                 }
@@ -52,32 +48,10 @@ public class Sistema {
         }
     }
 
-    /*
-     * TODO:
-     * 
-     * 
-     * Tela de login;
-     * 
-     * Administrador (Senha: admin):
-        * Tela de cadastro de funcionario;
-        * Tela de remover funcionario;
-        * Tela de lista de funcionarios; 
-     * 
-     * Funcionario:
-     * Tela principal com opções de:
-     * Tela de adicionar reserva;
-        * Tela de cadastro de hospede;
-        * Tela de remover hospede;
-        * Tela de lista de hospedes;
-     *  
-     * 
-     * 
-     */
-
     public static String[] menuLogin(){
         // Cria campos de texto para os dados
-        JTextField loginField = new JTextField(10);
-        JTextField senhaField = new JTextField(10);
+        JTextField campoLogin = new JTextField(10);
+        JTextField campoSenha = new JTextField(10);
 
         // Cria um novo painel
         JPanel painel = new JPanel();
@@ -88,21 +62,19 @@ public class Sistema {
 
         // Adiciona rótulos e campos de texto ao painel
         painel.add(new JLabel("Login:"));
-        painel.add(loginField);
+        painel.add(campoLogin);
+
         painel.add(new JLabel("Senha:"));
-        painel.add(senhaField);
+        painel.add(campoSenha);
 
         // Mostra o painel em um JOptionPane
         int result = JOptionPane.showConfirmDialog(null, painel, 
                "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
 
-            String[] array = {loginField.getText(), senhaField.getText()};
+            String[] array = {campoLogin.getText(), campoSenha.getText()};
             return array;
         }
         return null;
     }
-
-
-
 }
