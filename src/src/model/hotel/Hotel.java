@@ -146,7 +146,7 @@ public class Hotel {
         acomodacoes += "-----------------------\n";
         for (Acomodacao acomodacao : this.acomodacoes) {
             acomodacoes += "Descricao da acomodacao: \n";
-            acomodacoes += acomodacao.getDescricao() + "\n";
+            acomodacoes += acomodacao.relatorioAcomodacao() + "\n";
             acomodacoes += "-----------------------";
         }
         
