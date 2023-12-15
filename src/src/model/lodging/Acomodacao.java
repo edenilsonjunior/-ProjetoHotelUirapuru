@@ -38,7 +38,7 @@ public class Acomodacao {
      *
      * @return descricao completa da acomodacao
      */
-    public String getDescricao() {
+    public String relatorioAcomodacao() {
 
         String descricao = ""; 
         descricao += "Código: " + getCodigo() + "\n";
