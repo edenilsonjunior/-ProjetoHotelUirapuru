@@ -24,6 +24,14 @@ public class Hotel {
         this.acomodacoes = new ArrayList<>();
     }
 
+    public void addAcomodacao(Acomodacao acomodacao) {
+        this.acomodacoes.add(acomodacao);
+    }
+
+    public void removeAcomodacao(Acomodacao acomodacao) {
+        this.acomodacoes.remove(acomodacao);
+    }
+
     /**
      * Metodo que adiciona um funcionario da lista de funcionarios.
      *
@@ -147,10 +155,11 @@ public class Hotel {
         for (Acomodacao acomodacao : this.acomodacoes) {
             acomodacoes += "Descricao da acomodacao: \n";
             acomodacoes += acomodacao.relatorioAcomodacao() + "\n";
-            acomodacoes += "-----------------------";
+            acomodacoes += "-----------------------\n";
         }
         
         // Estatisticas de acomodacoes
+        acomodacoes += "Estatisticas de acomodacoes: \n     ";
         acomodacoes += "Total de acomodacoes: " + this.acomodacoes.size() + "\n";
         acomodacoes += "Total de acomodacoes ocupadas: " + totalOcupadas + "\n";
         acomodacoes += "Total de acomodacoes reservadas: " + totalReservadas + "\n";
