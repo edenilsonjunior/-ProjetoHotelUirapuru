@@ -5,6 +5,7 @@ import model.lodging.Hospedagem;
 import model.payment.Pagamento;
 import model.people.Funcionario;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,5 +92,87 @@ public class Hotel {
     }
 
 
+    public String relatorioHospedes() {
+        String hospedes = "";
+        for (Hospedagem hospedagem : hospedagens) {
+            if (hospedagem.isStatus()) {
+                hospedes += "Acomodacao: " + hospedagem.getAcomodacao().getNumeroQuarto() + "\n";
+                hospedes += "Hospede:" + hospedagem.getHospede().getNome() + "\n";
 
+                hospedes += "Acompanhantes: \n";
+                for (String acompanhante : hospedagem.getHospede().getAcompanhantes()) {
+                    hospedes += acompanhante + "\n";
+                }
+
+                hospedes += "Check-in: " + hospedagem.getChegada() + "\n";
+                hospedes += "Check-out: " + hospedagem.getSaida() + "\n";
+                hospedes += "\n";
+            }
+        }
+        return hospedes;
+    }
+
+
+    public String relatorioReservasHoje(){
+        String reservas = "";
+        for (Hospedagem hospedagem : hospedagens) {
+            if (!hospedagem.isStatus()) {
+                if (hospedagem.getChegada().equals(LocalDateTime.now().toLocalDate())) {
+                    reservas += "Hospede principal: " + hospedagem.getHospede().getNome() + "\n";
+                    reservas += "Telefone: " + hospedagem.getHospede().getTelefone() + "\n";
+                    reservas += "Tipo de acomodaçao: " + hospedagem.getAcomodacao().getOpcao() + "\n";
+                    reservas += "Data prevista de saída: " + hospedagem.getSaida() + "\n";
+                }
+            }
+        }
+        return reservas;
+    }
+
+    public String relatorioAcomodacoes() {
+        
+        String acomodacoes = "";
+        int totalOcupadas = 0;
+        int totalReservadas = 0;
+        int disponiveis = 0;
+
+        for (Hospedagem hospedagem : this.hospedagens) {
+            if (hospedagem.isStatus()) {
+                totalOcupadas++;
+            }else{
+                totalReservadas++;
+            }
+        }
+        disponiveis = this.acomodacoes.size() - (totalOcupadas + totalReservadas);
+
+        // Descricao de todas as acomodacoes
+        acomodacoes += "-----------------------\n";
+        for (Acomodacao acomodacao : this.acomodacoes) {
+            acomodacoes += "Descricao da acomodacao: \n";
+            acomodacoes += acomodacao.getDescricao() + "\n";
+            acomodacoes += "-----------------------";
+        }
+        
+        // Estatisticas de acomodacoes
+        acomodacoes += "Total de acomodacoes: " + this.acomodacoes.size() + "\n";
+        acomodacoes += "Total de acomodacoes ocupadas: " + totalOcupadas + "\n";
+        acomodacoes += "Total de acomodacoes reservadas: " + totalReservadas + "\n";
+        acomodacoes += "Total de acomodacoes disponiveis: " + disponiveis + "\n";
+
+        return acomodacoes;
+    }
+
+    public String relatorioSaidaHospede(){
+        // TODO: Implementar (letra C)
+        return "";
+    }
+
+    public String relatorioFaturamento(LocalDate inicio, LocalDate fim){
+        // TODO: Implementar (letra F)
+        return "";
+    }
+
+    public String relatorioAtrasados(){
+        // TODO: Implementar (letra H)
+        return "";    
+    }
 }
