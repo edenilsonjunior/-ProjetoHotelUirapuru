@@ -4,34 +4,33 @@ public class Acomodacao {
 
     private int codigo;
     private TipoAcomodacao opcao;
-    private int totalRestante;
     private double precoDiaria;
     private int maxAdultos;
     private int maxCriancas;
     private int andar;
     private int numeroQuarto;
+    private boolean statusOcupacao;
 
     /**
      * Metodo construtor da classe Acomodacao
      *
      * @param codigo codigo da acomodacao
      * @param opcao tipo da acomodacao
-     * @param totalRestante total de acomodacoes restantes
      * @param precoDiaria preco da diaria
      * @param maxAdultos numero maximo de adultos
      * @param maxCriancas numero maximo de criancas
      * @param andar andar da acomodacao
      * @param numeroQuarto numero do quarto
      */
-    public Acomodacao(int codigo, TipoAcomodacao opcao, int totalRestante, double precoDiaria, int maxAdultos, int maxCriancas, int andar, int numeroQuarto) {
+    public Acomodacao(int codigo, TipoAcomodacao opcao, double precoDiaria, int maxAdultos, int maxCriancas, int andar, int numeroQuarto) {
         this.codigo = codigo;
         this.opcao = opcao;
-        this.totalRestante = totalRestante;
         this.precoDiaria = precoDiaria;
         this.maxAdultos = maxAdultos;
         this.maxCriancas = maxCriancas;
         this.andar = andar;
         this.numeroQuarto = numeroQuarto;
+        this.statusOcupacao = false;
     }
 
     public int getCodigo() {
@@ -48,14 +47,6 @@ public class Acomodacao {
 
     public void setOpcao(TipoAcomodacao opcao) {
         this.opcao = opcao;
-    }
-
-    public int getTotalRestante() {
-        return totalRestante;
-    }
-
-    public void setTotalRestante(int totalRestante) {
-        this.totalRestante = totalRestante;
     }
 
     public double getPrecoDiaria() {
@@ -96,6 +87,28 @@ public class Acomodacao {
 
     public void setNumeroQuarto(int numeroQuarto) {
         this.numeroQuarto = numeroQuarto;
+    }
+    
+    public boolean isStatusOcupacao() {
+        return statusOcupacao;
+    }
+
+    public void setStatusOcupacao(boolean statusOcupacao) {
+        this.statusOcupacao = statusOcupacao;
+    }
+    
+    public String getDescricao() {
+
+        String descricao = "Código: " + getCodigo() + "\n";
+        descricao += "Tipo: " + getOpcao() + "\n";
+        descricao += "Preço da diária: " + getPrecoDiaria() + "\n";
+        descricao += "Número máximo de adultos: " + getMaxAdultos() + "\n";
+        descricao += "Número máximo de crianças: " + getMaxCriancas() + "\n";
+        descricao += "Andar: " + getAndar() + "\n";
+        descricao += "Número do quarto: " + getNumeroQuarto() + "\n";
+        descricao += "Status de ocupação: " + isStatusOcupacao() + "\n";
+
+        return descricao;
     }
 
 }
