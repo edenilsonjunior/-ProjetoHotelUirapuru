@@ -7,16 +7,18 @@ public abstract class Pessoa {
     private String estado;
     private int telefone;
     private String dataNascimento;
-    private int senha;
+    private String login;
+    private String senha;
 
-    public Pessoa(String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento, int senha) {
+    public Pessoa(String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
         this.nome = nome;
         this.endereco = endereco;
         this.cidade = cidade;
         this.estado = estado;
         this.telefone = telefone;
         this.dataNascimento = dataNascimento;
-        this.senha = senha;
+        this.login = nome;
+        this.senha = nome + "123";
     }
 
     public String getNome() {
@@ -67,11 +69,11 @@ public abstract class Pessoa {
         this.dataNascimento = dataNascimento;
     }
 
-    public int getSenha() {
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(int senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
