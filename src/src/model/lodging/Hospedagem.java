@@ -3,8 +3,6 @@ package model.lodging;
 import model.people.Hospede;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class Hospedagem {
 
@@ -20,18 +18,22 @@ public class Hospedagem {
      * Metodo construtor da classe Hospedagem, se o status for definido como true é uma hospedagem, se for false é uma reserva
      *
      * @param acomodacao dados da classe acomodacao
+     * @param hospede dados da classe hospede
      * @param chegada data de chegada
      * @param saida data de saida
      * @param codigo codigo da hospedagem
      * @param status status da hospedagem ou reserva
      */
-    public Hospedagem(Acomodacao acomodacao, LocalDate chegada, LocalDate saida, int codigo, boolean status) {
+    public Hospedagem(Acomodacao acomodacao, Hospede hospede, LocalDate chegada, LocalDate saida, int codigo, boolean status) {
         this.acomodacao = acomodacao;
+        this.hospede = hospede;
         this.chegada = chegada;
         this.saida = saida;
         this.codigo = codigo;
         this.multa = 0;
         this.status = status;
+
+        this.acomodacao.setStatusOcupacao(true);
     }
 
     public Acomodacao getAcomodacao() {
