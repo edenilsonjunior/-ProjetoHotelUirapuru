@@ -2,7 +2,8 @@ package model.people;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.consumo.Consumo;
+
+import model.consumption.Consumo;
 
 public class Hospede extends Pessoa {
     private String pais;
@@ -12,6 +13,7 @@ public class Hospede extends Pessoa {
     private String nomeMae;
     private int dadosCartao;
     private List<Consumo> listaConsumo;
+    private List<String> acompanhantes;
 
     public Hospede(String pais, String email, int identificacao, String nomePai, String nomeMae, int dadosCartao, String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento, int senha) {
         super(nome, endereco, cidade, estado, telefone, dataNascimento, senha);
@@ -23,7 +25,10 @@ public class Hospede extends Pessoa {
         this.dadosCartao = dadosCartao;
 
         listaConsumo = new ArrayList<Consumo>();
+        acompanhantes = new ArrayList<String>();
     }
+
+
 
     public String getPais() {
         return pais;
@@ -124,4 +129,15 @@ public class Hospede extends Pessoa {
         return total;
     }
 
+    public void addAcompanhante(String acompanhante) {
+        acompanhantes.add(acompanhante);
+    }
+
+    public void removeAcompanhante(String acompanhante) {
+        acompanhantes.remove(acompanhante);
+    }
+
+    public List<String> getAcompanhantes() {
+        return acompanhantes;
+    }
 }
