@@ -30,7 +30,26 @@ public class Hospede extends Pessoa {
 
     @Override
     public String getDescricao() {
-        return "Nome: " + getNome() + ", Identificação: " + getIdentificacao() + ", Cargo: Hóspede";
+        String descricao = "";
+
+        descricao += "Nome: " + getNome() + "\n";
+        descricao += "Endereco: " + getEndereco() + "\n";
+        descricao += "Cidade: " + getCidade() + "\n";
+        descricao += "Estado: " + getEstado() + "\n";
+        descricao += "Telefone: " + getTelefone() + "\n";
+        descricao += "Data de Nascimento: " + getDataNascimento() + "\n";
+        descricao += "Pais: " + pais + "\n";
+        descricao += "Email: " + email + "\n";
+        descricao += "Identificacao: " + identificacao + "\n";
+        descricao += "Nome do Pai: " + nomePai + "\n";
+        descricao += "Nome da Mae: " + nomeMae + "\n";
+        descricao += "Dados do Cartao: " + dadosCartao + "\n";
+
+        for (String acompanhante : acompanhantes) {
+            descricao += "Acompanhante: " + acompanhante + "\n";
+        }
+        
+        return descricao;
     }
 
     /**
