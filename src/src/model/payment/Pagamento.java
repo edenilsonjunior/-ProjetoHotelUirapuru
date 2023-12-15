@@ -1,6 +1,6 @@
 package model.payment;
 
-import model.consumo.Consumo;
+import model.consumption.Consumo;
 import model.lodging.Hospedagem;
 
 import java.time.Duration;
@@ -140,4 +140,8 @@ public class Pagamento {
         return 0;
     }
 
+    public String relatorioTipoFaturado(){
+        // TODO: Implementar (letra G)
+        return "";
+    }
 }
