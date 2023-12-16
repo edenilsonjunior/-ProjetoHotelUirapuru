@@ -21,6 +21,12 @@ public abstract class Pessoa {
         this.senha = nome + "123";
     }
 
+    public Pessoa(String nome) {
+        this.nome = nome;
+        this.login = nome;
+        this.senha = nome + "123";
+    }
+
     public String getNome() {
         return nome;
     }

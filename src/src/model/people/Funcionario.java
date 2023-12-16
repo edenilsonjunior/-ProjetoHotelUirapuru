@@ -9,6 +9,11 @@ public class Funcionario extends Pessoa{
         this.codigo = codigo;
     }
 
+    public Funcionario(int codigo, String nome){
+        super(nome);
+        this.codigo = codigo;
+    }
+
     @Override
     public String getDescricao() {
         return "Nome: " + getNome() + ", Código: " + getCodigo() + ", Cargo: Funcionário";

@@ -88,10 +88,6 @@ public class Pagamento {
         return 0;
     }
 
-    public String relatorioTipoFaturado(){
-        // TODO: Implementar (letra G)
-        return "";
-    }
 
     public TipoPagamento getOpcao() {
         return opcao;
