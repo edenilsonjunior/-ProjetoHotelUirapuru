@@ -1,8 +1,9 @@
 package model.hotel;
 
-import model.lodging.*;
-import model.people.*;
-import model.payment.*;
+import model.alojamento.*;
+import model.pagamento.*;
+import model.pessoa.*;
+
 import java.time.*;
 import java.util.*;
 

@@ -1,9 +1,9 @@
-package model.people;
+package model.pessoa;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.consumption.Consumo;
+import model.consumo.Consumo;
 
 public class Hospede extends Pessoa {
     private String pais;

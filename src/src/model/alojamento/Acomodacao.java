@@ -1,4 +1,4 @@
-package model.lodging;
+package model.alojamento;
 
 public class Acomodacao {
 

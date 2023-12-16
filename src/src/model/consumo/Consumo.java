@@ -1,4 +1,4 @@
-package model.consumption;
+package model.consumo;
 
 public class Consumo {
     private int codigo;

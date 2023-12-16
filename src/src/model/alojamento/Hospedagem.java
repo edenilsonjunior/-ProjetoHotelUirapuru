@@ -1,8 +1,8 @@
-package model.lodging;
-
-import model.people.Hospede;
+package model.alojamento;
 
 import java.time.LocalDate;
+
+import model.pessoa.Hospede;
 
 public class Hospedagem {
 

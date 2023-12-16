@@ -6,9 +6,10 @@ import java.util.*;
 
 import javax.swing.*;
 
+import controller.OpcoesFuncionario;
+import model.alojamento.*;
 import model.hotel.*;
-import model.lodging.*;
-import model.people.*;
+import model.pessoa.*;
 
 // Essa classe apenas mostra as telas do sistema
 public class SistemaView {
@@ -44,8 +45,8 @@ public class SistemaView {
     }
 
     public static OpcoesFuncionario menuFuncionario(){
-        // Cria um array com as opções do menu
-        OpcoesFuncionario[] opcoes = {OpcoesFuncionario.CADASTRAR_HOSPEDAGEM, OpcoesFuncionario.REMOVER_HOSPEDAGEM, OpcoesFuncionario.LISTAR_ACOMODACOES, OpcoesFuncionario.RELATORIO_HOSPEDES, OpcoesFuncionario.RELATORIO_RESERVAS_HOJE, OpcoesFuncionario.RELATORIO_ACOMODACOES, OpcoesFuncionario.RELATORIO_SAIDA_HOSPEDE, OpcoesFuncionario.RELATORIO_FATURAMENTO, OpcoesFuncionario.RELATORIO_ATRASADOS, OpcoesFuncionario.SAIR};
+        // Cria um array com as opções
+        OpcoesFuncionario[] opcoes = {OpcoesFuncionario.CADASTRAR_HOSPEDAGEM, OpcoesFuncionario.LISTAR_ACOMODACOES, OpcoesFuncionario.REMOVER_HOSPEDAGEM, OpcoesFuncionario.LISTAR_CLIENTES, OpcoesFuncionario.SAIR};
 
         // Mostra um JOptionPane com as opções
         OpcoesFuncionario escolha = (OpcoesFuncionario) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Funcionario", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
