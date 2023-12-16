@@ -3,6 +3,7 @@ package model.hotel;
 import model.lodging.Acomodacao;
 import model.lodging.Hospedagem;
 import model.payment.Pagamento;
+import model.people.Acompanhante;
 import model.people.Funcionario;
 
 import java.time.LocalDate;
@@ -78,14 +79,33 @@ public class Hotel {
     }
     
     /**
-     * Metodo que adiciona uma hospedagem a lista de hospedagens
+     * Metodo que remove uma reserva da lista de hospedagens.
+     * Se a reserva for cancelada após 12 horas antes do check-in, é adicionado uma multa.
      *
      * @param hospedagem dados da classe hospedagem
+     * @return true se foi possivel fazer a hospedagem e false se não foi possivel
      */
-    public void addHospedagem(Hospedagem hospedagem) {
-        if (hospedagem.isStatus()) {
-            hospedagens.add(hospedagem);
+    public boolean addHospedagem(Hospedagem hospedagem) {
+
+        // Ja considerando que já existe um adulto (Hospede no qual foi feito o cadastro)
+        int totalAdultos = 1; 
+        int totalCriancas = 0;
+
+        for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
+            if (acompanhante.getIdade() >= 18) {
+                totalAdultos++;
+            }
+            else (acompanhante.getIdade() < 18 && acompanhante.getIdade() >= 0) {
+                totalCriancas++;
+            }
         }
+
+        if (hospedagem.getAcomodacao().getMaxAdultos() <= totalAdultos &&
+            hospedagem.getAcomodacao().getMaxCriancas() <= totalCriancas) {
+            hospedagens.add(hospedagem);
+            return true;
+        }
+        return false;
     }
 
     /**

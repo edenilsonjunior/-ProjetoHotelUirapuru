@@ -13,7 +13,7 @@ public class Hospede extends Pessoa {
     private String nomeMae;
     private int dadosCartao;
     private List<Consumo> listaConsumo;
-    private List<String> acompanhantes;
+    private List<Acompanhante> acompanhantes;
 
     public Hospede(String pais, String email, int identificacao, String nomePai, String nomeMae, int dadosCartao, String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
         super(nome, endereco, cidade, estado, telefone, dataNascimento);
@@ -24,8 +24,8 @@ public class Hospede extends Pessoa {
         this.nomeMae = nomeMae;
         this.dadosCartao = dadosCartao;
 
-        listaConsumo = new ArrayList<Consumo>();
-        acompanhantes = new ArrayList<String>();
+        listaConsumo = new ArrayList<>();
+        acompanhantes = new ArrayList<>();
     }
 
     @Override
@@ -45,8 +45,11 @@ public class Hospede extends Pessoa {
         descricao += "Nome da Mae: " + nomeMae + "\n";
         descricao += "Dados do Cartao: " + dadosCartao + "\n";
 
-        for (String acompanhante : acompanhantes) {
-            descricao += "Acompanhante: " + acompanhante + "\n";
+        if (acompanhantes.size() != 0) {
+            descricao += "Acompanhante(s):\n";
+            for (Acompanhante acompanhante : acompanhantes) {
+                descricao += acompanhante.getNome() + ", " + acompanhante.getIdade() + "\n";
+            }
         }
         
         return descricao;
@@ -90,11 +93,11 @@ public class Hospede extends Pessoa {
         return total;
     }
 
-    public void addAcompanhante(String acompanhante) {
+    public void addAcompanhante(Acompanhante acompanhante) {
         acompanhantes.add(acompanhante);
     }
 
-    public void removeAcompanhante(String acompanhante) {
+    public void removeAcompanhante(Acompanhante acompanhante) {
         acompanhantes.remove(acompanhante);
     }
 
@@ -154,11 +157,11 @@ public class Hospede extends Pessoa {
         this.listaConsumo = listaConsumo;
     }
 
-    public List<String> getAcompanhantes() {
+    public List<Acompanhante> getAcompanhantes() {
         return acompanhantes;
     }
 
-    public void setAcompanhantes(List<String> acompanhantes) {
+    public void setAcompanhantes(List<Acompanhante> acompanhantes) {
         this.acompanhantes = acompanhantes;
     }
 
