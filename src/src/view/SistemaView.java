@@ -108,16 +108,15 @@ public class SistemaView {
         }
         disponiveis = acomodacoes.size() - (totalOcupadas + totalReservadas);
 
-        // Descricao de todas as acomodacoes
-        str += "-----------------------\n";
+        // Uma caixa por acomodacao
         for (Acomodacao acomodacao : acomodacoes) {
-            str += "Descricao da acomodacao: \n";
+            str = "Descricao da acomodacao: \n";
             str += acomodacao.relatorioAcomodacao() + "\n";
-            str += "-----------------------\n";
+            JOptionPane.showMessageDialog(null, str);
         }
         
         // Estatisticas de acomodacoes
-        str += "Estatisticas de acomodacoes: \n     ";
+        str = "Estatisticas de acomodacoes: \n     ";
         str += "Total de acomodacoes: " + acomodacoes.size() + "\n";
         str += "Total de acomodacoes ocupadas: " + totalOcupadas + "\n";
         str += "Total de acomodacoes reservadas: " + totalReservadas + "\n";

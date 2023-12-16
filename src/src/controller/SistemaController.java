@@ -19,11 +19,14 @@ public class SistemaController {
         logado = null;
 
         hotel.addFuncionario(new Funcionario(01, "admin"));
+        hotel.addFuncionario(new Funcionario(02, "funcionario"));
     }
 
+
+    
     // Inicia o sistema
     public void iniciarSistema(){
-
+        
         String[] usuario = SistemaView.menuLogin();
 
         logado = descobrirLogado(hotel, usuario);
@@ -76,6 +79,8 @@ public class SistemaController {
         //             break;
         //     }
         // } while (escolha != OpcoesAdmin.SAIR);
+    
+        System.out.println("Funções do administrador ainda não implementadas!");
     }
 
     private void funcoesFuncionario(){
