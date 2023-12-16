@@ -6,7 +6,10 @@ import java.util.*;
 
 import javax.swing.*;
 
+import controller.OpcoesAdmin;
 import controller.OpcoesFuncionario;
+import controller.OpcoesHospede;
+
 import model.alojamento.*;
 import model.hotel.*;
 import model.pessoa.*;
@@ -14,7 +17,7 @@ import model.pessoa.*;
 // Essa classe apenas mostra as telas do sistema
 public class SistemaView {
 
-    public static String[] menuLogin(){
+    public static String[] menuLogin() {
         // Cria campos de texto para os dados
         JTextField campoLogin = new JTextField(10);
         JTextField campoSenha = new JTextField(10);
@@ -22,8 +25,9 @@ public class SistemaView {
         // Cria um novo painel
         JPanel painel = new JPanel();
 
-        // Define layout: boxlayout.y_axis é um layout que organiza os componentes em uma coluna
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS)); 
+        // Define layout: boxlayout.y_axis é um layout que organiza os componentes em
+        // uma coluna
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 
         // Adiciona rótulos e campos de texto ao painel
         painel.add(new JLabel("Login:"));
@@ -33,23 +37,48 @@ public class SistemaView {
         painel.add(campoSenha);
 
         // Mostra o painel em um JOptionPane
-        int result = JOptionPane.showConfirmDialog(null, painel, 
-               "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, painel,
+                "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
 
             // retorna um array com os dados do login e senha
-            String[] array = {campoLogin.getText(), campoSenha.getText()};
+            String[] array = { campoLogin.getText(), campoSenha.getText() };
             return array;
         }
         return null;
     }
 
-    public static OpcoesFuncionario menuFuncionario(){
+    public static OpcoesFuncionario menuFuncionario() {
         // Cria um array com as opções
-        OpcoesFuncionario[] opcoes = {OpcoesFuncionario.CADASTRAR_HOSPEDAGEM, OpcoesFuncionario.LISTAR_ACOMODACOES, OpcoesFuncionario.REMOVER_HOSPEDAGEM, OpcoesFuncionario.LISTAR_CLIENTES, OpcoesFuncionario.SAIR};
+        OpcoesFuncionario[] opcoes = { OpcoesFuncionario.CADASTRAR_HOSPEDAGEM, OpcoesFuncionario.LISTAR_ACOMODACOES,
+                OpcoesFuncionario.REMOVER_HOSPEDAGEM, OpcoesFuncionario.LISTAR_CLIENTES, OpcoesFuncionario.SAIR };
 
         // Mostra um JOptionPane com as opções
-        OpcoesFuncionario escolha = (OpcoesFuncionario) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Funcionario", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+        OpcoesFuncionario escolha = (OpcoesFuncionario) JOptionPane.showInputDialog(null, "Escolha uma opção",
+                "Menu Funcionario", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+
+        return escolha;
+    }
+
+    public static OpcoesAdmin menuAdmin() {
+        // Cria um array com as opções
+        OpcoesAdmin[] opcoes = { OpcoesAdmin.CADASTRAR_FUNC, OpcoesAdmin.LISTAR_FUNC, OpcoesAdmin.REMOVER_FUNC,
+                OpcoesAdmin.SAIR };
+
+        // Mostra um JOptionPane com as opções
+        OpcoesAdmin escolha = (OpcoesAdmin) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Admin",
+                JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+
+        return escolha;
+    }
+
+    public static OpcoesHospede menuHospede() {
+        // Cria um array com as opções
+        OpcoesHospede[] opcoes = { OpcoesHospede.LISTAR_CONSUMO, OpcoesHospede.RELATORIO_ESTADIA, OpcoesHospede.SAIR };
+
+        // Mostra um JOptionPane com as opções
+        OpcoesHospede escolha = (OpcoesHospede) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Hospede",
+                JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
 
         return escolha;
     }
@@ -73,11 +102,11 @@ public class SistemaView {
                 hospedes += "\n";
             }
         }
-        
+
         JOptionPane.showMessageDialog(null, hospedes);
     }
 
-    public static void relatorioReservasHoje(List<Hospedagem> hospedagens){
+    public static void relatorioReservasHoje(List<Hospedagem> hospedagens) {
         String reservas = "";
         for (Hospedagem hospedagem : hospedagens) {
             if (!hospedagem.isStatus()) {
@@ -93,7 +122,7 @@ public class SistemaView {
     }
 
     public static void relatorioAcomodacoes(List<Hospedagem> hospedagens, List<Acomodacao> acomodacoes) {
-        
+
         String str = "";
         int totalOcupadas = 0;
         int totalReservadas = 0;
@@ -102,7 +131,7 @@ public class SistemaView {
         for (Hospedagem hospedagem : hospedagens) {
             if (hospedagem.isStatus()) {
                 totalOcupadas++;
-            }else{
+            } else {
                 totalReservadas++;
             }
         }
@@ -114,7 +143,7 @@ public class SistemaView {
             str += acomodacao.relatorioAcomodacao() + "\n";
             JOptionPane.showMessageDialog(null, str);
         }
-        
+
         // Estatisticas de acomodacoes
         str = "Estatisticas de acomodacoes: \n     ";
         str += "Total de acomodacoes: " + acomodacoes.size() + "\n";
@@ -123,23 +152,6 @@ public class SistemaView {
         str += "Total de acomodacoes disponiveis: " + disponiveis + "\n";
 
         JOptionPane.showMessageDialog(null, str);
-    }
-
-    public static void relatorioSaidaHospede(){
-        // TODO: Implementar (letra C)
-    }
-
-    public static void relatorioFaturamento(LocalDate inicio, LocalDate fim, Hotel hotel){
-        // TODO: Implementar (letra F)
-    }
-
-    public static void relatorioAtrasados(){
-        // TODO: Implementar (letra H)
-    }
-
-    public String relatorioTipoFaturado(){
-        // TODO: Implementar (letra G)
-        return "";
     }
 
     public static Acomodacao cadastrarAcomodacao() {
@@ -171,23 +183,23 @@ public class SistemaView {
         painel.add(campoNumeroQuarto);
 
         // Mostra o painel em um JOptionPane
-        int result = JOptionPane.showConfirmDialog(null, painel, 
-               "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, painel,
+                "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             Acomodacao acomodacao = new Acomodacao(
-                                                    Integer.parseInt(campoCodigo.getText()), 
-                                                    (TipoAcomodacao) campoOpcao.getSelectedItem(), 
-                                                    Double.parseDouble(campoDiaria.getText()), 
-                                                    Integer.parseInt(campoMaxAdultos.getText()), 
-                                                    Integer.parseInt(campoMaxCriancas.getText()), 
-                                                    Integer.parseInt(campoAndar.getText()), 
-                                                    Integer.parseInt(campoNumeroQuarto.getText()));
+                    Integer.parseInt(campoCodigo.getText()),
+                    (TipoAcomodacao) campoOpcao.getSelectedItem(),
+                    Double.parseDouble(campoDiaria.getText()),
+                    Integer.parseInt(campoMaxAdultos.getText()),
+                    Integer.parseInt(campoMaxCriancas.getText()),
+                    Integer.parseInt(campoAndar.getText()),
+                    Integer.parseInt(campoNumeroQuarto.getText()));
             return acomodacao;
         }
         return null;
     }
 
-    public static Hospede cadastrarHospede(){
+    public static Hospede cadastrarHospede() {
 
         JTextField campoNome = new JTextField(10);
         JTextField campoEndereco = new JTextField(10);
@@ -203,7 +215,7 @@ public class SistemaView {
         JTextField campoDadosCartao = new JTextField(10);
 
         JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS)); 
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 
         painel.add(new JLabel("Nome:"));
         painel.add(campoNome);
@@ -230,23 +242,40 @@ public class SistemaView {
         painel.add(new JLabel("Dados do Cartao:"));
         painel.add(campoDadosCartao);
 
-        int result = JOptionPane.showConfirmDialog(null, painel, 
-               "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, painel,
+                "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-                
-                Hospede hospede = new Hospede(
-                                                campoPais.getText(), 
-                                                campoEmail.getText(), 
-                                                Integer.parseInt(campoIdentificacao.getText()), 
-                                                campoNomePai.getText(), campoNomeMae.getText(), 
-                                                Integer.parseInt(campoDadosCartao.getText()), 
-                                                campoNome.getText(), campoEndereco.getText(), 
-                                                campoCidade.getText(), campoEstado.getText(), 
-                                                Integer.parseInt(campoTelefone.getText()), 
-                                                campoDataNascimento.getText());
-                return hospede;
-            }
+
+            Hospede hospede = new Hospede(
+                    campoPais.getText(),
+                    campoEmail.getText(),
+                    Integer.parseInt(campoIdentificacao.getText()),
+                    campoNomePai.getText(), campoNomeMae.getText(),
+                    Integer.parseInt(campoDadosCartao.getText()),
+                    campoNome.getText(), campoEndereco.getText(),
+                    campoCidade.getText(), campoEstado.getText(),
+                    Integer.parseInt(campoTelefone.getText()),
+                    campoDataNascimento.getText());
+            return hospede;
+        }
         return null;
+    }
+
+    public static void relatorioSaidaHospede() {
+        // TODO: Implementar (letra C)
+    }
+
+    public static void relatorioFaturamento(LocalDate inicio, LocalDate fim, Hotel hotel) {
+        // TODO: Implementar (letra F)
+    }
+
+    public static void relatorioAtrasados() {
+        // TODO: Implementar (letra H)
+    }
+
+    public String relatorioTipoFaturado() {
+        // TODO: Implementar (letra G)
+        return "";
     }
 
     public static Hospedagem cadastrarHospedagem(List<Acomodacao> acomodacoes) {
@@ -258,4 +287,17 @@ public class SistemaView {
         // TODO: Implementar o método de remoção de hospedagem
         return null;
     }
+
+    /*
+     * TODO: METODOS PARA IMPLEMENTAR (VIEW)
+     * CadastrarFuncionario()
+     * removerFuncionario()
+     * listarFuncionarios()
+     * 
+     * 
+     * menuHospede()
+     * relatorioConsumo()
+     * relatorioEstadia()
+     */
+
 }

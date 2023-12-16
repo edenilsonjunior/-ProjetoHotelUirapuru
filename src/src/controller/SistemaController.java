@@ -19,11 +19,8 @@ public class SistemaController {
         logado = null;
 
         hotel.addFuncionario(new Funcionario(01, "admin"));
-        hotel.addFuncionario(new Funcionario(02, "funcionario"));
     }
 
-
-    
     // Inicia o sistema
     public void iniciarSistema(){
         
@@ -62,23 +59,23 @@ public class SistemaController {
 
 
     private void funcoesAdmin(){
-        // OpcoesAdmin escolha;
-        // do {
-        //     escolha = SistemaView.menuAdmin();
-        //     switch (escolha) {
-        //         case CADASTRAR:
-        //             hotel.addFuncionario(SistemaView.CadastrarFuncionario());
-        //             break;
-        //         case LISTAR:
-        //             SistemaView.listarFuncionarios(hotel);
-        //             break;
-        //         case REMOVER:
-        //             hotel.removeFuncionario(SistemaView.removerFuncionario(hotel));
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // } while (escolha != OpcoesAdmin.SAIR);
+        OpcoesAdmin escolha;
+        do {
+            escolha = SistemaView.menuAdmin();
+            switch (escolha) {
+                case CADASTRAR_FUNC:
+                    hotel.addFuncionario(SistemaView.CadastrarFuncionario());
+                    break;
+                case LISTAR_FUNC:
+                    SistemaView.listarFuncionarios(hotel);
+                    break;
+                case REMOVER_FUNC:
+                    hotel.removeFuncionario(SistemaView.removerFuncionario(hotel));
+                    break;
+                default:
+                    break;
+            }
+        } while (escolha != OpcoesAdmin.SAIR);
     
         System.out.println("Funções do administrador ainda não implementadas!");
     }
@@ -109,7 +106,22 @@ public class SistemaController {
     }
 
     private void funcoesHospede(){
-        // TODO: Implementar
+        OpcoesHospede escolha;
+        do {
+            escolha = SistemaView.menuHospede();
+
+            switch (escolha) {
+                case LISTAR_CONSUMO:
+                    SistemaView.relatorioConsumo(hotel.getHospedagens(), logado);
+                    break;
+                case RELATORIO_ESTADIA:
+                    SistemaView.relatorioEstadia(hotel.getHospedagens(), logado);
+                    break;
+                default:
+                    break;
+            }   
+                
+        } while (escolha != OpcoesHospede.SAIR);
     }
 
 }
