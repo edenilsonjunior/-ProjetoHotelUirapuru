@@ -95,7 +95,7 @@ public class Hotel {
             if (acompanhante.getIdade() >= 18) {
                 totalAdultos++;
             }
-            else (acompanhante.getIdade() < 18 && acompanhante.getIdade() >= 0) {
+            else if (acompanhante.getIdade() < 18 && acompanhante.getIdade() >= 0) {
                 totalCriancas++;
             }
         }
@@ -126,9 +126,11 @@ public class Hotel {
                 hospedes += "Acomodacao: " + hospedagem.getAcomodacao().getNumeroQuarto() + "\n";
                 hospedes += "Hospede:" + hospedagem.getHospede().getNome() + "\n";
 
-                hospedes += "Acompanhantes: \n";
-                for (String acompanhante : hospedagem.getHospede().getAcompanhantes()) {
-                    hospedes += acompanhante + "\n";
+                if (hospedagem.getHospede().getAcompanhantes().size() != 0) {
+                    hospedes += "Acompanhante(s):\n";
+                    for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
+                        hospedes += acompanhante.getNome() + ", " + acompanhante.getIdade() + "\n";
+                    }
                 }
 
                 hospedes += "Check-in: " + hospedagem.getChegada() + "\n";
