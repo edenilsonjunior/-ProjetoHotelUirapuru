@@ -80,14 +80,13 @@ public class Pagamento {
         return mensagem;    
     }
 
-    private double calcularJuros() {
+    public double calcularJuros() {
         if (this.dataPagamento.isAfter(this.dataVencimento)) {
             Duration duration = Duration.between(this.dataVencimento, this.dataPagamento);
             return duration.toDays() * (this.juros/100);
         }
         return 0;
     }
-
 
     public TipoPagamento getOpcao() {
         return opcao;

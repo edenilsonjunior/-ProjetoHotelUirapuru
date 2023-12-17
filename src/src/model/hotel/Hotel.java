@@ -82,6 +82,11 @@ public class Hotel {
         }
     }
 
+    public void addPagamento(Pagamento pagamento) {
+
+        this.pagamentos.add(pagamento);
+    }
+
     public List<Funcionario> getFuncionarios() {
         return funcionarios;
     }
