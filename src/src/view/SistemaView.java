@@ -121,7 +121,7 @@ public class SistemaView {
 
     public static void relatorioAcomodacoes(List<Hospedagem> hospedagens, List<Acomodacao> acomodacoes) {
 
-        String str = "";
+        String str;
         int totalOcupadas = 0;
         int totalReservadas = 0;
         int disponiveis = 0;
