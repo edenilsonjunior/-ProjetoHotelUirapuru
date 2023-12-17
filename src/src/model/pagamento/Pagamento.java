@@ -88,7 +88,6 @@ public class Pagamento {
         return 0;
     }
 
-
     public TipoPagamento getOpcao() {
         return opcao;
     }

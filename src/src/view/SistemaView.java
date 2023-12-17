@@ -11,6 +11,8 @@ import controller.OpcoesFuncionario;
 import controller.OpcoesHospede;
 
 import model.alojamento.*;
+import model.consumo.Consumo;
+import model.consumo.TipoConsumo;
 import model.hotel.*;
 import model.pessoa.*;
 
@@ -266,11 +268,59 @@ public class SistemaView {
     }
 
     public static void relatorioFaturamento(LocalDate inicio, LocalDate fim, Hotel hotel) {
-        // TODO: Implementar (letra F)
+
+        if (inicio.isAfter(fim)) {
+            JOptionPane.showMessageDialog(null, "Data de inicio maior que data de fim!");
+        }
+        else {
+            double faturamentoDiarias = 0;
+            double faturamentoFrigobar = 0;
+            double faturamentoRestaurante = 0;
+            double faturamentoLavanderia = 0;
+            double faturamentoTelefonemas = 0;
+            double descontos = 0;
+            for (Hospedagem hospedagem : hotel.getHospedagens()) {
+                if (hospedagem.isStatus()) {
+                    if (hospedagem.getChegada().isAfter(inicio) && hospedagem.getSaida().isBefore(fim)) {
+                        faturamentoDiarias += hospedagem.getAcomodacao().getDiaria();
+                        descontos += hospedagem.getMulta();
+                        for (Consumo consumo : hospedagem.getHospede().getListaConsumo()) {
+                            if (consumo.getTipo() == TipoConsumo.FRIGOBAR) {
+                                faturamentoFrigobar += consumo.getValor();
+                            }
+                            else if (consumo.getTipo() == TipoConsumo.RESTAURANTE) {
+                                faturamentoRestaurante += consumo.getValor();
+                            }
+                            else if (consumo.getTipo() == TipoConsumo.LAVANDERIA) {
+                                faturamentoLavanderia += consumo.getValor();
+                            }
+                            else if (consumo.getTipo() == TipoConsumo.TELEFONE) {
+                                faturamentoTelefonemas += consumo.getValor();
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            String str = "";
+            str += "Faturamento entre " + inicio + " e " + fim + "\n";
+            str += "Faturamento com diarias: " + faturamentoDiarias + "\n";
+            str += "Faturamento com frigobar: " + faturamentoFrigobar + "\n";
+            str += "Faturamento com restaurante: " + faturamentoRestaurante + "\n";
+            str += "Faturamento com lavanderia: " + faturamentoLavanderia + "\n";
+            str += "Faturamento com telefonemas: " + faturamentoTelefonemas + "\n";
+            str += "Descontos: " + descontos + "\n";
+            str += "Total: " + (faturamentoDiarias + faturamentoFrigobar + faturamentoRestaurante + faturamentoLavanderia + faturamentoTelefonemas - descontos) + "\n";
+            JOptionPane.showMessageDialog(null, str);
+        }
     }
 
     public static void relatorioAtrasados() {
         // TODO: Implementar (letra H)
+    }
+
+    public static void listarFuncionarios(Hotel hotel) {
     }
 
     public String relatorioTipoFaturado() {
