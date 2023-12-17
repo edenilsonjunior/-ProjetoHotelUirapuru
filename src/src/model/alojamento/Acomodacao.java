@@ -12,15 +12,15 @@ public class Acomodacao {
     private boolean ocupado;
 
     /**
-     * Metodo construtor da classe Acomodacao
+     * Construtor da classe Acomodacao para inicialização dos atributos.
      *
-     * @param codigo codigo da acomodacao
-     * @param opcao tipo da acomodacao
-     * @param diaria preco da diaria
-     * @param maxAdultos numero maximo de adultos
-     * @param maxCriancas numero maximo de criancas
-     * @param andar andar da acomodacao
-     * @param numeroQuarto numero do quarto
+     * @param codigo       O código da acomodação.
+     * @param opcao        O tipo de acomodação.
+     * @param diaria       O valor da diária.
+     * @param maxAdultos   O número máximo de adultos permitidos na acomodação.
+     * @param maxCriancas  O número máximo de crianças permitidas na acomodação.
+     * @param andar        O andar da acomodação.
+     * @param numeroQuarto O número do quarto.
      */
     public Acomodacao(int codigo, TipoAcomodacao opcao, double diaria, int maxAdultos, int maxCriancas, int andar, int numeroQuarto) {
         this.codigo = codigo;
@@ -34,9 +34,10 @@ public class Acomodacao {
     }
 
     /**
-     * Metodo que retorna a descricao da acomodacao
+     * Gera um relatório da acomodação, incluindo informações como código, tipo, preço da diária,
+     * número máximo de adultos, número máximo de crianças, andar, número do quarto e status de ocupação.
      *
-     * @return descricao completa da acomodacao
+     * @return Uma String contendo o relatório da acomodação.
      */
     public String relatorioAcomodacao() {
 
@@ -116,4 +117,5 @@ public class Acomodacao {
     public void setOcupado(boolean ocupado) {
         this.ocupado = ocupado;
     }   
+
 }

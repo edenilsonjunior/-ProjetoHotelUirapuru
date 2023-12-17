@@ -88,8 +88,12 @@ public class SistemaController {
 //                case CADASTRAR_HOSPEDAGEM:
 //                    hotel.addHospedagem(SistemaView.cadastrarHospedagem(hotel.getAcomodacoes()));
 //                    break;
-//                case REMOVER_HOSPEDAGEM:
-//                    hotel.removeHospedagem(SistemaView.removerHospedagem(hotel));
+              case REMOVER_HOSPEDAGEM:
+                    Hospedagem dadosDaHospedagem = SistemaView.removerHospedagem(hotel);
+                    if (dadosDaHospedagem != null) {
+                        SistemaView.relatorioSaidaHospede(dadosDaHospedagem);
+                        hotel.removeReserva(dadosDaHospedagem);
+                    }
 //                break;
                 case LISTAR_ACOMODACOES:
                     SistemaView.relatorioAcomodacoes(hotel.getHospedagens(), hotel.getAcomodacoes());

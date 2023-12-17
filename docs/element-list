@@ -1,4 +1,8 @@
+unnamed package
+controller
+model.alojamento
 model.consumo
-model.lodging
-model.payment
-model.people
+model.hotel
+model.pagamento
+model.pessoa
+view

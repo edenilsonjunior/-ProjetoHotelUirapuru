@@ -6,6 +6,7 @@ import java.util.List;
 import model.consumo.Consumo;
 
 public class Hospede extends Pessoa {
+
     private String pais;
     private String email;
     private int identificacao;
@@ -15,6 +16,22 @@ public class Hospede extends Pessoa {
     private List<Consumo> listaConsumo;
     private List<Acompanhante> acompanhantes;
 
+    /**
+     * Construtor da classe Hospede.
+     *
+     * @param pais O país de origem do hóspede.
+     * @param email O endereço de e-mail do hóspede.
+     * @param identificacao O número de identificação do hóspede.
+     * @param nomePai O nome do pai do hóspede.
+     * @param nomeMae O nome da mãe do hóspede.
+     * @param dadosCartao Os dados do cartão do hóspede.
+     * @param nome O nome do hóspede.
+     * @param endereco O endereço do hóspede.
+     * @param cidade A cidade do hóspede.
+     * @param estado O estado do hóspede.
+     * @param telefone O número de telefone do hóspede.
+     * @param dataNascimento A data de nascimento do hóspede.
+     */
     public Hospede(String pais, String email, int identificacao, String nomePai, String nomeMae, int dadosCartao, String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
         super(nome, endereco, cidade, estado, telefone, dataNascimento);
         this.pais = pais;
@@ -28,6 +45,11 @@ public class Hospede extends Pessoa {
         acompanhantes = new ArrayList<>();
     }
 
+    /**
+     * Método que retorna a descrição do hóspede.
+     *
+     * @return Uma string contendo informações detalhadas sobre o hóspede.
+     */
     @Override
     public String getDescricao() {
         String descricao = "";
@@ -56,8 +78,9 @@ public class Hospede extends Pessoa {
     }
 
     /**
-     * Metodo que retorna um relatorio com os consumos do hospede.
-     * @return String contendo os consumos do hospede.
+     * Gera um relatório de consumo para todos os itens na lista.
+     *
+     * @return Uma string contendo o relatório de consumo.
      */
     public String relatorioConsumo() {
         StringBuilder relatorio = new StringBuilder();
@@ -68,22 +91,29 @@ public class Hospede extends Pessoa {
     }
 
     /**
-     * Metodo que adiciona um consumo a lista de consumos do hospede.
+     * Adiciona um objeto de Consumo à lista.
+     *
+     * @param consumo Objeto de Consumo a ser adicionado.
+     * @throws NullPointerException Se 'consumo' for nulo.
      */
     public void adicionarConsumo(Consumo consumo) {
         listaConsumo.add(consumo);
     }
 
     /**
-     * Metodo que remove um consumo da lista de consumos do hospede.
+     * Remove um objeto de Consumo da lista.
+     *
+     * @param consumo Objeto de Consumo a ser removido.
      */
     public void removerConsumo(Consumo consumo) {
         listaConsumo.remove(consumo);
     }
 
     /**
-     * Metodo que retorna um calculo do total dos consumos do hospede.
-     * @return double contendo o total dos consumos do hospede.
+     * Calcula o total de valores de consumo na lista.
+     * Este método itera sobre a lista de consumos e calcula a soma total dos valores.
+     *
+     * @return O total dos valores de consumo.
      */
     public double totalConsumo() {
         double total = 0;
@@ -93,10 +123,20 @@ public class Hospede extends Pessoa {
         return total;
     }
 
+    /**
+     * Adiciona um objeto Acompanhante à lista de acompanhantes.
+     *
+     * @param acompanhante Objeto de Acompanhante a ser adicionado.
+     */
     public void addAcompanhante(Acompanhante acompanhante) {
         acompanhantes.add(acompanhante);
     }
 
+    /**
+     * Remove um objeto Acompanhante da lista de acompanhantes.
+     *
+     * @param acompanhante Objeto de Acompanhante a ser removido.
+     */
     public void removeAcompanhante(Acompanhante acompanhante) {
         acompanhantes.remove(acompanhante);
     }

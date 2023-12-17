@@ -1,6 +1,7 @@
 package model.pessoa;
 
 public abstract class Pessoa {
+
     private String nome;
     private String endereco;
     private String cidade;
@@ -10,6 +11,16 @@ public abstract class Pessoa {
     private String login;
     private String senha;
 
+    /**
+     * Construtor da classe Pessoa.
+     *
+     * @param nome O nome da pessoa.
+     * @param endereco O endereço da pessoa.
+     * @param cidade A cidade da pessoa.
+     * @param estado O estado da pessoa.
+     * @param telefone O número de telefone da pessoa.
+     * @param dataNascimento A data de nascimento da pessoa.
+     */
     public Pessoa(String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
         this.nome = nome;
         this.endereco = endereco;
@@ -21,6 +32,12 @@ public abstract class Pessoa {
         this.senha = nome + "123";
     }
 
+    /**
+     * Construtor da classe Pessoa.
+     * Cria admin
+     *
+     * @param nome O nome da pessoa.
+     */
     public Pessoa(String nome) {
         this.nome = nome;
         this.login = nome;
@@ -91,5 +108,10 @@ public abstract class Pessoa {
         this.login = login;
     }
 
+    /**
+     * Método abstrato para obter a descrição da entidade.
+     *
+     * @return Uma string contendo a descrição da entidade.
+     */
     public abstract String getDescricao();
 }

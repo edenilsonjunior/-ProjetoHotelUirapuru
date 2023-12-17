@@ -7,7 +7,6 @@ import model.pagamento.TipoPagamento;
 import model.pessoa.Hospede;
 
 public class Hospedagem {
-
     private Acomodacao acomodacao;
     private LocalDate chegada;
     private LocalDate saida;
@@ -19,15 +18,15 @@ public class Hospedagem {
     private boolean status;
 
     /**
-     * Metodo construtor da classe Hospedagem, se o status for definido como true é uma hospedagem, se for false é uma reserva
+     * Construtor da classe Hospedagem para inicialização dos atributos.
      *
-     * @param acomodacao dados da classe acomodacao
-     * @param hospede dados da classe hospede
-     * @param chegada data de chegada
-     * @param saida data de saida
-     * @param tipoPagamento tipo de pagamento
-     * @param codigo codigo da hospedagem
-     * @param status status da hospedagem ou reserva
+     * @param acomodacao     A acomodação associada à hospedagem.
+     * @param hospede        O hóspede associado à hospedagem.
+     * @param chegada        A data de chegada do hóspede.
+     * @param saida          A data de saída do hóspede.
+     * @param tipoPagamento  O tipo de pagamento escolhido.
+     * @param codigo         O código da hospedagem.
+     * @param status         O status da hospedagem (ativo ou inativo).
      */
     public Hospedagem(Acomodacao acomodacao, Hospede hospede, LocalDate chegada, LocalDate saida, TipoPagamento tipoPagamento, int codigo, boolean status) {
         this.acomodacao = acomodacao;
@@ -58,9 +57,9 @@ public class Hospedagem {
     }
 
     /**
-     * Metodo que calcula o total de diarias
+     * Calcula o total a ser pago pelas diárias da hospedagem.
      *
-     * @return total de diarias
+     * @return O valor total das diárias, considerando a acomodação ocupada durante o período.
      */
     public double totalDiarias() {
         if (isStatus()) {
@@ -71,9 +70,9 @@ public class Hospedagem {
     }
 
     /**
-     * Metodo que gera um relatorio de hospedagem
+     * Gera um relatório da hospedagem, incluindo informações sobre o hóspede, acomodação e custos.
      *
-     * @return relatorio de hospedagem
+     * @return Uma string formatada com detalhes da hospedagem.
      */
     public String relatorioHospedagem() {
         return "Nome: " + getHospede().getNome() + "\n"
@@ -87,8 +86,7 @@ public class Hospedagem {
     }
 
     /**
-     * Metodo que transforma uma reserva em hospedagem, deixando o status como true e gerando um pagamento
-     *
+     * Transforma uma reserva em uma hospedagem, atualizando o status e criando um novo pagamento.
      */
     public void transformarResevaEmHospedagem() {
         this.status = true;

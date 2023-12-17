@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 
 public class Pagamento {
+
     private TipoPagamento opcao;
     private int numeroFatura;
     private LocalDate dataVencimento;
@@ -14,6 +15,11 @@ public class Pagamento {
     private double juros;
     private boolean status;
 
+    /**
+     * Construtor da classe Pagamento.
+     *
+     * @param opcao O tipo de pagamento escolhido.
+     */
     public Pagamento(TipoPagamento opcao) {
         this.opcao = opcao;
         this.numeroFatura = 0;
@@ -23,11 +29,10 @@ public class Pagamento {
     }
 
     /**
-     * Metodo que realiza o processamento do pagamento, aplicando juros se feito após a data de vencimento
-     * e cobrando uma multa se a reserva for cancelada antes do check-in.
-     * Retorna uma mensagem indicando o status do pagamento detalhadamente.
+     * Realiza o pagamento da hospedagem e gera uma mensagem com os detalhes da transação.
      *
-     * @return String contendo os detalhes do pagamento.
+     * @param hospedagem A hospedagem associada ao pagamento.
+     * @return Uma mensagem com os detalhes da transação.
      */
     public String fazerPagamento(Hospedagem hospedagem) {
 
@@ -62,9 +67,9 @@ public class Pagamento {
     }
 
     /**
-     * Metodo que calcula o valor dos juros a serem pagos.
+     * Calcula o valor dos juros com base na diferença entre a data de pagamento e a data de vencimento.
      *
-     * @return double contendo o valor dos juros.
+     * @return O valor dos juros calculado.
      */
     public double calcularJuros() {
         if (this.dataPagamento.isAfter(this.dataVencimento)) {
@@ -75,10 +80,10 @@ public class Pagamento {
     }
 
     /**
-     * Metodo que calcula o valor total a ser pago.
+     * Calcula o valor total a ser pago, considerando as diárias, consumo, juros e multa.
      *
-     * @param hospedagem dados da classe hospedagem
-     * @return double contendo o valor total.
+     * @param hospedagem A hospedagem para a qual o cálculo será realizado.
+     * @return O valor total a ser pago.
      */
     public double calcularTotal(Hospedagem hospedagem) {
         return hospedagem.totalDiarias() + hospedagem.getHospede().totalConsumo() + calcularJuros() + hospedagem.getMulta();

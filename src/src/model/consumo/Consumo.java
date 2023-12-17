@@ -1,11 +1,19 @@
 package model.consumo;
 
 public class Consumo {
+
     private int codigo;
     private TipoConsumo tipo;
     private String descricao;
     private double valor;
 
+    /**
+     * Construtor da classe Consumo.
+     *
+     * @param codigo    O código do consumo.
+     * @param tipo      O tipo de consumo (RESTAURANTE, FRIGOBAR, LAVANDERIA, TELEFONE).
+     * @param descricao A descrição do consumo.
+     */
     public Consumo(int codigo, TipoConsumo tipo, String descricao) {
         this.codigo = codigo;
         this.tipo = tipo;

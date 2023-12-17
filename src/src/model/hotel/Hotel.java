@@ -13,34 +13,69 @@ public class Hotel {
     private List<Hospedagem> hospedagens;
     private List<Acomodacao> acomodacoes;
 
+    /**
+     * Construtor padrão da classe Hotel.
+     * Inicializa as listas de funcionários, hospedagens e acomodações.
+     */
     public Hotel() {
         this.funcionarios = new ArrayList<>();
         this.hospedagens = new ArrayList<>();
         this.acomodacoes = new ArrayList<>();
     }
 
+    /**
+     * Adiciona uma acomodação à lista de acomodações do hotel.
+     *
+     * @param acomodacao A acomodação a ser adicionada.
+     */
     public void addAcomodacao(Acomodacao acomodacao) {
         this.acomodacoes.add(acomodacao);
     }
 
+    /**
+     * Remove uma acomodação da lista de acomodações do hotel.
+     *
+     * @param acomodacao A acomodação a ser removida.
+     */
     public void removeAcomodacao(Acomodacao acomodacao) {
         this.acomodacoes.remove(acomodacao);
     }
 
+    /**
+     * Adiciona um funcionário à lista de funcionários do hotel.
+     *
+     * @param funcionario O funcionário a ser adicionado.
+     */
     public void addFuncionario(Funcionario funcionario) {
         this.funcionarios.add(funcionario);
     }
 
+    /**
+     * Remove um funcionário da lista de funcionários do hotel.
+     *
+     * @param funcionario O funcionário a ser removido.
+     */
     public void removeFuncionario(Funcionario funcionario) {
         this.funcionarios.remove(funcionario);
     }
-    
+
+    /**
+     * Adiciona uma reserva à lista de hospedagens do hotel, caso a hospedagem não esteja no status de ocupada.
+     *
+     * @param hospedagem A hospedagem a ser adicionada.
+     */
     public void addReserva(Hospedagem hospedagem) {
         if (!hospedagem.isStatus()) {
             hospedagens.add(hospedagem);
         }
     }
 
+    /**
+     * Remove uma reserva da lista de hospedagens do hotel, se a hospedagem não estiver no status de ocupada.
+     * Calcula multa se a data de chegada estiver a menos de 12 horas do momento atual.
+     *
+     * @param hospedagem A hospedagem a ser removida.
+     */
     public void removeReserva(Hospedagem hospedagem) {
         if (!hospedagem.isStatus()) {
             hospedagens.remove(hospedagem);
@@ -51,6 +86,12 @@ public class Hotel {
         }
     }
 
+    /**
+     * Adiciona uma hospedagem à lista de hospedagens do hotel se houver capacidade suficiente na acomodação.
+     *
+     * @param hospedagem A hospedagem a ser adicionada.
+     * @return true se a hospedagem foi adicionada com sucesso, false caso contrário.
+     */
     public boolean addHospedagem(Hospedagem hospedagem) {
 
         // Ja considerando que já existe um adulto (Hospede no qual foi feito o cadastro)
@@ -74,6 +115,11 @@ public class Hotel {
         return false;
     }
 
+    /**
+     * Remove uma hospedagem da lista de hospedagens do hotel.
+     *
+     * @param hospedagem A hospedagem a ser removida.
+     */
     public void removeHospedagem(Hospedagem hospedagem) {
         if (hospedagem.isStatus()) {
             hospedagens.remove(hospedagem);
@@ -103,4 +149,5 @@ public class Hotel {
     public void setAcomodacoes(List<Acomodacao> acomodacoes) {
         this.acomodacoes = acomodacoes;
     }
+
 }
