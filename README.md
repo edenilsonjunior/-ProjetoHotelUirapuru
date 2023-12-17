@@ -10,11 +10,11 @@
 
 Se você deseja compilar e executar o programa, siga os passos abaixo.
 
-### Passo 2: Abra o Terminal ou Prompt de Comando
+### Passo 1: Abra o Terminal ou Prompt de Comando
 
 Após clonar o repositório, abra o terminal no Linux ou macOS, ou o prompt de comando no Windows.
 
-### Passo 3: Navegue até o Diretório do seu Arquivo Java
+### Passo 2: Navegue até o Diretório do seu Arquivo Java
 
 Use o comando `cd` para navegar até o diretório onde seu arquivo Main.java está localizado. Por exemplo:
 
@@ -22,13 +22,13 @@ Use o comando `cd` para navegar até o diretório onde seu arquivo Main.java est
 cd caminho/do/projeto
 ```
 
-### Passo 4: Compile o Código Java
+### Passo 3: Compile o Código Java
 
 ```bash
 javac Main.java
 ```
 
-### Passo 5: Execute o Programa Java
+### Passo 4: Execute o Programa Java
 
 ```bash
 java Main
