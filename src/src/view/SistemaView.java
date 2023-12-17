@@ -267,6 +267,14 @@ public class SistemaView {
         // TODO: Implementar (letra C)
     }
 
+    /**
+     * Metodo que gera um relatorio de faturamento de Hospedagens e Consumo.
+     * O relatorio é gerado de acordo com a data de inicio até uma data de fim.
+     *
+     * @param inicio data de inicio
+     * @param fim data de fim
+     * @param hotel dados da classe hotel
+     */
     public static void relatorioFaturamento(LocalDate inicio, LocalDate fim, Hotel hotel) {
 
         if (inicio.isAfter(fim)) {
@@ -316,11 +324,26 @@ public class SistemaView {
         }
     }
 
-    public static void relatorioAtrasados() {
-        // TODO: Implementar (letra H)
+    public static void relatorioAtrasados(LocalDate inicio, LocalDate fim, Hotel hotel) {
+
+        if (inicio.isAfter(fim)) {
+            JOptionPane.showMessageDialog(null, "Data de inicio maior que data de fim!");
+        }
+        else {
+            String str = "";
+            for (Hospedagem hospedagem : hotel.getHospedagens()) {
+                if (!hospedagem.isStatus()) {
+                    if (hospedagem.getChegada().isAfter(inicio) && hospedagem.getChegada().isBefore(fim)) {
+
+                    }
+                }
+            }
+            JOptionPane.showMessageDialog(null, str);
+        }
     }
 
     public static void listarFuncionarios(Hotel hotel) {
+        // TODO: Implementar listarFuncionarios
     }
 
     public String relatorioTipoFaturado() {
