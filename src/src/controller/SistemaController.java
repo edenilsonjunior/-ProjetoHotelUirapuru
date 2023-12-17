@@ -122,7 +122,6 @@ public class SistemaController {
 //
 //        } while (escolha != OpcoesHospede.SAIR);
     }
-
 }
 
 

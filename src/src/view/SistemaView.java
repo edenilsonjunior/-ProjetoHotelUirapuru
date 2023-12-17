@@ -472,8 +472,6 @@ public class SistemaView {
     /*
      * TODO: METODOS PARA IMPLEMENTAR (VIEW)
      * menuHospede()
-     *
-     *
      */
 
 }
