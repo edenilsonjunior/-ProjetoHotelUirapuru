@@ -76,8 +76,7 @@ public class SistemaController {
                     break;
             }
         } while (escolha != OpcoesAdmin.SAIR);
-    
-        System.out.println("Funções do administrador ainda não implementadas!");
+
     }
 
     private void funcoesFuncionario(){
@@ -86,12 +85,12 @@ public class SistemaController {
             escolha = SistemaView.menuFuncionario();
 
             switch (escolha) {
-                case CADASTRAR_HOSPEDAGEM:
-                    hotel.addHospedagem(SistemaView.cadastrarHospedagem(hotel.getAcomodacoes()));
-                    break;
-                case REMOVER_HOSPEDAGEM:
-                    hotel.removeHospedagem(SistemaView.removerHospedagem(hotel));
-                break;
+//                case CADASTRAR_HOSPEDAGEM:
+//                    hotel.addHospedagem(SistemaView.cadastrarHospedagem(hotel.getAcomodacoes()));
+//                    break;
+//                case REMOVER_HOSPEDAGEM:
+//                    hotel.removeHospedagem(SistemaView.removerHospedagem(hotel));
+//                break;
                 case LISTAR_ACOMODACOES:
                     SistemaView.relatorioAcomodacoes(hotel.getHospedagens(), hotel.getAcomodacoes());
                     break;
@@ -100,28 +99,28 @@ public class SistemaController {
                     break;
                 default:
                     break;
-            }   
-                
+            }
+
         } while (escolha != OpcoesFuncionario.SAIR);
     }
 
     private void funcoesHospede(){
-        OpcoesHospede escolha;
-        do {
-            escolha = SistemaView.menuHospede();
-
-            switch (escolha) {
-                case LISTAR_CONSUMO:
-                    SistemaView.relatorioConsumo(hotel.getHospedagens(), logado);
-                    break;
-                case RELATORIO_ESTADIA:
-                    SistemaView.relatorioEstadia(hotel.getHospedagens(), logado);
-                    break;
-                default:
-                    break;
-            }   
-                
-        } while (escolha != OpcoesHospede.SAIR);
+//        OpcoesHospede escolha;
+//        do {
+//            escolha = SistemaView.menuHospede();
+//
+//            switch (escolha) {
+//                case LISTAR_CONSUMO:
+//                    SistemaView.relatorioConsumo(hotel.getHospedagens(), logado);
+//                    break;
+//                case RELATORIO_ESTADIA:
+//                    SistemaView.relatorioEstadia(hotel.getHospedagens(), logado);
+//                    break;
+//                default:
+//                    break;
+//            }
+//
+//        } while (escolha != OpcoesHospede.SAIR);
     }
 
 }

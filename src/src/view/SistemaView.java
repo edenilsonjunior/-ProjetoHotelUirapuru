@@ -11,6 +11,8 @@ import controller.OpcoesFuncionario;
 import controller.OpcoesHospede;
 
 import model.alojamento.*;
+import model.consumo.Consumo;
+import model.consumo.TipoConsumo;
 import model.hotel.*;
 import model.pessoa.*;
 
@@ -42,8 +44,7 @@ public class SistemaView {
         if (result == JOptionPane.OK_OPTION) {
 
             // retorna um array com os dados do login e senha
-            String[] array = { campoLogin.getText(), campoSenha.getText() };
-            return array;
+            return new String[]{ campoLogin.getText(), campoSenha.getText() };
         }
         return null;
     }
@@ -54,10 +55,9 @@ public class SistemaView {
                 OpcoesFuncionario.REMOVER_HOSPEDAGEM, OpcoesFuncionario.LISTAR_CLIENTES, OpcoesFuncionario.SAIR };
 
         // Mostra um JOptionPane com as opções
-        OpcoesFuncionario escolha = (OpcoesFuncionario) JOptionPane.showInputDialog(null, "Escolha uma opção",
-                "Menu Funcionario", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
 
-        return escolha;
+        return (OpcoesFuncionario) JOptionPane.showInputDialog(null, "Escolha uma opção",
+                "Menu Funcionario", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
     }
 
     public static OpcoesAdmin menuAdmin() {
@@ -66,10 +66,9 @@ public class SistemaView {
                 OpcoesAdmin.SAIR };
 
         // Mostra um JOptionPane com as opções
-        OpcoesAdmin escolha = (OpcoesAdmin) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Admin",
-                JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
 
-        return escolha;
+        return (OpcoesAdmin) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Admin",
+                JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
     }
 
     public static OpcoesHospede menuHospede() {
@@ -77,48 +76,47 @@ public class SistemaView {
         OpcoesHospede[] opcoes = { OpcoesHospede.LISTAR_CONSUMO, OpcoesHospede.RELATORIO_ESTADIA, OpcoesHospede.SAIR };
 
         // Mostra um JOptionPane com as opções
-        OpcoesHospede escolha = (OpcoesHospede) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Hospede",
-                JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
 
-        return escolha;
+        return (OpcoesHospede) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Hospede",
+                JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
     }
 
     public static void relatorioHospedes(List<Hospedagem> hospedagens) {
-        String hospedes = "";
+        StringBuilder hospedes = new StringBuilder();
         for (Hospedagem hospedagem : hospedagens) {
             if (hospedagem.isStatus()) {
-                hospedes += "Acomodacao: " + hospedagem.getAcomodacao().getNumeroQuarto() + "\n";
-                hospedes += "Hospede:" + hospedagem.getHospede().getNome() + "\n";
+                hospedes.append("Acomodacao: ").append(hospedagem.getAcomodacao().getNumeroQuarto()).append("\n");
+                hospedes.append("Hospede:").append(hospedagem.getHospede().getNome()).append("\n");
 
-                if (hospedagem.getHospede().getAcompanhantes().size() != 0) {
-                    hospedes += "Acompanhante(s):\n";
+                if (!hospedagem.getHospede().getAcompanhantes().isEmpty()) {
+                    hospedes.append("Acompanhante(s):\n");
                     for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
-                        hospedes += acompanhante.getNome() + ", " + acompanhante.getIdade() + "\n";
+                        hospedes.append(acompanhante.getNome()).append(", ").append(acompanhante.getIdade()).append("\n");
                     }
                 }
 
-                hospedes += "Check-in: " + hospedagem.getChegada() + "\n";
-                hospedes += "Check-out: " + hospedagem.getSaida() + "\n";
-                hospedes += "\n";
+                hospedes.append("Check-in: ").append(hospedagem.getChegada()).append("\n");
+                hospedes.append("Check-out: ").append(hospedagem.getSaida()).append("\n");
+                hospedes.append("\n");
             }
         }
 
-        JOptionPane.showMessageDialog(null, hospedes);
+        JOptionPane.showMessageDialog(null, hospedes.toString());
     }
 
     public static void relatorioReservasHoje(List<Hospedagem> hospedagens) {
-        String reservas = "";
+        StringBuilder reservas = new StringBuilder();
         for (Hospedagem hospedagem : hospedagens) {
             if (!hospedagem.isStatus()) {
                 if (hospedagem.getChegada().equals(LocalDateTime.now().toLocalDate())) {
-                    reservas += "Hospede principal: " + hospedagem.getHospede().getNome() + "\n";
-                    reservas += "Telefone: " + hospedagem.getHospede().getTelefone() + "\n";
-                    reservas += "Tipo de acomodaçao: " + hospedagem.getAcomodacao().getOpcao() + "\n";
-                    reservas += "Data prevista de saída: " + hospedagem.getSaida() + "\n";
+                    reservas.append("Hospede principal: ").append(hospedagem.getHospede().getNome()).append("\n");
+                    reservas.append("Telefone: ").append(hospedagem.getHospede().getTelefone()).append("\n");
+                    reservas.append("Tipo de acomodaçao: ").append(hospedagem.getAcomodacao().getOpcao()).append("\n");
+                    reservas.append("Data prevista de saída: ").append(hospedagem.getSaida()).append("\n");
                 }
             }
         }
-        JOptionPane.showMessageDialog(null, reservas);
+        JOptionPane.showMessageDialog(null, reservas.toString());
     }
 
     public static void relatorioAcomodacoes(List<Hospedagem> hospedagens, List<Acomodacao> acomodacoes) {
@@ -186,7 +184,7 @@ public class SistemaView {
         int result = JOptionPane.showConfirmDialog(null, painel,
                 "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            Acomodacao acomodacao = new Acomodacao(
+            return new Acomodacao(
                     Integer.parseInt(campoCodigo.getText()),
                     (TipoAcomodacao) campoOpcao.getSelectedItem(),
                     Double.parseDouble(campoDiaria.getText()),
@@ -194,7 +192,6 @@ public class SistemaView {
                     Integer.parseInt(campoMaxCriancas.getText()),
                     Integer.parseInt(campoAndar.getText()),
                     Integer.parseInt(campoNumeroQuarto.getText()));
-            return acomodacao;
         }
         return null;
     }
@@ -246,7 +243,7 @@ public class SistemaView {
                 "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
 
-            Hospede hospede = new Hospede(
+            return new Hospede(
                     campoPais.getText(),
                     campoEmail.getText(),
                     Integer.parseInt(campoIdentificacao.getText()),
@@ -256,9 +253,134 @@ public class SistemaView {
                     campoCidade.getText(), campoEstado.getText(),
                     Integer.parseInt(campoTelefone.getText()),
                     campoDataNascimento.getText());
-            return hospede;
         }
         return null;
+    }
+
+    public static Funcionario CadastrarFuncionario() {
+
+        JTextField campoNome = new JTextField(10);
+        JTextField campoEndereco = new JTextField(10);
+        JTextField campoCidade = new JTextField(10);
+        JTextField campoEstado = new JTextField(10);
+        JTextField campoTelefone = new JTextField(10);
+        JTextField campoDataNascimento = new JTextField(10);
+        JTextField campoCodigo = new JTextField(10);
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+
+        painel.add(new JLabel("Nome:"));
+        painel.add(campoNome);
+        painel.add(new JLabel("Endereco:"));
+        painel.add(campoEndereco);
+        painel.add(new JLabel("Cidade:"));
+        painel.add(campoCidade);
+        painel.add(new JLabel("Estado:"));
+        painel.add(campoEstado);
+        painel.add(new JLabel("Telefone:"));
+        painel.add(campoTelefone);
+        painel.add(new JLabel("Data de Nascimento:"));
+        painel.add(campoDataNascimento);
+        painel.add(new JLabel("Codigo:"));
+        painel.add(campoCodigo);
+
+        int result = JOptionPane.showConfirmDialog(null, painel,
+                "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+
+                return new Funcionario(
+                        Integer.parseInt(campoCodigo.getText()),
+                        campoNome.getText(), campoEndereco.getText(),
+                        campoCidade.getText(), campoEstado.getText(),
+                        Integer.parseInt(campoTelefone.getText()),
+                        campoDataNascimento.getText());
+        }
+        return null;
+    }
+
+    public static Funcionario removerFuncionario(Hotel hotel) {
+
+        JTextField campoCodigo = new JTextField(10);
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+
+        painel.add(new JLabel("Codigo:"));
+        painel.add(campoCodigo);
+
+        int result = JOptionPane.showConfirmDialog(null, painel,
+                "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            for (Funcionario funcionario : hotel.getFuncionarios()) {
+                if (funcionario.getCodigo() == Integer.parseInt(campoCodigo.getText())) {
+                    return funcionario;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void listarFuncionarios(Hotel hotel) {
+        StringBuilder funcionarios = new StringBuilder();
+        for (Funcionario funcionario : hotel.getFuncionarios()) {
+            funcionarios.append("Nome: ").append(funcionario.getNome()).append("\n");
+            funcionarios.append("Codigo: ").append(funcionario.getCodigo()).append("\n");
+            funcionarios.append("Endereco: ").append(funcionario.getEndereco()).append("\n");
+            funcionarios.append("Cidade: ").append(funcionario.getCidade()).append("\n");
+            funcionarios.append("Estado: ").append(funcionario.getEstado()).append("\n");
+            funcionarios.append("Telefone: ").append(funcionario.getTelefone()).append("\n");
+            funcionarios.append("Data de Nascimento: ").append(funcionario.getDataNascimento()).append("\n");
+            funcionarios.append("\n");
+        }
+        JOptionPane.showMessageDialog(null, funcionarios.toString());
+
+    }
+
+    public static void relatorioConsumo(List<Hospedagem> hospedagens, Hospede hospede) {
+        StringBuilder consumo = new StringBuilder();
+        for (Hospedagem hospedagem : hospedagens) {
+            if (hospedagem.getHospede().equals(hospede)) {
+                consumo.append("Acomodacao: ").append(hospedagem.getAcomodacao().getNumeroQuarto()).append("\n");
+                consumo.append("Hospede:").append(hospedagem.getHospede().getNome()).append("\n");
+
+                if (!hospedagem.getHospede().getAcompanhantes().isEmpty()) {
+                    consumo.append("Acompanhante(s):\n");
+                    for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
+                        consumo.append(acompanhante.getNome()).append(", ").append(acompanhante.getIdade()).append("\n");
+                    }
+                }
+
+                consumo.append("Check-in: ").append(hospedagem.getChegada()).append("\n");
+                consumo.append("Check-out: ").append(hospedagem.getSaida()).append("\n");
+                consumo.append("\n");
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, consumo.toString());
+    }
+
+    public static void relatorioEstadia(List<Hospedagem> hospedagens, Hospede hospede) {
+        StringBuilder estadia = new StringBuilder();
+        for (Hospedagem hospedagem : hospedagens) {
+            if (hospedagem.getHospede().equals(hospede)) {
+                estadia.append("Acomodacao: ").append(hospedagem.getAcomodacao().getNumeroQuarto()).append("\n");
+                estadia.append("Hospede:").append(hospedagem.getHospede().getNome()).append("\n");
+
+                if (!hospedagem.getHospede().getAcompanhantes().isEmpty()) {
+                    estadia.append("Acompanhante(s):\n");
+                    for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
+                        estadia.append(acompanhante.getNome()).append(", ").append(acompanhante.getIdade()).append("\n");
+                    }
+                }
+
+                estadia.append("Check-in: ").append(hospedagem.getChegada()).append("\n");
+                estadia.append("Check-out: ").append(hospedagem.getSaida()).append("\n");
+                estadia.append("\n");
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, estadia.toString());
     }
 
     public static void relatorioSaidaHospede() {
@@ -266,12 +388,71 @@ public class SistemaView {
     }
 
     public static void relatorioFaturamento(LocalDate inicio, LocalDate fim, Hotel hotel) {
-        // TODO: Implementar (letra F)
+
+        if (inicio.isAfter(fim)) {
+            JOptionPane.showMessageDialog(null, "Data de inicio maior que data de fim!");
+        }
+        else {
+            double faturamentoDiarias = 0;
+            double faturamentoFrigobar = 0;
+            double faturamentoRestaurante = 0;
+            double faturamentoLavanderia = 0;
+            double faturamentoTelefonemas = 0;
+            double descontos = 0;
+            for (Hospedagem hospedagem : hotel.getHospedagens()) {
+                if (hospedagem.isStatus()) {
+                    if (hospedagem.getChegada().isAfter(inicio) && hospedagem.getSaida().isBefore(fim)) {
+                        faturamentoDiarias += hospedagem.getAcomodacao().getDiaria();
+                        descontos += hospedagem.getMulta();
+                        for (Consumo consumo : hospedagem.getHospede().getListaConsumo()) {
+                            if (consumo.getTipo() == TipoConsumo.FRIGOBAR) {
+                                faturamentoFrigobar += consumo.getValor();
+                            }
+                            else if (consumo.getTipo() == TipoConsumo.RESTAURANTE) {
+                                faturamentoRestaurante += consumo.getValor();
+                            }
+                            else if (consumo.getTipo() == TipoConsumo.LAVANDERIA) {
+                                faturamentoLavanderia += consumo.getValor();
+                            }
+                            else if (consumo.getTipo() == TipoConsumo.TELEFONE) {
+                                faturamentoTelefonemas += consumo.getValor();
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            String str = "";
+            str += "Faturamento entre " + inicio + " e " + fim + "\n";
+            str += "Faturamento com diarias: " + faturamentoDiarias + "\n";
+            str += "Faturamento com frigobar: " + faturamentoFrigobar + "\n";
+            str += "Faturamento com restaurante: " + faturamentoRestaurante + "\n";
+            str += "Faturamento com lavanderia: " + faturamentoLavanderia + "\n";
+            str += "Faturamento com telefonemas: " + faturamentoTelefonemas + "\n";
+            str += "Descontos: " + descontos + "\n";
+            str += "Total: " + (faturamentoDiarias + faturamentoFrigobar + faturamentoRestaurante + faturamentoLavanderia + faturamentoTelefonemas - descontos) + "\n";
+            JOptionPane.showMessageDialog(null, str);
+        }
     }
 
-    public static void relatorioAtrasados() {
-        // TODO: Implementar (letra H)
-    }
+//    public static void relatorioAtrasados(LocalDate inicio, LocalDate fim, Hotel hotel) {
+//
+//        if (inicio.isAfter(fim)) {
+//            JOptionPane.showMessageDialog(null, "Data de inicio maior que data de fim!");
+//        }
+//        else {
+//            String str = "";
+//            for (Hospedagem hospedagem : hotel.getHospedagens()) {
+//                if (!hospedagem.isStatus()) {
+//                    if (hospedagem.getChegada().isAfter(inicio) && hospedagem.getChegada().isBefore(fim)) {
+//
+//                    }
+//                }
+//            }
+//            JOptionPane.showMessageDialog(null, str);
+//        }
+//    }
 
     public String relatorioTipoFaturado() {
         // TODO: Implementar (letra G)
@@ -290,14 +471,9 @@ public class SistemaView {
 
     /*
      * TODO: METODOS PARA IMPLEMENTAR (VIEW)
-     * CadastrarFuncionario()
-     * removerFuncionario()
-     * listarFuncionarios()
-     * 
-     * 
      * menuHospede()
-     * relatorioConsumo()
-     * relatorioEstadia()
+     *
+     *
      */
 
 }
