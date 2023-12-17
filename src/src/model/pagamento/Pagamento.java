@@ -8,37 +8,18 @@ import java.time.LocalDate;
 
 public class Pagamento {
     private TipoPagamento opcao;
-    private Hospedagem hospedagem;
-    private Consumo consumo;
     private int numeroFatura;
     private LocalDate dataVencimento;
     private LocalDate dataPagamento;
     private double juros;
     private boolean status;
 
-    public Pagamento(TipoPagamento opcao, Hospedagem hospedagem, Consumo consumo) {
+    public Pagamento(TipoPagamento opcao) {
         this.opcao = opcao;
-        this.hospedagem = hospedagem;
-        this.consumo = consumo;
         this.numeroFatura = 0;
         this.dataPagamento = null;
         this.juros = 10;
         this.status = false;
-
-        switch (opcao) {
-            case DINHEIRO:
-                this.dataVencimento = hospedagem.getChegada().plusDays(1);
-                break;
-            case CHEQUE:
-                this.dataVencimento = hospedagem.getChegada().plusDays(10);
-                break;
-            case CREDITO:
-                this.dataVencimento = hospedagem.getChegada().plusDays(30);
-                break;
-            case FATURADO:
-                this.dataVencimento = hospedagem.getSaida().plusDays(30);
-                break;
-        }
     }
 
     /**
@@ -48,7 +29,7 @@ public class Pagamento {
      *
      * @return String contendo os detalhes do pagamento.
      */
-    public String fazerPagamento() {
+    public String fazerPagamento(Hospedagem hospedagem) {
 
         String mensagem = "";
 
@@ -75,11 +56,16 @@ public class Pagamento {
         mensagem += "Pagamento realizado com sucesso" + "\n";
         mensagem += "Juros: R$" + calcularJuros() + "\n";
         mensagem += "Multa: R$" + hospedagem.getMulta() + "\n";
-        mensagem += "Total: R$" + (hospedagem.totalDiarias() + hospedagem.getHospede().totalConsumo() + calcularJuros() + hospedagem.getMulta()) + "\n";
+        mensagem += "Total: R$" + calcularTotal(hospedagem) + "\n";
     
         return mensagem;    
     }
 
+    /**
+     * Metodo que calcula o valor dos juros a serem pagos.
+     *
+     * @return double contendo o valor dos juros.
+     */
     public double calcularJuros() {
         if (this.dataPagamento.isAfter(this.dataVencimento)) {
             Duration duration = Duration.between(this.dataVencimento, this.dataPagamento);
@@ -88,28 +74,22 @@ public class Pagamento {
         return 0;
     }
 
+    /**
+     * Metodo que calcula o valor total a ser pago.
+     *
+     * @param hospedagem dados da classe hospedagem
+     * @return double contendo o valor total.
+     */
+    public double calcularTotal(Hospedagem hospedagem) {
+        return hospedagem.totalDiarias() + hospedagem.getHospede().totalConsumo() + calcularJuros() + hospedagem.getMulta();
+    }
+
     public TipoPagamento getOpcao() {
         return opcao;
     }
 
     public void setOpcao(TipoPagamento opcao) {
         this.opcao = opcao;
-    }
-
-    public Hospedagem getHospedagem() {
-        return hospedagem;
-    }
-
-    public void setHospedagem(Hospedagem hospedagem) {
-        this.hospedagem = hospedagem;
-    }
-
-    public Consumo getConsumo() {
-        return consumo;
-    }
-
-    public void setConsumo(Consumo consumo) {
-        this.consumo = consumo;
     }
 
     public int getNumeroFatura() {

@@ -324,6 +324,14 @@ public class SistemaView {
         }
     }
 
+    /**
+     * Metodo que gera um relatorio de hospedes que estão com a fatura atrasada.
+     * O relatorio é gerado de acordo com a data de inicio até uma data de fim.
+     *
+     * @param inicio data de inicio
+     * @param fim data de fim
+     * @param hotel dados da classe hotel
+     */
     public static void relatorioAtrasados(LocalDate inicio, LocalDate fim, Hotel hotel) {
 
         if (inicio.isAfter(fim)) {
@@ -333,12 +341,16 @@ public class SistemaView {
             String str = "";
             for (Hospedagem hospedagem : hotel.getHospedagens()) {
                 if (!hospedagem.isStatus()) {
-                    if (hospedagem.getChegada().isAfter(inicio) && hospedagem.getChegada().isBefore(fim)) {
-
+                    if (hospedagem.getSaida().isAfter(inicio) && hospedagem.getSaida().isBefore(fim)) {
+                        str += "Hospede: " + hospedagem.getHospede().getNome() + "\n";
+                        str += "Data de Saída: " + hospedagem.getSaida() + "\n";
+                        str += "Data de Vencimento: " + hospedagem.getPagamento().getDataVencimento() + "\n";
+                        str += "Valor Devido: " + hospedagem.getPagamento().calcularTotal(hospedagem) + "\n";
+                        str += "\n";
+                        JOptionPane.showMessageDialog(null, str);
                     }
                 }
             }
-            JOptionPane.showMessageDialog(null, str);
         }
     }
 

@@ -11,13 +11,11 @@ public class Hotel {
 
     private List<Funcionario> funcionarios;
     private List<Hospedagem> hospedagens;
-    private List<Pagamento> pagamentos;
     private List<Acomodacao> acomodacoes;
 
     public Hotel() {
         this.funcionarios = new ArrayList<>();
         this.hospedagens = new ArrayList<>();
-        this.pagamentos = new ArrayList<>();
         this.acomodacoes = new ArrayList<>();
     }
 
@@ -82,11 +80,6 @@ public class Hotel {
         }
     }
 
-    public void addPagamento(Pagamento pagamento) {
-
-        this.pagamentos.add(pagamento);
-    }
-
     public List<Funcionario> getFuncionarios() {
         return funcionarios;
     }
@@ -101,14 +94,6 @@ public class Hotel {
 
     public void setHospedagens(List<Hospedagem> hospedagens) {
         this.hospedagens = hospedagens;
-    }
-
-    public List<Pagamento> getPagamentos() {
-        return pagamentos;
-    }
-
-    public void setPagamentos(List<Pagamento> pagamentos) {
-        this.pagamentos = pagamentos;
     }
 
     public List<Acomodacao> getAcomodacoes() {

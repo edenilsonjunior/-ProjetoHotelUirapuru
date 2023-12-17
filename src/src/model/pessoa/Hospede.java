@@ -45,7 +45,7 @@ public class Hospede extends Pessoa {
         descricao += "Nome da Mae: " + nomeMae + "\n";
         descricao += "Dados do Cartao: " + dadosCartao + "\n";
 
-        if (acompanhantes.size() != 0) {
+        if (!acompanhantes.isEmpty()) {
             descricao += "Acompanhante(s):\n";
             for (Acompanhante acompanhante : acompanhantes) {
                 descricao += acompanhante.getNome() + ", " + acompanhante.getIdade() + "\n";
@@ -164,5 +164,4 @@ public class Hospede extends Pessoa {
     public void setAcompanhantes(List<Acompanhante> acompanhantes) {
         this.acompanhantes = acompanhantes;
     }
-
 }
