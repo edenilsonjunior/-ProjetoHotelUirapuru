@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controller"},{"l":"model.alojamento"},{"l":"model.consumo"},{"l":"model.hotel"},{"l":"model.pagamento"},{"l":"model.pessoa"},{"l":"view"}];updateSearchResults();
