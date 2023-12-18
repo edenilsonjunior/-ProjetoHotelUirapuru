@@ -11,4 +11,4 @@ public class Main {
         SistemaController controlador = new SistemaController(hotel);
         controlador.iniciarSistema();
     }
-}
+}   

@@ -96,7 +96,7 @@ public class Hospede extends Pessoa {
      * @param consumo Objeto de Consumo a ser adicionado.
      * @throws NullPointerException Se 'consumo' for nulo.
      */
-    public void adicionarConsumo(Consumo consumo) {
+    public void addConsumo(Consumo consumo) {
         listaConsumo.add(consumo);
     }
 

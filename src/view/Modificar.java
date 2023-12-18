@@ -5,6 +5,8 @@ import java.time.*;
 import javax.swing.*;
 
 import model.alojamento.*;
+import model.consumo.Consumo;
+import model.consumo.TipoConsumo;
 import model.hotel.*;
 import model.pagamento.*;
 import model.pessoa.*;
@@ -327,5 +329,90 @@ public class Modificar {
         }
         return null;
     }
+
+
+    public static Acompanhante cadastrarAcompanhante(){
+        
+        JTextField campoNome = new JTextField(10);
+        JTextField campoIdade = new JTextField(10);
+        
+        JPanel painel = new JPanel();
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        
+        painel.add(new JLabel("Nome:"));
+        painel.add(campoNome);
+        painel.add(new JLabel("Idade:"));
+        painel.add(campoIdade);
+        
+        int result = JOptionPane.showConfirmDialog(null, painel, "Digite os dados do acompanhante", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            
+            String nome = campoNome.getText();
+            int idade = Integer.parseInt(campoIdade.getText());
+            
+            return new Acompanhante(nome, idade);
+        }
+        return null;
+    }
+
+
+    public static LocalDate[] escolherData(){
+        
+        JDateChooser campoInicio = new JDateChooser();
+        JDateChooser campoFim = new JDateChooser();
+
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+
+
+        painel.add(new JLabel("Inicio:"));
+        painel.add(campoInicio);
+        painel.add(new JLabel("Fim:"));
+        painel.add(campoFim);
+
+
+        int result = JOptionPane.showConfirmDialog(null, painel, "Escolha as datas", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            
+            LocalDate inicio = Instant.ofEpochMilli(campoInicio.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate fim = Instant.ofEpochMilli(campoFim.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            
+            return new LocalDate[]{ inicio, fim };
+            
+        }
+        return null;
+    }
+
+
+    public static Consumo cadastrarConsumo(){
+            
+            JComboBox<TipoConsumo> campoOpcao = new JComboBox<>(TipoConsumo.values());
+            JTextField campoCodigo = new JTextField(10);
+            JTextField campoDescricao = new JTextField(10);
+            
+            JPanel painel = new JPanel();
+            painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+            
+            painel.add(new JLabel("Codigo:"));
+            painel.add(campoCodigo);
+            painel.add(new JLabel("Tipo do consumo:"));
+            painel.add(campoOpcao);
+            painel.add(new JLabel("Descricao:"));
+            painel.add(campoDescricao);
+            
+            int result = JOptionPane.showConfirmDialog(null, painel, "Digite os dados do consumo", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                
+                int codigo = Integer.parseInt(campoCodigo.getText());
+                TipoConsumo tipo = (TipoConsumo) campoOpcao.getSelectedItem();
+                String descricao = campoDescricao.getText();
+                
+                return new Consumo(codigo, tipo, descricao);
+            }
+            return null;
+    }
+
 }
+
 

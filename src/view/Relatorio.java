@@ -298,7 +298,7 @@ public class Relatorio {
         else {
             String str = "";
             for (Hospedagem hospedagem : hotel.getHospedagens()) {
-                if (!hospedagem.isStatus()) {
+                if (hospedagem.isStatus()) {
                     if (hospedagem.getSaida().isAfter(inicio) && hospedagem.getSaida().isBefore(fim)) {
                         str += "Hospede: " + hospedagem.getHospede().getNome() + "\n";
                         str += "Data de Saída: " + hospedagem.getSaida() + "\n";

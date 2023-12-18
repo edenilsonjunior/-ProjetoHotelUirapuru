@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 import com.google.gson.*;
 
+import controller.Opcoes.*;
 import model.alojamento.*;
 import model.hotel.*;
 import model.pessoa.*;
@@ -69,6 +70,22 @@ public class SistemaController {
         return null;
     }
 
+    private void descobrirMenu() {
+        if (logado != null) {
+            if (logado instanceof Funcionario) {
+                if (logado.getLogin().equals("admin")) {
+                    funcoesAdmin();
+                } else {
+                    funcoesFuncionario();
+                }
+            } else if (logado instanceof Hospede) {
+                funcoesHospede();
+            }
+        } else {
+            Mensagens.erroLogin();
+        }
+    }
+
     private void funcoesAdmin() {
         OpcoesAdmin escolha;
         do {
@@ -81,12 +98,12 @@ public class SistemaController {
                 case CADASTRAR_FUNC:
                     hotel.addFuncionario(Modificar.CadastrarFuncionario());
                     break;
-                case REMOVER_FUNC:
-                    hotel.removeFuncionario(Modificar.removerFuncionario(hotel));
-                    break;
                 case LISTAR_FUNC:
                     Relatorio.relatorioFuncionarios(hotel);
                     break;
+                case REMOVER_FUNC:
+                hotel.removeFuncionario(Modificar.removerFuncionario(hotel));
+                break;
                 default:
                     break;
             }
@@ -103,24 +120,11 @@ public class SistemaController {
                 break;
             }
             switch (escolha) {
-                case CADASTRAR_HOSPEDAGEM:
-                    hotel.addHospedagem(Modificar.cadastrarHospedagem(hotel));
+                case OPCOES_HOSPEDAGEM:
+                    funcoesHospedagem();
                     break;
-                    case REMOVER_HOSPEDAGEM:
-                    Hospedagem removido = Modificar.removerHospedagem(hotel);
-                    if (removido != null) {
-                        Relatorio.relatorioSaidaHospede(removido);
-                        hotel.removeReserva(removido);
-                    }
-                    break;
-                    case CADASTRAR_ACOMODACAO:
-                        hotel.addAcomodacao(Modificar.cadastrarAcomodacao());
-                        break;
-                case LISTAR_ACOMODACOES:
-                    Relatorio.relatorioAcomodacoes(hotel);
-                    break;
-                case LISTAR_CLIENTES:
-                    Relatorio.relatorioHospedes(hotel);
+                case RELATORIOS:
+                    funcoesRelatorio();
                     break;
                 default:
                     break;
@@ -129,6 +133,84 @@ public class SistemaController {
         } while (escolha != OpcoesFuncionario.SAIR);
     }
 
+    private void funcoesHospedagem(){
+        OpcoesHospedagem escolha;
+
+        do {
+            escolha = Menu.menuHospedagem();
+
+            if (escolha == null) {
+                break;
+            }
+
+            switch (escolha) {
+                case CADASTRAR_HOSPEDAGEM:
+                    hotel.addHospedagem(Modificar.cadastrarHospedagem(hotel));
+                    break;
+                case REMOVER_HOSPEDAGEM:
+                    Hospedagem removido = Modificar.removerHospedagem(hotel);
+                    if (removido != null) {
+                        Relatorio.relatorioSaidaHospede(removido);
+                        hotel.removeReserva(removido);
+                    }
+                    break;
+                case CADASTRAR_ACOMODACAO:
+                    hotel.addAcomodacao(Modificar.cadastrarAcomodacao());
+                    break;
+                case ADICIONAR_ACOMPANHANTE:
+                    Hospedagem hospedagemModificada = Menu.escolherModificado(hotel.getHospedagens());
+                    if (hospedagemModificada != null) {
+                        hospedagemModificada.getHospede().addAcompanhante(Modificar.cadastrarAcompanhante());
+                    }
+                    break;
+                case ADICIONAR_CONSUMO:
+                    hospedagemModificada = Menu.escolherModificado(hotel.getHospedagens());
+                    if (hospedagemModificada != null) {
+                        hospedagemModificada.getHospede().addConsumo(Modificar.cadastrarConsumo());
+                    }
+                    break;    
+                default:
+                    break;
+            }
+        } while (escolha != OpcoesHospedagem.SAIR);
+    }
+
+    private void funcoesRelatorio(){
+        OpcoesRelatorios escolha;
+
+        LocalDate date[];
+
+        do {
+            escolha = Menu.menuRelatorioGerais();
+
+            if (escolha == null) {
+                break;
+            }
+            switch (escolha) {
+                case RELATORIO_HOSPEDES:
+                    Relatorio.relatorioHospedes(hotel);
+                    break;
+                case RELATORIO_RESERVAS_HOJE:
+                    Relatorio.relatorioReservasHoje(hotel.getHospedagens());
+                    break;
+                case RELATORIO_ACOMODACOES:
+                    Relatorio.relatorioAcomodacoes(hotel);
+                    break;
+                case RELATORIO_FATURAMENTO:
+                    date = Modificar.escolherData();
+                    Relatorio.relatorioFaturamento(date[0], date[1], hotel);
+                    break;
+                case RELATORIO_ATRASADOS:
+                    date = Modificar.escolherData();
+                    Relatorio.relatorioAtrasados(date[0], date[1], hotel);
+                    break;
+                default:
+                    break;
+            }
+
+        } while (escolha != OpcoesRelatorios.SAIR);
+    }
+    
     private void funcoesHospede() {
         OpcoesHospede escolha;
         do {
@@ -202,23 +284,6 @@ public class SistemaController {
                                 DateTimeFormatter.ISO_LOCAL_DATE))
                 .create();
     }
-
-    private void descobrirMenu() {
-        if (logado != null) {
-            if (logado instanceof Funcionario) {
-                if (logado.getLogin().equals("admin")) {
-                    funcoesAdmin();
-                } else {
-                    funcoesFuncionario();
-                }
-            } else if (logado instanceof Hospede) {
-                funcoesHospede();
-            }
-        } else {
-            Mensagens.erroLogin();
-        }
-    }
-
 
     private void adicionarDadosIniciais() {
 

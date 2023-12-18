@@ -1,7 +1,14 @@
 package view;
 
+import java.util.List;
+
 import javax.swing.*;
-import controller.*;
+import controller.Opcoes.OpcoesAdmin;
+import controller.Opcoes.OpcoesFuncionario;
+import controller.Opcoes.OpcoesHospedagem;
+import controller.Opcoes.OpcoesHospede;
+import controller.Opcoes.OpcoesRelatorios;
+import model.alojamento.Hospedagem;
 
 /**
  * Essa classe contem todos os menus
@@ -53,16 +60,17 @@ public class Menu {
         return (OpcoesAdmin) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Admin", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
     }
 
+
     /**
-     * Apresenta um menu de opções para interação com funcionalidades relacionadas a funcionários.
+     * Apresenta um menu de opções para interação com funcionalidades de funcionário.
      *
      * @return A opção escolhida pelo usuário do tipo {@link OpcoesFuncionario}.
-     *         Pode ser {@link OpcoesFuncionario#CADASTRAR_HOSPEDAGEM}, {@link OpcoesFuncionario#LISTAR_ACOMODACOES},
-     *         {@link OpcoesFuncionario#REMOVER_HOSPEDAGEM}, {@link OpcoesFuncionario#LISTAR_CLIENTES}, ou {@link OpcoesFuncionario#SAIR}.
+     *         Pode ser {@link OpcoesFuncionario#OPCOES_HOSPEDAGEM}, {@link OpcoesFuncionario#RELATORIOS},
+     *         ou {@link OpcoesFuncionario#SAIR}.
      */
     public static OpcoesFuncionario menuFuncionario() {
 
-        OpcoesFuncionario[] opcoes = { OpcoesFuncionario.CADASTRAR_HOSPEDAGEM, OpcoesFuncionario.CADASTRAR_ACOMODACAO, OpcoesFuncionario.LISTAR_ACOMODACOES, OpcoesFuncionario.REMOVER_HOSPEDAGEM, OpcoesFuncionario.LISTAR_CLIENTES, OpcoesFuncionario.SAIR };
+        OpcoesFuncionario[] opcoes = { OpcoesFuncionario.OPCOES_HOSPEDAGEM, OpcoesFuncionario.RELATORIOS, OpcoesFuncionario.SAIR };
 
         return (OpcoesFuncionario) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Funcionario", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
     }
@@ -81,5 +89,43 @@ public class Menu {
 
         return (OpcoesHospede) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Hospede", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
     }
+
+    public static OpcoesRelatorios menuRelatorioGerais(){
+
+        OpcoesRelatorios[] opcoes = { OpcoesRelatorios.RELATORIO_HOSPEDES, OpcoesRelatorios.RELATORIO_RESERVAS_HOJE, OpcoesRelatorios.RELATORIO_ACOMODACOES, OpcoesRelatorios.RELATORIO_FATURAMENTO, OpcoesRelatorios.RELATORIO_ATRASADOS, OpcoesRelatorios.SAIR };
+
+        return (OpcoesRelatorios) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Relatorios", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+    }
+
+    public static OpcoesHospedagem menuHospedagem(){
+            
+            OpcoesHospedagem[] opcoes = { OpcoesHospedagem.CADASTRAR_HOSPEDAGEM, OpcoesHospedagem.REMOVER_HOSPEDAGEM, OpcoesHospedagem.CADASTRAR_ACOMODACAO, OpcoesHospedagem.ADICIONAR_ACOMPANHANTE, OpcoesHospedagem.SAIR };
+    
+            return (OpcoesHospedagem) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Hospedagem", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+    }
+
+    public static Hospedagem escolherModificado(List<Hospedagem> hospedagens)
+    {
+        // Instancia um novo StringBuilder para armazenar os códigos das hospedagens
+        StringBuilder codigos = new StringBuilder();
+
+
+        // Adiciona os códigos das hospedagens ao StringBuilder
+        for (Hospedagem hospedagem : hospedagens) {
+            codigos.append(hospedagem.getCodigo()).append("\n");
+        }
+
+        // Exibe um diálogo para o usuário escolher o código da hospedagem
+        String codigoEscolhido = JOptionPane.showInputDialog(null, "Digite o código da hospedagem:\n" + codigos.toString(), "Escolher Hospedagem", JOptionPane.PLAIN_MESSAGE);
+        
+        // Retorna a hospedagem escolhida
+        for (Hospedagem hospedagem : hospedagens) {
+            if (hospedagem.getCodigo() == Integer.parseInt(codigoEscolhido)) {
+                return hospedagem;
+            }
+        }
+        return null;
+    }
+
 
 }
