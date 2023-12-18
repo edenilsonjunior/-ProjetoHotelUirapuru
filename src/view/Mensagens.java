@@ -1,9 +1,6 @@
 package view;
 import javax.swing.*;
 
-/**
- * Essa classe contem todas as mensagens que serão exibidas para o usuário
- */
 public class Mensagens {
 
     public static void erroLogin() {
