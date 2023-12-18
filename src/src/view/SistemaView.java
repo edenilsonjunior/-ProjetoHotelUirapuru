@@ -596,7 +596,6 @@ public class SistemaView {
     }
 
     public static Hospedagem cadastrarHospedagem(List<Acomodacao> acomodacoes) {
-        // TODO: Implementar o método de cadastro de hospedagem
         return null;
     }
 
@@ -632,5 +631,21 @@ public class SistemaView {
      * TODO: METODOS PARA IMPLEMENTAR (VIEW)
      * menuHospede()
      */
+
+    public static void erroLogin() {
+        JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!");
+    }
+
+    public static boolean verificarSair() {
+        if (JOptionPane.showConfirmDialog(null, "Deseja sair do programa?") == JOptionPane.YES_OPTION) {
+            return true;
+        }
+        return false; 
+    }
+
+    public static void mensagemFinal() {
+        JOptionPane.showMessageDialog(null, "Obrigado por utilizar o sistema!");
+    }
+
 
 }
