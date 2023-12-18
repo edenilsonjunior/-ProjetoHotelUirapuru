@@ -42,6 +42,8 @@ public class SistemaController {
             logado = descobrirLogado(hotel, usuario);
             descobrirMenu();
 
+            salvarEstadoHotel(hotel);
+
             // Verificar se usuário quer sair do sistema
             saiu = Mensagens.verificarSair();
         }
@@ -104,21 +106,21 @@ public class SistemaController {
                 case CADASTRAR_HOSPEDAGEM:
                     hotel.addHospedagem(Modificar.cadastrarHospedagem(hotel));
                     break;
-                case CADASTRAR_ACOMODACAO:
-                    hotel.addAcomodacao(Modificar.cadastrarAcomodacao());
-                    break;
-                case REMOVER_HOSPEDAGEM:
+                    case REMOVER_HOSPEDAGEM:
                     Hospedagem removido = Modificar.removerHospedagem(hotel);
                     if (removido != null) {
                         Relatorio.relatorioSaidaHospede(removido);
                         hotel.removeReserva(removido);
                     }
                     break;
+                    case CADASTRAR_ACOMODACAO:
+                        hotel.addAcomodacao(Modificar.cadastrarAcomodacao());
+                        break;
                 case LISTAR_ACOMODACOES:
                     Relatorio.relatorioAcomodacoes(hotel);
                     break;
                 case LISTAR_CLIENTES:
-                    Relatorio.relatorioHospedes(hotel.getHospedagens());
+                    Relatorio.relatorioHospedes(hotel);
                     break;
                 default:
                     break;
@@ -136,7 +138,7 @@ public class SistemaController {
                 break;
             }
             switch (escolha) {
-                case LISTAR_CONSUMO:
+                case RELATORIO_CONSUMO:
                     Relatorio.relatorioConsumo(hotel.getHospedagens(), (Hospede) logado);
                     break;
                 case RELATORIO_ESTADIA:
