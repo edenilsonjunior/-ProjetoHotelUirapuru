@@ -1,8 +1,5 @@
-package controller.Opcoes;
+package controller.opcoes;
 
-/**
- * OpcoesHospedagem
- */
 public enum OpcoesHospedagem {
 
     CADASTRAR_HOSPEDAGEM, 

@@ -3,11 +3,11 @@ package view;
 import java.util.List;
 
 import javax.swing.*;
-import controller.Opcoes.OpcoesAdmin;
-import controller.Opcoes.OpcoesFuncionario;
-import controller.Opcoes.OpcoesHospedagem;
-import controller.Opcoes.OpcoesHospede;
-import controller.Opcoes.OpcoesRelatorios;
+import controller.opcoes.OpcoesAdmin;
+import controller.opcoes.OpcoesFuncionario;
+import controller.opcoes.OpcoesHospedagem;
+import controller.opcoes.OpcoesHospede;
+import controller.opcoes.OpcoesRelatorios;
 import model.alojamento.Hospedagem;
 
 /**

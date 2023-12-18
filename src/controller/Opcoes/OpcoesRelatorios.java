@@ -1,4 +1,4 @@
-package controller.Opcoes;
+package controller.opcoes;
 
 public enum OpcoesRelatorios {
     RELATORIO_HOSPEDES, 

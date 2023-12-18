@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 import com.google.gson.*;
 
-import controller.Opcoes.*;
+import controller.opcoes.*;
 import model.alojamento.*;
 import model.hotel.*;
 import model.pessoa.*;
