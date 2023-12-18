@@ -15,7 +15,6 @@ import controller.OpcoesHospede;
  */
 public class Menu {
     
-    
     /**
      * Apresenta um diálogo de login com campos para inserção de login e senha.
      *
@@ -29,10 +28,7 @@ public class Menu {
         
         // Cria um novo painel
         JPanel painel = new JPanel();
-        
-        // Define layout: boxlayout.y_axis é um layout que organiza os componentes em
-        // uma coluna
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS)); // BoxLayout organiza os componentes em coluna
         
         // Adiciona rótulos e campos de texto ao painel
         painel.add(new JLabel("Login:"));
@@ -42,8 +38,10 @@ public class Menu {
         painel.add(campoSenha);
         
         // Mostra o painel em um JOptionPane
-        int result = JOptionPane.showConfirmDialog(null, painel,
-        "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        String titulo = "Preencha todos os campos";
+
+        int result = JOptionPane.showConfirmDialog(null, painel, titulo, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
         if (result == JOptionPane.OK_OPTION) {
             
             // retorna um array com os dados do login e senha
@@ -79,7 +77,7 @@ public class Menu {
      */
     public static OpcoesFuncionario menuFuncionario() {
         // Cria um array com as opções
-        OpcoesFuncionario[] opcoes = { OpcoesFuncionario.CADASTRAR_HOSPEDAGEM, OpcoesFuncionario.LISTAR_ACOMODACOES,
+        OpcoesFuncionario[] opcoes = { OpcoesFuncionario.CADASTRAR_HOSPEDAGEM, OpcoesFuncionario.CADASTRAR_ACOMODACAO, OpcoesFuncionario.LISTAR_ACOMODACOES,
                 OpcoesFuncionario.REMOVER_HOSPEDAGEM, OpcoesFuncionario.LISTAR_CLIENTES, OpcoesFuncionario.SAIR };
 
         // Mostra um JOptionPane com as opções
@@ -105,10 +103,5 @@ public class Menu {
         return (OpcoesHospede) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Hospede",
                 JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
     }
-
-
-
-
-
 
 }

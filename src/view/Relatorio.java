@@ -56,7 +56,7 @@ public class Relatorio {
     public static void relatorioHospedes(List<Hospedagem> hospedagens) {
         StringBuilder hospedes = new StringBuilder();
         for (Hospedagem hospedagem : hospedagens) {
-            if (hospedagem.isStatus()) {
+            // if (hospedagem.isStatus()) {
                 hospedes.append("Acomodacao: ").append(hospedagem.getAcomodacao().getNumeroQuarto()).append("\n");
                 hospedes.append("Hospede:").append(hospedagem.getHospede().getNome()).append("\n");
 
@@ -70,7 +70,7 @@ public class Relatorio {
                 hospedes.append("Check-in: ").append(hospedagem.getChegada()).append("\n");
                 hospedes.append("Check-out: ").append(hospedagem.getSaida()).append("\n");
                 hospedes.append("\n");
-            }
+            // }
         }
 
         JOptionPane.showMessageDialog(null, hospedes.toString());
@@ -104,35 +104,35 @@ public class Relatorio {
      * @param hospedagens   Lista de objetos {@link Hospedagem} contendo informações sobre as hospedagens.
      * @param acomodacoes   Lista de objetos {@link Acomodacao} contendo informações sobre as acomodações.
      */
-    public static void relatorioAcomodacoes(List<Hospedagem> hospedagens, List<Acomodacao> acomodacoes) {
+    public static void relatorioAcomodacoes(Hotel hotel) {
 
-        String str;
+        String str = "";
         int totalOcupadas = 0;
         int totalReservadas = 0;
         int disponiveis = 0;
 
-        for (Hospedagem hospedagem : hospedagens) {
+        for (Hospedagem hospedagem : hotel.getHospedagens()) {
             if (hospedagem.isStatus()) {
                 totalOcupadas++;
             } else {
                 totalReservadas++;
             }
         }
-        disponiveis = acomodacoes.size() - (totalOcupadas + totalReservadas);
+        disponiveis = hotel.getAcomodacoes().size() - (totalOcupadas + totalReservadas);
 
         // Uma caixa por acomodacao
-        for (Acomodacao acomodacao : acomodacoes) {
+        for (Acomodacao acomodacao : hotel.getAcomodacoes()) {
             str = "Descricao da acomodacao: \n";
             str += acomodacao.relatorioAcomodacao() + "\n";
             JOptionPane.showMessageDialog(null, str);
         }
 
         // Estatisticas de acomodacoes
-        str = "Estatisticas de acomodacoes: \n     ";
-        str += "Total de acomodacoes: " + acomodacoes.size() + "\n";
-        str += "Total de acomodacoes ocupadas: " + totalOcupadas + "\n";
-        str += "Total de acomodacoes reservadas: " + totalReservadas + "\n";
-        str += "Total de acomodacoes disponiveis: " + disponiveis + "\n";
+        str = "Estatisticas de acomodacoes: \n";
+        str += "Total de acomodacoes: " + hotel.getAcomodacoes().size() + "\n";
+        str += "Total de ocupadas: " + totalOcupadas + "\n";
+        str += "Total de reservadas: " + totalReservadas + "\n";
+        str += "Total de disponiveis: " + disponiveis + "\n";
 
         JOptionPane.showMessageDialog(null, str);
     }

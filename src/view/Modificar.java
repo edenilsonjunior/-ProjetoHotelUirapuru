@@ -1,6 +1,8 @@
 package view;
 
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -13,8 +15,11 @@ import model.alojamento.Acomodacao;
 import model.alojamento.Hospedagem;
 import model.alojamento.TipoAcomodacao;
 import model.hotel.Hotel;
+import model.pagamento.TipoPagamento;
 import model.pessoa.Funcionario;
 import model.pessoa.Hospede;
+
+import com.toedter.calendar.JDateChooser;
 
 /**
  * Essa classe contem todos as telas de modificação
@@ -39,7 +44,7 @@ public class Modificar {
         painel.add(campoCodigo);
 
         int result = JOptionPane.showConfirmDialog(null, painel,
-                "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+                "Digite o codigo do funcionario", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             for (Funcionario funcionario : hotel.getFuncionarios()) {
                 if (funcionario.getCodigo() == Integer.parseInt(campoCodigo.getText())) {
@@ -49,6 +54,93 @@ public class Modificar {
         }
         return null;
     }
+
+
+
+
+
+
+
+
+
+    // public Hospedagem(Acomodacao acomodacao, Hospede hospede, LocalDate chegada, LocalDate saida, TipoPagamento tipoPagamento, int codigo, boolean status)
+    public static Hospedagem cadastrarHospedagem(Hotel hotel) {
+
+
+        // Tipo de acomodacao
+        JComboBox<TipoAcomodacao> campoOpcao = new JComboBox<>(TipoAcomodacao.values());
+
+        // Data de chegada e saida
+        JDateChooser campoChegada = new JDateChooser();
+        JDateChooser campoSaida = new JDateChooser();
+
+        // Tipo de pagamento
+        JComboBox<TipoPagamento> campoPagamento = new JComboBox<>(TipoPagamento.values());
+        
+        // Codigo da Hospedagem
+        JTextField campoCodigo = new JTextField(10);
+        
+        // Status da Hospedagem (Reserva ou Hospedagem)
+        JComboBox<String> campoStatus = new JComboBox<>(new String[]{"RESERVA", "HOSPEDAGEM"});
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+
+        painel.add(new JLabel("Tipo do quarto:"));
+        painel.add(campoOpcao);
+        painel.add(new JLabel("Chegada:"));
+        painel.add(campoChegada);
+        painel.add(new JLabel("Saída:"));
+        painel.add(campoSaida);
+        painel.add(new JLabel("Tipo de pagamento:"));
+        painel.add(campoPagamento);
+        painel.add(new JLabel("Código:"));
+        painel.add(campoCodigo);
+        painel.add(new JLabel("Status:"));
+        painel.add(campoStatus);
+
+        int result = JOptionPane.showConfirmDialog(null, painel,
+                "Cadastro de Hospedagem", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            TipoAcomodacao tipoAcomodacao = (TipoAcomodacao) campoOpcao.getSelectedItem();
+            
+            LocalDate chegada = Instant.ofEpochMilli(campoChegada.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate saida = Instant.ofEpochMilli(campoSaida.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+            TipoPagamento tipoPagamento = (TipoPagamento) campoPagamento.getSelectedItem();
+            int codigo = Integer.parseInt(campoCodigo.getText());
+
+            boolean status;
+            if (campoStatus.getSelectedItem().equals("RESERVA")) {
+                status = false;
+            }
+            else{
+                status = true;
+            }
+
+            Acomodacao escolhida = null;
+            
+            // vai percorrer todas as acomodacoes do hotel e vai achar uma que é do tipo
+            // que o usuario escolheu e que nao esteja ocupada
+            for (Acomodacao acomodacao : hotel.getAcomodacoes()) {
+                if (acomodacao.getOpcao().equals(tipoAcomodacao) && acomodacao.isOcupado() == false) {
+                    escolhida = acomodacao;
+                    acomodacao.setOcupado(true);
+                    break;
+                }
+            }
+
+            Hospede hospede = cadastrarHospede();
+
+            if (escolhida != null && hospede != null) {
+                return new Hospedagem(escolhida, hospede, chegada, saida, tipoPagamento, codigo, status);
+            }
+        }
+        return null;
+    }
+
+
+
 
     /**
      * Remove uma hospedagem do hotel com base no código informado.
@@ -67,7 +159,7 @@ public class Modificar {
         painel.add(campoCodigo);
 
         int result = JOptionPane.showConfirmDialog(null, painel,
-                "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+                "Digite o codigo da Hospedagem", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             for (Hospedagem hospedagem : hotel.getHospedagens()) {
                 if (hospedagem.getCodigo() == Integer.parseInt(campoCodigo.getText())) {
@@ -77,6 +169,7 @@ public class Modificar {
         }
         return null;
     }
+
 
 
     /**
@@ -244,10 +337,6 @@ public class Modificar {
         return null;
     }
 
-        public static Hospedagem cadastrarHospedagem(List<Acomodacao> acomodacoes) {
-            // TODO: Implementar (letra G)
-        return null;
-    }
 
 }
 
