@@ -39,7 +39,16 @@ public class Funcionario extends Pessoa{
      */
     @Override
     public String getDescricao() {
-        return "Nome: " + getNome() + ", Código: " + getCodigo() + ", Cargo: Funcionário";
+        String str = "";
+        str += "Nome: " + getNome() + "\n";
+        str += "Código: " + getCodigo() + "\n";
+        str += "Endereço: " + getEndereco() + "\n";
+        str += "Cidade: " + getCidade() + "\n";
+        str += "Estado: " + getEstado() + "\n";
+        str += "Telefone: " + getTelefone() + "\n";
+        str += "Data de nascimento: " + getDataNascimento() + "\n";
+        
+        return str;
     }
 
     public int getCodigo() {
