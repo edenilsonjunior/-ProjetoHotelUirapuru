@@ -323,6 +323,7 @@ public class Relatorio {
         for (Hospedagem hospedagem : hospedagens) {
             if (hospedagem.getHospede().equals(hospede)) {
                 for (int i = 0;  hospedagem.getSaida().plusDays(i).isAfter(LocalDate.now()); i++) {
+                    str.append("Dia: ").append(i+1).append("\n");
                     str.append("Nome: ").append(hospedagem.getHospede().getNome()).append("\n");
                     str.append("Identificacao: ").append(hospedagem.getHospede().getIdentificacao()).append("\n");
                     str.append("Data de Saída: ").append(hospedagem.getSaida()).append("\n");
@@ -332,8 +333,8 @@ public class Relatorio {
                     str.append("Data de Vencimento: ").append(hospedagem.getPagamento().getDataVencimento()).append("\n");
                     JOptionPane.showMessageDialog(null, str);
                 }
-
             }
         }
     }
+
 }
