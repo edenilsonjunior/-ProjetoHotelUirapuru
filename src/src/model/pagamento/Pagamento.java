@@ -1,8 +1,6 @@
 package model.pagamento;
 
 import model.alojamento.Hospedagem;
-import model.consumo.Consumo;
-
 import java.time.Duration;
 import java.time.LocalDate;
 

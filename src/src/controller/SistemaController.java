@@ -35,7 +35,7 @@ public class SistemaController {
         boolean sair = false;
         do {
             try {
-                String[] usuario = SistemaView.menuLogin();
+                String[] usuario = Menu.menuLogin();
 
                 if (usuario == null || usuario.length == 0) {
                     // Se usuário fechou a tela de login, sair do loop
@@ -54,10 +54,10 @@ public class SistemaController {
                     funcoesHospede();
                 }
                 else {
-                    SistemaView.erroLogin();
+                    Mensagens.erroLogin();
                 }
 
-                sair = SistemaView.verificarSair();
+                sair = Mensagens.verificarSair();
             } catch (Exception e) {
                 // Tratar a exceção aqui
                 e.printStackTrace();
@@ -67,16 +67,9 @@ public class SistemaController {
         } while (!sair);
         
         salvarEstadoHotel(hotel);
-        SistemaView.mensagemFinal();
+        Mensagens.mensagemFinal();
     }
 
-
-
-
-
-
-
-        
     private Pessoa descobrirLogado(Hotel hotel, String[] usuario) {
             for (Funcionario funcionario : hotel.getFuncionarios()) {
                 if (usuario[0].equals(funcionario.getLogin()) && usuario[1].equals(funcionario.getSenha())) {
@@ -95,16 +88,16 @@ public class SistemaController {
     private void funcoesAdmin(){
         OpcoesAdmin escolha;
         do {
-            escolha = SistemaView.menuAdmin();
+            escolha = Menu.menuAdmin();
             switch (escolha) {
                 case CADASTRAR_FUNC:
-                    hotel.addFuncionario(SistemaView.CadastrarFuncionario());
-                    break;
-                case LISTAR_FUNC:
-                    SistemaView.listarFuncionarios(hotel);
+                    hotel.addFuncionario(Modificar.CadastrarFuncionario());
                     break;
                 case REMOVER_FUNC:
-                    hotel.removeFuncionario(SistemaView.removerFuncionario(hotel));
+                    hotel.removeFuncionario(Modificar.removerFuncionario(hotel));
+                    break;
+                case LISTAR_FUNC:
+                    Relatorio.relatorioFuncionarios(hotel);
                     break;
                 default:
                     break;
@@ -116,24 +109,24 @@ public class SistemaController {
     private void funcoesFuncionario(){
         OpcoesFuncionario escolha;
         do {
-            escolha = SistemaView.menuFuncionario();
+            escolha = Menu.menuFuncionario();
 
             switch (escolha) {
                case CADASTRAR_HOSPEDAGEM:
-                   hotel.addHospedagem(SistemaView.cadastrarHospedagem(hotel.getAcomodacoes()));
+                   hotel.addHospedagem(Modificar.cadastrarHospedagem(hotel.getAcomodacoes()));
                    break;
               case REMOVER_HOSPEDAGEM:
-                    Hospedagem dadosDaHospedagem = SistemaView.removerHospedagem(hotel);
+                    Hospedagem dadosDaHospedagem = Modificar.removerHospedagem(hotel);
                     if (dadosDaHospedagem != null) {
-                        SistemaView.relatorioSaidaHospede(dadosDaHospedagem);
+                        Relatorio.relatorioSaidaHospede(dadosDaHospedagem);
                         hotel.removeReserva(dadosDaHospedagem);
                     }
                break;
                 case LISTAR_ACOMODACOES:
-                    SistemaView.relatorioAcomodacoes(hotel.getHospedagens(), hotel.getAcomodacoes());
+                    Relatorio.relatorioAcomodacoes(hotel.getHospedagens(), hotel.getAcomodacoes());
                     break;
                 case LISTAR_CLIENTES:
-                    SistemaView.relatorioHospedes(hotel.getHospedagens());
+                    Relatorio.relatorioHospedes(hotel.getHospedagens());
                     break;
                 default:
                     break;
@@ -143,22 +136,22 @@ public class SistemaController {
     }
 
     private void funcoesHospede(){
-//        OpcoesHospede escolha;
-//        do {
-//            escolha = SistemaView.menuHospede();
-//
-//            switch (escolha) {
-//                case LISTAR_CONSUMO:
-//                    SistemaView.relatorioConsumo(hotel.getHospedagens(), logado);
-//                    break;
-//                case RELATORIO_ESTADIA:
-//                    SistemaView.relatorioEstadia(hotel.getHospedagens(), logado);
-//                    break;
-//                default:
-//                    break;
-//            }
-//
-//        } while (escolha != OpcoesHospede.SAIR);
+       OpcoesHospede escolha;
+       do {
+           escolha = Menu.menuHospede();
+
+           switch (escolha) {
+               case LISTAR_CONSUMO:
+                   Relatorio.relatorioConsumo(hotel.getHospedagens(), (Hospede) logado);
+                   break;
+               case RELATORIO_ESTADIA:
+                   Relatorio.relatorioEstadia(hotel.getHospedagens(), (Hospede) logado);
+                   break;
+               default:
+                   break;
+           }
+
+       } while (escolha != OpcoesHospede.SAIR);
     }
 
     // Verifica se é o primeiro acesso ao sistema

@@ -1,7 +1,6 @@
 package model.hotel;
 
 import model.alojamento.*;
-import model.pagamento.*;
 import model.pessoa.*;
 
 import java.time.*;
