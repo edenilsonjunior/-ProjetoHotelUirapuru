@@ -1,28 +1,17 @@
 package controller;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializer;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.*;
 
 import model.alojamento.*;
 import model.hotel.*;
 import model.pessoa.*;
 import view.*;
 
-// Classe que vai controlar todo o sistema
 public class SistemaController {
 
     private Hotel hotel;
@@ -38,52 +27,41 @@ public class SistemaController {
     // Inicia o sistema
     public void iniciarSistema() {
 
-        boolean sair = false;
-        do {
-            try {
-                String[] usuario = Menu.menuLogin();
+        boolean saiu = false;
+        
+        while (saiu == false) {
 
-                if (usuario == null || usuario.length == 0) {
-                    // Se usuário fechou a tela de login, sair do loop
-                    break;
-                }
+            String[] usuario = Menu.menuLogin();
 
-                logado = descobrirLogado(hotel, usuario);
-
-                if (logado != null) {
-                    if ((logado instanceof Funcionario) && logado.getLogin().equals("admin")) {
-                        funcoesAdmin();
-                    } else if (logado instanceof Funcionario) {
-                        funcoesFuncionario();
-                    } else if (logado instanceof Hospede) {
-                        funcoesHospede();
-                    }
-                } else {
-                    Mensagens.erroLogin();
-                }
-                sair = Mensagens.verificarSair();
-            } catch (Exception e) {
-                // Tratar a exceção aqui
-                e.printStackTrace();
-                System.out.println("Ocorreu um erro: " + e.getMessage());
+            // Se usuário fechou a tela de login, sair do loop
+            if (usuario == null || usuario.length == 0) {
                 break;
             }
-        } while (!sair);
+
+            // Descobrir quem está logado e qual menu mostrar
+            logado = descobrirLogado(hotel, usuario);
+            descobrirMenu();
+
+            // Verificar se usuário quer sair do sistema
+            saiu = Mensagens.verificarSair();
+        }
 
         salvarEstadoHotel(hotel);
         Mensagens.mensagemFinal();
     }
 
     private Pessoa descobrirLogado(Hotel hotel, String[] usuario) {
-        for (Funcionario funcionario : hotel.getFuncionarios()) {
+        for (Funcionario funcionario : hotel.getFuncionarios()) 
+        {
             if (usuario[0].equals(funcionario.getLogin()) && usuario[1].equals(funcionario.getSenha())) {
                 return funcionario;
             }
         }
-        for (Hospedagem hospedagem : hotel.getHospedagens()) {
-            if (usuario[0].equals(hospedagem.getHospede().getLogin())
-                    && usuario[1].equals(hospedagem.getHospede().getSenha())) {
-                return hospedagem.getHospede();
+        for (Hospedagem hospedagem : hotel.getHospedagens()) 
+        {
+            Hospede atual = hospedagem.getHospede();
+            if (usuario[0].equals(atual.getLogin()) && usuario[1].equals(atual.getSenha())) {
+                return atual;
             }
         }
         return null;
@@ -124,17 +102,20 @@ public class SistemaController {
             }
             switch (escolha) {
                 case CADASTRAR_HOSPEDAGEM:
-                    hotel.addHospedagem(Modificar.cadastrarHospedagem(hotel.getAcomodacoes()));
+                    hotel.addHospedagem(Modificar.cadastrarHospedagem(hotel));
+                    break;
+                case CADASTRAR_ACOMODACAO:
+                    hotel.addAcomodacao(Modificar.cadastrarAcomodacao());
                     break;
                 case REMOVER_HOSPEDAGEM:
-                    Hospedagem dadosDaHospedagem = Modificar.removerHospedagem(hotel);
-                    if (dadosDaHospedagem != null) {
-                        Relatorio.relatorioSaidaHospede(dadosDaHospedagem);
-                        hotel.removeReserva(dadosDaHospedagem);
+                    Hospedagem removido = Modificar.removerHospedagem(hotel);
+                    if (removido != null) {
+                        Relatorio.relatorioSaidaHospede(removido);
+                        hotel.removeReserva(removido);
                     }
                     break;
                 case LISTAR_ACOMODACOES:
-                    Relatorio.relatorioAcomodacoes(hotel.getHospedagens(), hotel.getAcomodacoes());
+                    Relatorio.relatorioAcomodacoes(hotel);
                     break;
                 case LISTAR_CLIENTES:
                     Relatorio.relatorioHospedes(hotel.getHospedagens());
@@ -168,45 +149,46 @@ public class SistemaController {
         } while (escolha != OpcoesHospede.SAIR);
     }
 
-    // Verifica se é o primeiro acesso ao sistema
     private void verificarPrimeiroAcesso() {
 
         String caminhoData = "data/hotel.json";
 
-        if (Files.exists(Paths.get(caminhoData))) {
-            // Criar o objeto Gson
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(LocalDate.class,
-                            (JsonSerializer<LocalDate>) (src, typeOfSrc,
-                                    context) -> new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE)))
-                    .registerTypeAdapter(LocalDate.class,
-                            (JsonDeserializer<LocalDate>) (json, typeOfT, context) -> LocalDate
-                                    .parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE))
-                    .create();
-
-            // Ler o arquivo JSON
-            try (Reader reader = new FileReader("data/hotel.json")) {
-
-                // Definir o tipo do objeto a ser lido
-                Type hotelType = new TypeToken<Hotel>() {
-                }.getType();
-
-                // Converter JSON para Java Object
-                Hotel hotel = gson.fromJson(reader, hotelType);
-
-                // Inicializar o sistema com os dados do hotel
-                this.hotel = hotel;
-
+        if (!Files.exists(Paths.get(caminhoData))) {
+            adicionarDadosIniciais();
+        }
+        else{
+            // Gson: biblioteca para converter objetos Java para JSON e vice-versa
+            Gson gson = createGson();
+    
+            // Tenta ler o arquivo
+            try (Reader dadosJSON = new FileReader(caminhoData)) {
+    
+                // Instancia um novo hotel com os dados do arquivo
+                Hotel hotel = gson.fromJson(dadosJSON, Hotel.class);
+                if (hotel != null) {
+                    this.hotel = hotel;
+                }
+    
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            this.hotel.addFuncionario(new Funcionario(01, "admin"));
         }
     }
 
     private void salvarEstadoHotel(Hotel hotel) {
-        Gson gson = new GsonBuilder()
+
+        String caminhoData = "data/hotel.json";
+        Gson gson = createGson();
+
+        try (FileWriter localArmazenamento = new FileWriter(caminhoData)) {
+            gson.toJson(hotel, localArmazenamento);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Gson createGson() {
+        return new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class,
                         (JsonSerializer<LocalDate>) (src, typeOfSrc,
                                 context) -> new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE)))
@@ -214,12 +196,48 @@ public class SistemaController {
                         (JsonDeserializer<LocalDate>) (json, typeOfT, context) -> LocalDate.parse(json.getAsString(),
                                 DateTimeFormatter.ISO_LOCAL_DATE))
                 .create();
+    }
 
-        try (FileWriter writer = new FileWriter("data/hotel.json")) {
-            gson.toJson(hotel, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void descobrirMenu() {
+        if (logado != null) {
+            if (logado instanceof Funcionario) {
+                if (logado.getLogin().equals("admin")) {
+                    funcoesAdmin();
+                } else {
+                    funcoesFuncionario();
+                }
+            } else if (logado instanceof Hospede) {
+                funcoesHospede();
+            }
+        } else {
+            Mensagens.erroLogin();
         }
     }
 
+
+    private void adicionarDadosIniciais() {
+
+        // Adiciona um funcionário administrador
+        hotel.addFuncionario(new Funcionario(01, "admin"));
+
+        int numero = 0;
+
+        // Gera 4 acomodações simples
+        for (int i = 0; i < 4; i++) {
+            hotel.addAcomodacao(new Acomodacao(i + 1, TipoAcomodacao.SIMPLES, 100, 1, 0, 0, numero));
+            numero++;
+        }
+
+        // Gera 4 acomodações para casal
+        for (int i = 0; i < 4; i++) {
+            hotel.addAcomodacao(new Acomodacao(i + 5, TipoAcomodacao.CASAL, 150, 2, 3, 0, numero));
+            numero++;
+        }
+
+        // Gera 2 acomodações de luxo
+        for (int i = 0; i < 2; i++) {
+            hotel.addAcomodacao(new Acomodacao(i + 9, TipoAcomodacao.LUXO, 300, 4, 4, 0, numero));
+            numero++;
+        }
+    }
 }
