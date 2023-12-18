@@ -13,6 +13,7 @@ public class Pagamento {
     private double juros;
     private boolean status;
 
+
     /**
      * Construtor da classe Pagamento.
      *
@@ -25,6 +26,7 @@ public class Pagamento {
         this.juros = 10;
         this.status = false;
     }
+
 
     /**
      * Realiza o pagamento da hospedagem e gera uma mensagem com os detalhes da transação.
@@ -64,6 +66,7 @@ public class Pagamento {
         return mensagem;    
     }
 
+
     /**
      * Calcula o valor dos juros com base na diferença entre a data de pagamento e a data de vencimento.
      *
@@ -77,6 +80,7 @@ public class Pagamento {
         return 0;
     }
 
+
     /**
      * Calcula o valor total a ser pago, considerando as diárias, consumo, juros e multa.
      *
@@ -87,6 +91,7 @@ public class Pagamento {
         return hospedagem.totalDiarias() + hospedagem.getHospede().totalConsumo() + calcularJuros() + hospedagem.getMulta();
     }
 
+    
     public TipoPagamento getOpcao() {
         return opcao;
     }

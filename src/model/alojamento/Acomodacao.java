@@ -33,6 +33,7 @@ public class Acomodacao {
         this.ocupado = false;
     }
 
+
     /**
      * Gera um relatório da acomodação, incluindo informações como código, tipo, preço da diária,
      * número máximo de adultos, número máximo de crianças, andar, número do quarto e status de ocupação.
@@ -54,6 +55,7 @@ public class Acomodacao {
         return descricao;
     }
 
+    
     public int getCodigo() {
         return codigo;
     }

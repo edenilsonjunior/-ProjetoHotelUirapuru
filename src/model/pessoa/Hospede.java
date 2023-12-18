@@ -16,6 +16,7 @@ public class Hospede extends Pessoa {
     private List<Consumo> listaConsumo;
     private List<Acompanhante> acompanhantes;
 
+
     /**
      * Construtor da classe Hospede.
      *
@@ -44,6 +45,7 @@ public class Hospede extends Pessoa {
         listaConsumo = new ArrayList<>();
         acompanhantes = new ArrayList<>();
     }
+
 
     /**
      * Método que retorna a descrição do hóspede.
@@ -77,6 +79,7 @@ public class Hospede extends Pessoa {
         return descricao;
     }
 
+
     /**
      * Gera um relatório de consumo para todos os itens na lista.
      *
@@ -90,6 +93,7 @@ public class Hospede extends Pessoa {
         return relatorio.toString();
     }
 
+
     /**
      * Adiciona um objeto de Consumo à lista.
      *
@@ -100,6 +104,7 @@ public class Hospede extends Pessoa {
         listaConsumo.add(consumo);
     }
 
+
     /**
      * Remove um objeto de Consumo da lista.
      *
@@ -108,6 +113,7 @@ public class Hospede extends Pessoa {
     public void removerConsumo(Consumo consumo) {
         listaConsumo.remove(consumo);
     }
+
 
     /**
      * Calcula o total de valores de consumo na lista.
@@ -123,6 +129,7 @@ public class Hospede extends Pessoa {
         return total;
     }
 
+
     /**
      * Adiciona um objeto Acompanhante à lista de acompanhantes.
      *
@@ -131,6 +138,7 @@ public class Hospede extends Pessoa {
     public void addAcompanhante(Acompanhante acompanhante) {
         acompanhantes.add(acompanhante);
     }
+
 
     /**
      * Remove um objeto Acompanhante da lista de acompanhantes.
@@ -141,6 +149,7 @@ public class Hospede extends Pessoa {
         acompanhantes.remove(acompanhante);
     }
 
+    
     public String getPais() {
         return pais;
     }

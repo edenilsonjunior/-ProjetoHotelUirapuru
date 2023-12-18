@@ -4,6 +4,7 @@ public class Funcionario extends Pessoa{
     
     private int codigo;
 
+
     /**
      * Construtor da classe Funcionário.
      *
@@ -20,6 +21,7 @@ public class Funcionario extends Pessoa{
         this.codigo = codigo;
     }
 
+
     /**
      * Construtor da classe Funcionário.
      * Cria admin
@@ -31,6 +33,7 @@ public class Funcionario extends Pessoa{
         super(nome);
         this.codigo = codigo;
     }
+
 
     /**
      * Retorna uma descrição formatada do funcionário.
@@ -51,6 +54,7 @@ public class Funcionario extends Pessoa{
         return str;
     }
 
+    
     public int getCodigo() {
         return codigo;
     }

@@ -18,6 +18,7 @@ public class SistemaController {
     private Hotel hotel;
     private Pessoa logado;
 
+
     public SistemaController(Hotel hotel) {
         this.hotel = hotel;
         logado = null;
@@ -48,10 +49,38 @@ public class SistemaController {
             // Verificar se usuário quer sair do sistema
             saiu = Mensagens.verificarSair();
         }
-
+        
         salvarEstadoHotel(hotel);
         Mensagens.mensagemFinal();
     }
+    
+    
+    private void verificarPrimeiroAcesso() {
+
+        String caminhoData = "data/hotel.json";
+
+        if (!Files.exists(Paths.get(caminhoData))) {
+            adicionarDadosIniciais();
+        }
+        else{
+            // Gson: biblioteca para converter objetos Java para JSON e vice-versa
+            Gson gson = createGson();
+    
+            // Tenta ler o arquivo
+            try (Reader dadosJSON = new FileReader(caminhoData)) {
+    
+                // Instancia um novo hotel com os dados do arquivo
+                Hotel hotel = gson.fromJson(dadosJSON, Hotel.class);
+                if (hotel != null) {
+                    this.hotel = hotel;
+                }
+    
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
 
     private Pessoa descobrirLogado(Hotel hotel, String[] usuario) {
         for (Funcionario funcionario : hotel.getFuncionarios()) 
@@ -70,6 +99,7 @@ public class SistemaController {
         return null;
     }
 
+
     private void descobrirMenu() {
         if (logado != null) {
             if (logado instanceof Funcionario) {
@@ -85,6 +115,7 @@ public class SistemaController {
             Mensagens.erroLogin();
         }
     }
+
 
     private void funcoesAdmin() {
         OpcoesAdmin escolha;
@@ -108,9 +139,9 @@ public class SistemaController {
                     break;
             }
         } while (escolha != OpcoesAdmin.SAIR);
-
     }
 
+    
     private void funcoesFuncionario() {
         OpcoesFuncionario escolha;
         do {
@@ -132,6 +163,33 @@ public class SistemaController {
 
         } while (escolha != OpcoesFuncionario.SAIR);
     }
+
+    
+    private void funcoesHospede() {
+        OpcoesHospede escolha;
+        do {
+            escolha = Menu.menuHospede();
+
+            if (escolha == null) {
+                break;
+            }
+            switch (escolha) {
+                case RELATORIO_CONSUMO:
+                    Relatorio.relatorioConsumo(hotel.getHospedagens(), (Hospede) logado);
+                    break;
+                case RELATORIO_ESTADIA:
+                    Relatorio.relatorioEstadia(hotel.getHospedagens(), (Hospede) logado);
+                    break;
+                case RELATORIO_PAGAMENTO_FATURADO:
+                    Relatorio.relatorioTipoFaturado(hotel.getHospedagens(), (Hospede) logado);
+                    break;
+                default:
+                    break;
+            }
+
+        } while (escolha != OpcoesHospede.SAIR);
+    }
+
 
     private void funcoesHospedagem(){
         OpcoesHospedagem escolha;
@@ -175,6 +233,7 @@ public class SistemaController {
         } while (escolha != OpcoesHospedagem.SAIR);
     }
 
+
     private void funcoesRelatorio(){
         OpcoesRelatorios escolha;
 
@@ -211,56 +270,6 @@ public class SistemaController {
         } while (escolha != OpcoesRelatorios.SAIR);
     }
     
-    private void funcoesHospede() {
-        OpcoesHospede escolha;
-        do {
-            escolha = Menu.menuHospede();
-
-            if (escolha == null) {
-                break;
-            }
-            switch (escolha) {
-                case RELATORIO_CONSUMO:
-                    Relatorio.relatorioConsumo(hotel.getHospedagens(), (Hospede) logado);
-                    break;
-                case RELATORIO_ESTADIA:
-                    Relatorio.relatorioEstadia(hotel.getHospedagens(), (Hospede) logado);
-                    break;
-                case RELATORIO_PAGAMENTO_FATURADO:
-                    Relatorio.relatorioTipoFaturado(hotel.getHospedagens(), (Hospede) logado);
-                    break;
-                default:
-                    break;
-            }
-
-        } while (escolha != OpcoesHospede.SAIR);
-    }
-
-    private void verificarPrimeiroAcesso() {
-
-        String caminhoData = "data/hotel.json";
-
-        if (!Files.exists(Paths.get(caminhoData))) {
-            adicionarDadosIniciais();
-        }
-        else{
-            // Gson: biblioteca para converter objetos Java para JSON e vice-versa
-            Gson gson = createGson();
-    
-            // Tenta ler o arquivo
-            try (Reader dadosJSON = new FileReader(caminhoData)) {
-    
-                // Instancia um novo hotel com os dados do arquivo
-                Hotel hotel = gson.fromJson(dadosJSON, Hotel.class);
-                if (hotel != null) {
-                    this.hotel = hotel;
-                }
-    
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private void salvarEstadoHotel(Hotel hotel) {
 
@@ -274,7 +283,9 @@ public class SistemaController {
         }
     }
 
+
     private Gson createGson() {
+
         return new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class,
                         (JsonSerializer<LocalDate>) (src, typeOfSrc,
@@ -284,6 +295,7 @@ public class SistemaController {
                                 DateTimeFormatter.ISO_LOCAL_DATE))
                 .create();
     }
+
 
     private void adicionarDadosIniciais() {
 
@@ -310,4 +322,6 @@ public class SistemaController {
             numero++;
         }
     }
+
+
 }

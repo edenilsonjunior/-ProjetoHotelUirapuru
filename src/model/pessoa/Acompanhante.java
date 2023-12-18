@@ -5,6 +5,7 @@ public class Acompanhante {
     private String nome;
     private int idade;
 
+
     /**
      * Construtor da classe Acompanhante.
      *
@@ -16,6 +17,7 @@ public class Acompanhante {
         this.idade = idade;
     }
 
+    
     public String getNome() {
         return nome;
     }

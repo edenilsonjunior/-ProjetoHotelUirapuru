@@ -7,6 +7,7 @@ public class Consumo {
     private String descricao;
     private double valor;
 
+    
     /**
      * Construtor da classe Consumo.
      *
@@ -32,6 +33,7 @@ public class Consumo {
             this.valor = 10;
         }
     }
+
 
     public int getCodigo() {
         return codigo;

@@ -7,6 +7,7 @@ import model.pagamento.TipoPagamento;
 import model.pessoa.Hospede;
 
 public class Hospedagem {
+    
     private Acomodacao acomodacao;
     private LocalDate chegada;
     private LocalDate saida;
@@ -56,6 +57,7 @@ public class Hospedagem {
         this.acomodacao.setOcupado(true);
     }
 
+
     /**
      * Calcula o total a ser pago pelas diárias da hospedagem.
      *
@@ -69,6 +71,7 @@ public class Hospedagem {
         }
     }
 
+    
     /**
      * Gera um relatório da hospedagem, incluindo informações sobre o hóspede, acomodação e custos.
      *
@@ -84,6 +87,7 @@ public class Hospedagem {
                 + "Multa: " + getMulta() + "\n"
                 + "Total a pagar: " + (totalDiarias() + getMulta()) + "\n";
     }
+
 
     /**
      * Transforma uma reserva em uma hospedagem, atualizando o status e criando um novo pagamento.
@@ -106,6 +110,7 @@ public class Hospedagem {
                 break;
         }
     }
+
 
     public Acomodacao getAcomodacao() {
         return acomodacao;

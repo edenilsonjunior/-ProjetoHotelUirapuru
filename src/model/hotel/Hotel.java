@@ -12,6 +12,7 @@ public class Hotel {
     private List<Hospedagem> hospedagens;
     private List<Acomodacao> acomodacoes;
 
+
     /**
      * Construtor padrão da classe Hotel.
      * Inicializa as listas de funcionários, hospedagens e acomodações.
@@ -22,6 +23,7 @@ public class Hotel {
         this.acomodacoes = new ArrayList<>();
     }
 
+
     /**
      * Adiciona uma acomodação à lista de acomodações do hotel.
      *
@@ -30,6 +32,7 @@ public class Hotel {
     public void addAcomodacao(Acomodacao acomodacao) {
         this.acomodacoes.add(acomodacao);
     }
+
 
     /**
      * Remove uma acomodação da lista de acomodações do hotel.
@@ -40,6 +43,7 @@ public class Hotel {
         this.acomodacoes.remove(acomodacao);
     }
 
+
     /**
      * Adiciona um funcionário à lista de funcionários do hotel.
      *
@@ -49,6 +53,7 @@ public class Hotel {
         this.funcionarios.add(funcionario);
     }
 
+
     /**
      * Remove um funcionário da lista de funcionários do hotel.
      *
@@ -57,6 +62,7 @@ public class Hotel {
     public void removeFuncionario(Funcionario funcionario) {
         this.funcionarios.remove(funcionario);
     }
+
 
     /**
      * Adiciona uma reserva à lista de hospedagens do hotel, caso a hospedagem não esteja no status de ocupada.
@@ -68,6 +74,7 @@ public class Hotel {
             hospedagens.add(hospedagem);
         }
     }
+
 
     /**
      * Remove uma reserva da lista de hospedagens do hotel, se a hospedagem não estiver no status de ocupada.
@@ -84,6 +91,7 @@ public class Hotel {
             }
         }
     }
+
 
     /**
      * Adiciona uma hospedagem à lista de hospedagens do hotel se houver capacidade suficiente na acomodação.
@@ -114,6 +122,7 @@ public class Hotel {
         return false;
     }
 
+
     /**
      * Remove uma hospedagem da lista de hospedagens do hotel.
      *
@@ -125,6 +134,7 @@ public class Hotel {
         }
     }
 
+    
     public List<Funcionario> getFuncionarios() {
         return funcionarios;
     }
