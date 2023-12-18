@@ -34,6 +34,14 @@ javac Main.java
 java Main
 ```
 
+## Visualizar a Documentação
+
+Se você deseja visualizar a documentação, cole o link abaixo no seu navegador.
+
+```bash
+file:///caminho/do/projeto/ProjetoHotelUirapuru/docs/index.html
+```
+
 ## Curso
 
 Tecnologia em Sistemas para Internet - TSI | IFSP - Araraquara
