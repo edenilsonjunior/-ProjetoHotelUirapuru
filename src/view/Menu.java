@@ -72,12 +72,12 @@ public class Menu {
      * Apresenta um menu de opções para interação com informações do hóspede.
      *
      * @return A opção escolhida pelo usuário do tipo {@link OpcoesHospede}.
-     *         Pode ser {@link OpcoesHospede#LISTAR_CONSUMO}, {@link OpcoesHospede#RELATORIO_ESTADIA},
+     *         Pode ser {@link OpcoesHospede#RELATORIO_CONSUMO}, {@link OpcoesHospede#RELATORIO_ESTADIA},
      *         ou {@link OpcoesHospede#SAIR}.
      */
     public static OpcoesHospede menuHospede() {
 
-        OpcoesHospede[] opcoes = { OpcoesHospede.RELATORIO_CONSUMO, OpcoesHospede.RELATORIO_ESTADIA, OpcoesHospede.SAIR };
+        OpcoesHospede[] opcoes = { OpcoesHospede.RELATORIO_CONSUMO, OpcoesHospede.RELATORIO_ESTADIA,OpcoesHospede.RELATORIO_PAGAMENTO_FATURADO, OpcoesHospede.SAIR };
 
         return (OpcoesHospede) JOptionPane.showInputDialog(null, "Escolha uma opção", "Menu Hospede", JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
     }

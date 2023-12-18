@@ -24,7 +24,7 @@ public class SistemaController {
         verificarPrimeiroAcesso();
     }
 
-    // Inicia o sistema
+
     public void iniciarSistema() {
 
         boolean saiu = false;
@@ -143,6 +143,9 @@ public class SistemaController {
                     break;
                 case RELATORIO_ESTADIA:
                     Relatorio.relatorioEstadia(hotel.getHospedagens(), (Hospede) logado);
+                    break;
+                case RELATORIO_PAGAMENTO_FATURADO:
+                    Relatorio.relatorioTipoFaturado(hotel.getHospedagens(), (Hospede) logado);
                     break;
                 default:
                     break;

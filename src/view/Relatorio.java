@@ -33,7 +33,7 @@ public class Relatorio {
      * O relatório inclui informações como número da acomodação, nome do hóspede,
      * acompanhantes (se houver), data de check-in e data de check-out.
      *
-     * @param hospedagens Lista de objetos {@link Hospedagem} contendo as informações de hospedagem.
+     * @param hotel Lista de objetos {@link Hotel} contendo as informações de hospedagem.
      */
     public static void relatorioHospedes(Hotel hotel) {
 
@@ -85,8 +85,7 @@ public class Relatorio {
     /**
      * Gera um relatório de acomodações, incluindo detalhes de cada acomodação e estatísticas gerais.
      *
-     * @param hospedagens   Lista de objetos {@link Hospedagem} contendo informações sobre as hospedagens.
-     * @param acomodacoes   Lista de objetos {@link Acomodacao} contendo informações sobre as acomodações.
+     * @param hotel Lista de objetos {@link Hotel} contendo informações sobre as hospedagens e acomodacoes.
      */
     public static void relatorioAcomodacoes(Hotel hotel) {
 
@@ -313,8 +312,28 @@ public class Relatorio {
         }
     }
 
-    public String relatorioTipoFaturado() {
-        // TODO: Implementar (letra G)
-        return "";
+    /**
+     * Gera um relatório de faturas para um determinado hóspede, exibindo informações sobre suas hospedagens futuras.
+     *
+     * @param hospedagens Lista de hospedagens a serem consideradas para o relatório.
+     * @param hospede     Hóspede para o qual o relatório será gerado.
+     */
+    public static void relatorioTipoFaturado(List<Hospedagem> hospedagens, Hospede hospede) {
+        StringBuilder str = new StringBuilder();
+        for (Hospedagem hospedagem : hospedagens) {
+            if (hospedagem.getHospede().equals(hospede)) {
+                for (int i = 0;  hospedagem.getSaida().plusDays(i).isAfter(LocalDate.now()); i++) {
+                    str.append("Nome: ").append(hospedagem.getHospede().getNome()).append("\n");
+                    str.append("Identificacao: ").append(hospedagem.getHospede().getIdentificacao()).append("\n");
+                    str.append("Data de Saída: ").append(hospedagem.getSaida()).append("\n");
+                    str.append("Total Diarias: R$").append(hospedagem.getAcomodacao().getDiaria()).append("\n");
+                    str.append("Total Geral: R$").append(hospedagem.getPagamento().calcularTotal(hospedagem)).append("\n");
+                    str.append("Descontos (Multa/Juros): R$").append(hospedagem.getMulta() + hospedagem.getPagamento().calcularJuros()).append("\n");
+                    str.append("Data de Vencimento: ").append(hospedagem.getPagamento().getDataVencimento()).append("\n");
+                    JOptionPane.showMessageDialog(null, str);
+                }
+
+            }
+        }
     }
 }
