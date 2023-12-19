@@ -304,7 +304,7 @@ public class SistemaController {
                     Relatorio.relatorioHospedes(hotel);
                     break;
                 case RELATORIO_RESERVAS_HOJE:
-                    Relatorio.relatorioReservasHoje(hotel.getHospedagens());
+                    Relatorio.relatorioReservasHoje(hotel);
                     break;
                 case RELATORIO_ACOMODACOES:
                     Relatorio.relatorioAcomodacoes(hotel);

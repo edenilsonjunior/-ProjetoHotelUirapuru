@@ -23,7 +23,7 @@ public class Relatorio {
     public static void relatorioFuncionarios(Hotel hotel) {
 
         for (Funcionario funcionario : hotel.getFuncionarios()) {
-            JOptionPane.showMessageDialog(null, funcionario.getDescricao());
+            exibirMensagem(funcionario.getDescricao());
         }
     }
     
@@ -36,25 +36,8 @@ public class Relatorio {
      * @param hotel Lista de objetos {@link Hotel} contendo as informações de hospedagem.
      */
     public static void relatorioHospedes(Hotel hotel) {
-
         for (Hospedagem hospedagem : hotel.getHospedagens()) {
-            
-            String str = "";
-            str += "Acomodacao: " + hospedagem.getAcomodacao().getNumeroQuarto() + "\n";
-            str += "Hospede: " + hospedagem.getHospede().getNome() + "\n";
-
-            if (!hospedagem.getHospede().getAcompanhantes().isEmpty()) {
-                str += "Acompanhante(s):\n";
-                for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
-                    str += acompanhante.getNome() + ", " + acompanhante.getIdade() + "\n";
-                }
-            }
-
-            str += "Check-in: " + hospedagem.getChegada() + "\n";
-            str += "Check-out: " + hospedagem.getSaida() + "\n";
-            str += "\n";
-
-            JOptionPane.showMessageDialog(null, str);
+            exibirMensagem(hospedagem.getDescricaoHospede());
         }
     }
 
@@ -64,21 +47,25 @@ public class Relatorio {
      * O relatório inclui informações como nome do hóspede principal, telefone, tipo de acomodação
      * e data prevista de saída para as reservas agendadas para o dia atual.
      *
-     * @param hospedagens Lista de objetos {@link Hospedagem} contendo as informações de hospedagem.
+     * @param hotel objeto {@link Hotel} que contém as informações de hospedagem.
      */
-    public static void relatorioReservasHoje(List<Hospedagem> hospedagens) {
-        StringBuilder reservas = new StringBuilder();
-        for (Hospedagem hospedagem : hospedagens) {
+    public static void relatorioReservasHoje(Hotel hotel) {
+
+        String reservas = "";
+
+        for (Hospedagem hospedagem : hotel.getHospedagens()) {
             if (!hospedagem.isStatus()) {
                 if (hospedagem.getChegada().equals(LocalDateTime.now().toLocalDate())) {
-                    reservas.append("Hospede principal: ").append(hospedagem.getHospede().getNome()).append("\n");
-                    reservas.append("Telefone: ").append(hospedagem.getHospede().getTelefone()).append("\n");
-                    reservas.append("Tipo de acomodaçao: ").append(hospedagem.getAcomodacao().getOpcao()).append("\n");
-                    reservas.append("Data prevista de saída: ").append(hospedagem.getSaida()).append("\n");
+
+                    reservas = "Hospede principal: " + hospedagem.getHospede().getNome() + "\n";
+                    reservas += "Telefone: " + hospedagem.getHospede().getTelefone() + "\n";
+                    reservas += "Tipo de acomodaçao: " + hospedagem.getAcomodacao().getOpcao() + "\n";
+                    reservas += "Data prevista de saída: " + hospedagem.getSaida() + "\n";
+
+                    exibirMensagem(reservas);
                 }
             }
         }
-        JOptionPane.showMessageDialog(null, reservas.toString());
     }
 
 
@@ -89,10 +76,11 @@ public class Relatorio {
      */
     public static void relatorioAcomodacoes(Hotel hotel) {
 
-        String str;
+        String str = "";
         int totalOcupadas = 0;
         int totalReservadas = 0;
         int disponiveis = 0;
+
 
         for (Hospedagem hospedagem : hotel.getHospedagens()) {
             if (hospedagem.isStatus()) {
@@ -101,14 +89,15 @@ public class Relatorio {
                 totalReservadas++;
             }
         }
-        disponiveis = hotel.getAcomodacoes().size() - (totalOcupadas + totalReservadas);
 
         // Uma caixa por acomodacao
         for (Acomodacao acomodacao : hotel.getAcomodacoes()) {
             str = "Descricao da acomodacao: \n";
             str += acomodacao.relatorioAcomodacao() + "\n";
-            JOptionPane.showMessageDialog(null, str);
+            exibirMensagem(str);
         }
+
+        disponiveis = hotel.getAcomodacoes().size() - (totalOcupadas + totalReservadas);
 
         // Estatisticas de acomodacoes
         str = "Estatisticas de acomodacoes: \n";
@@ -117,7 +106,7 @@ public class Relatorio {
         str += "Total de reservadas: " + totalReservadas + "\n";
         str += "Total de disponiveis: " + disponiveis + "\n";
 
-        JOptionPane.showMessageDialog(null, str);
+        exibirMensagem(str);
     }
 
 
@@ -153,7 +142,7 @@ public class Relatorio {
                 }
             }
 
-            JOptionPane.showMessageDialog(null, consumo.toString());
+            exibirMensagem(consumo);
         }
     }
 
@@ -166,8 +155,6 @@ public class Relatorio {
      */
     public static void relatorioEstadia(List<Hospedagem> hospedagens, Hospede hospede) {
 
-        StringBuilder estadia = new StringBuilder();
-
         Hospedagem hospedagem = null;
 
         for (Hospedagem h : hospedagens) {
@@ -177,21 +164,7 @@ public class Relatorio {
         }
 
         if (hospedagem != null) {
-            estadia.append("Acomodacao: ").append(hospedagem.getAcomodacao().getNumeroQuarto()).append("\n");
-            estadia.append("Hospede:").append(hospedagem.getHospede().getNome()).append("\n");
-
-            if (!hospedagem.getHospede().getAcompanhantes().isEmpty()) {
-                estadia.append("Acompanhante(s):\n");
-                for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
-                    estadia.append(acompanhante.getNome()).append(", ").append(acompanhante.getIdade()).append("\n");
-                }
-            }
-
-            estadia.append("Check-in: ").append(hospedagem.getChegada()).append("\n");
-            estadia.append("Check-out: ").append(hospedagem.getSaida()).append("\n");
-            estadia.append("\n");
-
-            JOptionPane.showMessageDialog(null, estadia.toString());
+            exibirMensagem(hospedagem.getDescricaoHospede());
         }
     }
 
@@ -203,18 +176,18 @@ public class Relatorio {
      */
     public static void relatorioSaidaHospede(Hospedagem hospedagem) {
 
-        StringBuilder str = new StringBuilder();
+        String str = "";
 
-        str.append("Hospede: ").append(hospedagem.getHospede().getNome()).append("\n");
-        str.append("Indentificacao: ").append(hospedagem.getHospede().getIdentificacao()).append("\n");
-        str.append("Telefone: ").append(hospedagem.getHospede().getTelefone()).append("\n");
-        str.append("Check-in: ").append(hospedagem.getChegada()).append("\n");
-        str.append("Check-out: ").append(hospedagem.getSaida()).append("\n");
-        str.append("Total Consumo: ").append(hospedagem.getHospede().totalConsumo()).append("\n");        
-        str.append("Acomodacao: ").append(hospedagem.getAcomodacao().getNumeroQuarto()).append("\n");
-        str.append("Valor total: ").append(hospedagem.getPagamento().calcularTotal(hospedagem)).append("\n");
+        str += "Hospede: " + hospedagem.getHospede().getNome() + "\n";
+        str += "Indentificacao: " + hospedagem.getHospede().getIdentificacao() + "\n";
+        str += "Telefone: " + hospedagem.getHospede().getTelefone() + "\n";
+        str += "Check-in: " + hospedagem.getChegada() + "\n";
+        str += "Check-out: " + hospedagem.getSaida() + "\n";
+        str += "Total Consumo: " + hospedagem.getHospede().totalConsumo() + "\n";
+        str += "Acomodacao: " + hospedagem.getAcomodacao().getNumeroQuarto() + "\n";
+        str += "Valor total: " + hospedagem.getPagamento().calcularTotal(hospedagem) + "\n";
 
-        JOptionPane.showMessageDialog(null, str.toString());
+        exibirMensagem(str);
     }
 
 
@@ -230,7 +203,7 @@ public class Relatorio {
     public static void relatorioFaturamento(LocalDate inicio, LocalDate fim, Hotel hotel) {
 
         if (inicio.isAfter(fim)) {
-            JOptionPane.showMessageDialog(null, "Data de inicio maior que data de fim!");
+            exibirMensagem("Data de inicio maior que data de fim!");
         }
         else {
             double faturamentoDiarias = 0;
@@ -276,7 +249,7 @@ public class Relatorio {
             str += "Descontos (Multas/Juros): " + descontos + "\n";
             str += "Total: " + (faturamentoDiarias + faturamentoFrigobar + faturamentoRestaurante + faturamentoLavanderia + faturamentoTelefonemas + descontos) + "\n";
 
-            JOptionPane.showMessageDialog(null, str);
+            exibirMensagem(str);
         }
     }
 
@@ -293,7 +266,7 @@ public class Relatorio {
     public static void relatorioAtrasados(LocalDate inicio, LocalDate fim, Hotel hotel) {
 
         if (inicio.isAfter(fim)) {
-            JOptionPane.showMessageDialog(null, "Data de inicio maior que data de fim!");
+            exibirMensagem("Data de inicio maior que data de fim!");
         }
         else {
             String str = "";
@@ -305,7 +278,7 @@ public class Relatorio {
                         str += "Data de Vencimento: " + hospedagem.getPagamento().getDataVencimento() + "\n";
                         str += "Valor Devido: " + hospedagem.getPagamento().calcularTotal(hospedagem) + "\n";
                         str += "\n";
-                        JOptionPane.showMessageDialog(null, str);
+                        exibirMensagem(str);
                     }
                 }
             }
@@ -319,22 +292,29 @@ public class Relatorio {
      * @param hospede     Hóspede para o qual o relatório será gerado.
      */
     public static void relatorioTipoFaturado(List<Hospedagem> hospedagens, Hospede hospede) {
-        StringBuilder str = new StringBuilder();
+
+        String str = "";
+
         for (Hospedagem hospedagem : hospedagens) {
             if (hospedagem.getHospede().equals(hospede)) {
                 for (int i = 0;  hospedagem.getSaida().plusDays(i).isAfter(LocalDate.now()); i++) {
-                    str.append("Dia: ").append(i+1).append("\n");
-                    str.append("Nome: ").append(hospedagem.getHospede().getNome()).append("\n");
-                    str.append("Identificacao: ").append(hospedagem.getHospede().getIdentificacao()).append("\n");
-                    str.append("Data de Saída: ").append(hospedagem.getSaida()).append("\n");
-                    str.append("Total Diarias: R$").append(hospedagem.getAcomodacao().getDiaria()).append("\n");
-                    str.append("Total Geral: R$").append(hospedagem.getPagamento().calcularTotal(hospedagem)).append("\n");
-                    str.append("Descontos (Multa/Juros): R$").append(hospedagem.getMulta() + hospedagem.getPagamento().calcularJuros()).append("\n");
-                    str.append("Data de Vencimento: ").append(hospedagem.getPagamento().getDataVencimento()).append("\n");
-                    JOptionPane.showMessageDialog(null, str);
+
+                    str += "Dia: " + (i + 1) + "\n";
+                    str += "Nome: " + hospedagem.getHospede().getNome() + "\n";
+                    str += "Identificacao: " + hospedagem.getHospede().getIdentificacao() + "\n";
+                    str += "Data de Saída: " + hospedagem.getSaida() + "\n";
+                    str += "Total Diarias: R$" + hospedagem.getAcomodacao().getDiaria() + "\n";
+                    str += "Total Geral: R$" + hospedagem.getPagamento().calcularTotal(hospedagem) + "\n";
+                    str += "Descontos (Multa/Juros): R$" + (hospedagem.getMulta() + hospedagem.getPagamento().calcularJuros()) + "\n";
+                    str += "Data de Vencimento: " + hospedagem.getPagamento().getDataVencimento() + "\n";
+
+                    exibirMensagem(str);
                 }
             }
         }
     }
 
+    private static void exibirMensagem(String mensagem) {
+        JOptionPane.showMessageDialog(null, mensagem);
+    }
 }
