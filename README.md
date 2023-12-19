@@ -1,7 +1,7 @@
 # ProjetoHotelUirapuru
 
 ## UML
-![image](https://github.com/edenilsonjunior/ProjetoHotelUirapuru/assets/110670578/5cd0d5f2-871c-4b21-9ae4-9acd7db9c60a)
+![image](https://github.com/edenilsonjunior/ProjetoHotelUirapuru/assets/85528622/1bd208b1-e907-40ac-b6fb-52895dcdcc1e)
 
 ## Estratégia utilizada (Padrão MVC)
 ![image](https://github.com/edenilsonjunior/ProjetoHotelUirapuru/assets/110670578/e9ec5f4c-e31c-4ef6-9eaa-0db9a5dd1301)
