@@ -13,6 +13,7 @@ import model.pessoa.*;
 
 public class Modificar {
 
+
     /**
      * Remove um funcionário do hotel com base no código fornecido pelo usuário.
      *
@@ -21,26 +22,18 @@ public class Modificar {
      *         Retorna null se o usuário cancelar a remoção ou se o funcionário não for encontrado.
      */
     public static Funcionario removerFuncionario(Hotel hotel) {
-
+        
         JTextField campoCodigo = new JTextField(10);
+        
+        JPanel painel = criarPainel();
+        addComponente(painel, "Codigo:", campoCodigo);
 
+        int result = criarTela(painel, "Digite o codigo do funcionario");
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        if (result == JOptionPane.OK_OPTION) {
+            for (Funcionario f : hotel.getFuncionarios()) {
 
-
-        painel.add(new JLabel("Codigo:"));
-        painel.add(campoCodigo);
-
-
-        int result = JOptionPane.showConfirmDialog(null, painel,"Digite o codigo do funcionario", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-        if (result == JOptionPane.OK_OPTION) 
-        {
-            for (Funcionario f : hotel.getFuncionarios()) 
-            {
                 int codigo = Integer.parseInt(campoCodigo.getText());
-
                 if (f.getCodigo() == codigo) {
                     return f;
                 }
@@ -50,6 +43,11 @@ public class Modificar {
     }
 
     
+    /**
+     * Metodo que cadastra uma nova Hospedagem.
+     * @param hotel O objeto {@link Hotel} contendo as informações das hospedagens.
+     * @return      A {@link Hospedagem} que será cadastrada, ou null se não encontrada.
+     */
     public static Hospedagem cadastrarHospedagem(Hotel hotel) {
 
         JComboBox<TipoAcomodacao> campoOpcao = new JComboBox<>(TipoAcomodacao.values());
@@ -58,28 +56,20 @@ public class Modificar {
         
         JDateChooser campoChegada = new JDateChooser();
         JDateChooser campoSaida = new JDateChooser();
-        
         JTextField campoCodigo = new JTextField(10);
         
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        JPanel painel = criarPainel();
 
-        painel.add(new JLabel("Tipo do quarto:"));
-        painel.add(campoOpcao);
-        painel.add(new JLabel("Chegada:"));
-        painel.add(campoChegada);
-        painel.add(new JLabel("Saída:"));
-        painel.add(campoSaida);
-        painel.add(new JLabel("Tipo de pagamento:"));
-        painel.add(campoPagamento);
-        painel.add(new JLabel("Código:"));
-        painel.add(campoCodigo);
-        painel.add(new JLabel("Status:"));
-        painel.add(campoStatus);
+        addComponente(painel, "Tipo do quarto:", campoOpcao);
+        addComponente(painel, "Chegada:", campoChegada);
+        addComponente(painel, "Saída:", campoSaida);
+        addComponente(painel, "Tipo de pagamento:", campoPagamento);
+        addComponente(painel, "Código:", campoCodigo);
+        addComponente(painel, "Status:", campoStatus);
 
 
-        int result = JOptionPane.showConfirmDialog(null, painel,"Cadastro de Hospedagem", JOptionPane.OK_CANCEL_OPTION);
+        int result = criarTela(painel, "Cadastro de Hospedagem");
         
         if (result == JOptionPane.OK_OPTION) {
 
@@ -94,9 +84,10 @@ public class Modificar {
             int codigo = Integer.parseInt(campoCodigo.getText());
             Acomodacao escolhida = null;
             
-            
+            // Procura uma acomodação disponível do tipo escolhido e marca como ocupada
             for (Acomodacao acomodacao : hotel.getAcomodacoes()) {
                 if (acomodacao.getOpcao().equals(tipoAcomodacao) && acomodacao.isOcupado() == false) {
+
                     escolhida = acomodacao;
                     acomodacao.setOcupado(true);
                     break;
@@ -110,31 +101,27 @@ public class Modificar {
         return null;
     }
 
+
     /**
-     * Remove uma hospedagem do hotel com base no código informado.
+     * Metódo que retorna uma acomodacao para ser removida.
      *
      * @param hotel O objeto {@link Hotel} contendo as informações das hospedagens.
-     * @return A {@link Hospedagem} removida, ou null se não encontrada.
+     * @return A {@link Hospedagem} que será removida, ou null se não encontrada.
      */
     public static Hospedagem removerHospedagem(Hotel hotel) {
 
         JTextField campoCodigo = new JTextField(10);
 
+        JPanel painel = criarPainel();
+        addComponente(painel, "Codigo:", campoCodigo);
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 
-        painel.add(new JLabel("Codigo:"));
-        painel.add(campoCodigo);
-
-        
-        int result = JOptionPane.showConfirmDialog(null, painel, "Digite o codigo da Hospedagem", JOptionPane.OK_CANCEL_OPTION);
+        int result = criarTela(painel, "Digite o codigo da Hospedagem");
 
         if (result == JOptionPane.OK_OPTION) {
             for (Hospedagem hospedagem : hotel.getHospedagens()) {
 
                 int codigo = Integer.parseInt(campoCodigo.getText());
-
                 if (hospedagem.getCodigo() == codigo) {
                     return hospedagem;
                 }
@@ -142,7 +129,6 @@ public class Modificar {
         }
         return null;
     }
-
 
 
     /**
@@ -162,28 +148,19 @@ public class Modificar {
         JTextField campoAndar = new JTextField(10);
         JTextField campoNumeroQuarto = new JTextField(10);
 
+        JPanel painel = criarPainel();  
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
-
-        painel.add(new JLabel("Codigo:"));
-        painel.add(campoCodigo);
-        painel.add(new JLabel("Tipo do quarto:"));
-        painel.add(campoOpcao);
-        painel.add(new JLabel("Diaria:"));
-        painel.add(campoDiaria);
-        painel.add(new JLabel("Maximo de adultos:"));
-        painel.add(campoMaxAdultos);
-        painel.add(new JLabel("Maximo de criancas:"));
-        painel.add(campoMaxCriancas);
-        painel.add(new JLabel("Andar:"));
-        painel.add(campoAndar);
-        painel.add(new JLabel("Numero do quarto:"));
-        painel.add(campoNumeroQuarto);
+        addComponente(painel, "Codigo:", campoCodigo);
+        addComponente(painel, "Tipo do quarto:", campoOpcao);
+        addComponente(painel, "Diaria:", campoDiaria);
+        addComponente(painel, "Maximo de adultos:", campoMaxAdultos);
+        addComponente(painel, "Maximo de criancas:", campoMaxCriancas);
+        addComponente(painel, "Andar:", campoAndar);
+        addComponente(painel, "Numero do quarto:", campoNumeroQuarto);
 
 
         // Mostra o painel em um JOptionPane
-        int result = JOptionPane.showConfirmDialog(null, painel, "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        int result = criarTela(painel, "Cadastro de Acomodacao");
 
         if (result == JOptionPane.OK_OPTION) {
 
@@ -222,36 +199,22 @@ public class Modificar {
         JTextField campoDadosCartao = new JTextField(10);
 
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        JPanel painel = criarPainel();
 
-        painel.add(new JLabel("Nome:"));
-        painel.add(campoNome);
-        painel.add(new JLabel("Endereco:"));
-        painel.add(campoEndereco);
-        painel.add(new JLabel("Cidade:"));
-        painel.add(campoCidade);
-        painel.add(new JLabel("Estado:"));
-        painel.add(campoEstado);
-        painel.add(new JLabel("Telefone:"));
-        painel.add(campoTelefone);
-        painel.add(new JLabel("Data de Nascimento:"));
-        painel.add(campoDataNascimento);
-        painel.add(new JLabel("Pais:"));
-        painel.add(campoPais);
-        painel.add(new JLabel("Email:"));
-        painel.add(campoEmail);
-        painel.add(new JLabel("Identificacao:"));
-        painel.add(campoIdentificacao);
-        painel.add(new JLabel("Nome do Pai:"));
-        painel.add(campoNomePai);
-        painel.add(new JLabel("Nome da Mae:"));
-        painel.add(campoNomeMae);
-        painel.add(new JLabel("Dados do Cartao:"));
-        painel.add(campoDadosCartao);
+        addComponente(painel, "Nome:", campoNome);
+        addComponente(painel, "Endereco:", campoEndereco);
+        addComponente(painel, "Cidade:", campoCidade);
+        addComponente(painel, "Estado:", campoEstado);
+        addComponente(painel, "Telefone:", campoTelefone);
+        addComponente(painel, "Data de Nascimento:", campoDataNascimento);
+        addComponente(painel, "Pais:", campoPais);
+        addComponente(painel, "Email:", campoEmail);
+        addComponente(painel, "Identificacao:", campoIdentificacao);
+        addComponente(painel, "Nome do Pai:", campoNomePai);
+        addComponente(painel, "Nome da Mae:", campoNomeMae);
+        addComponente(painel, "Dados do Cartao:", campoDadosCartao);
 
-
-        int result = JOptionPane.showConfirmDialog(null, painel, "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        int result = criarTela(painel, "Cadastro de Hospede");
 
         if (result == JOptionPane.OK_OPTION) {
 
@@ -293,27 +256,19 @@ public class Modificar {
         JTextField campoDataNascimento = new JTextField(10);
         JTextField campoCodigo = new JTextField(10);
 
+        JPanel painel = criarPainel();
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
-
-        painel.add(new JLabel("Nome:"));
-        painel.add(campoNome);
-        painel.add(new JLabel("Endereco:"));
-        painel.add(campoEndereco);
-        painel.add(new JLabel("Cidade:"));
-        painel.add(campoCidade);
-        painel.add(new JLabel("Estado:"));
-        painel.add(campoEstado);
-        painel.add(new JLabel("Telefone:"));
-        painel.add(campoTelefone);
-        painel.add(new JLabel("Data de Nascimento:"));
-        painel.add(campoDataNascimento);
-        painel.add(new JLabel("Codigo:"));
-        painel.add(campoCodigo);
+        addComponente(painel, "Nome:", campoNome);
+        addComponente(painel, "Endereco:", campoEndereco);
+        addComponente(painel, "Cidade:", campoCidade);
+        addComponente(painel, "Estado:", campoEstado);
+        addComponente(painel, "Telefone:", campoTelefone);
+        addComponente(painel, "Data de Nascimento:", campoDataNascimento);
+        addComponente(painel, "Codigo:", campoCodigo);
 
 
-        int result = JOptionPane.showConfirmDialog(null, painel, "Por favor, preencha todos os campos", JOptionPane.OK_CANCEL_OPTION);
+        int result = criarTela(painel, "Cadastro de Funcionario");
+       
         if (result == JOptionPane.OK_OPTION) {
 
             int codigo = Integer.parseInt(campoCodigo.getText());
@@ -324,27 +279,29 @@ public class Modificar {
             int telefone = Integer.parseInt(campoTelefone.getText());
             String dataNascimento = campoDataNascimento.getText();
 
-
             return new Funcionario(codigo, nome, endereco, cidade, estado, telefone, dataNascimento);
         }
         return null;
     }
 
 
+    /**
+     * Realiza o cadastro de um novo acompanhante solicitando informações ao usuário.
+     * @return Um objeto {@link Acompanhante} representando o novo acompanhante cadastrado.
+     */
     public static Acompanhante cadastrarAcompanhante(){
         
         JTextField campoNome = new JTextField(10);
         JTextField campoIdade = new JTextField(10);
         
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        JPanel painel = criarPainel();
+
+        addComponente(painel, "Nome:", campoNome);
+        addComponente(painel, "Idade:", campoIdade);
+
         
-        painel.add(new JLabel("Nome:"));
-        painel.add(campoNome);
-        painel.add(new JLabel("Idade:"));
-        painel.add(campoIdade);
-        
-        int result = JOptionPane.showConfirmDialog(null, painel, "Digite os dados do acompanhante", JOptionPane.OK_CANCEL_OPTION);
+        int result = criarTela(painel, "Cadastro de Acompanhante");
+       
         if (result == JOptionPane.OK_OPTION) {
             
             String nome = campoNome.getText();
@@ -356,52 +313,55 @@ public class Modificar {
     }
 
 
+    /**
+     * Exibe uma lista de todas as acomodações e retorna a acomodação escolhida pelo usuário.
+     * @return A acomodação escolhida pelo usuário.
+     */
     public static LocalDate[] escolherData(){
         
         JDateChooser campoInicio = new JDateChooser();
         JDateChooser campoFim = new JDateChooser();
 
+        JPanel painel = criarPainel();
 
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        addComponente(painel, "Inicio:", campoInicio);
+        addComponente(painel, "Fim:", campoFim);
 
+        
+        int result = criarTela(painel, "Escolha as datas");
 
-        painel.add(new JLabel("Inicio:"));
-        painel.add(campoInicio);
-        painel.add(new JLabel("Fim:"));
-        painel.add(campoFim);
-
-
-        int result = JOptionPane.showConfirmDialog(null, painel, "Escolha as datas", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             
+            // Converte a data para LocalDate
             LocalDate inicio = Instant.ofEpochMilli(campoInicio.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate fim = Instant.ofEpochMilli(campoFim.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             
             return new LocalDate[]{ inicio, fim };
-            
         }
         return null;
     }
 
 
+    /**
+     * Realiza o cadastro de um novo consumo solicitando informações ao usuário.
+     * @return Um objeto {@link Consumo} representando o novo consumo cadastrado.
+     */
     public static Consumo cadastrarConsumo(){
             
             JComboBox<TipoConsumo> campoOpcao = new JComboBox<>(TipoConsumo.values());
+
             JTextField campoCodigo = new JTextField(10);
             JTextField campoDescricao = new JTextField(10);
             
-            JPanel painel = new JPanel();
-            painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
-            
-            painel.add(new JLabel("Codigo:"));
-            painel.add(campoCodigo);
-            painel.add(new JLabel("Tipo do consumo:"));
-            painel.add(campoOpcao);
-            painel.add(new JLabel("Descricao:"));
-            painel.add(campoDescricao);
-            
-            int result = JOptionPane.showConfirmDialog(null, painel, "Digite os dados do consumo", JOptionPane.OK_CANCEL_OPTION);
+            JPanel painel = criarPainel();
+
+            addComponente(painel, "Codigo:", campoCodigo);
+            addComponente(painel, "Tipo do consumo:", campoOpcao);
+            addComponente(painel, "Descricao:", campoDescricao);
+
+
+            int result = criarTela(painel, "Cadastro de Consumo");
+
             if (result == JOptionPane.OK_OPTION) {
                 
                 int codigo = Integer.parseInt(campoCodigo.getText());
@@ -412,6 +372,41 @@ public class Modificar {
             }
             return null;
     }
+
+
+    /**
+     * Adiciona um componente ao painel passado como parâmetro.
+     * @param painel O painel onde o componente será adicionado.
+     * @param titulo O título do componente.
+     * @param campo O componente a ser adicionado.
+     */
+    private static void addComponente(JPanel painel, String titulo, JComponent campo) {
+        painel.add(new JLabel(titulo));
+        painel.add(campo);
+    }
+
+
+    /**
+     * Cria uma tela com o painel passado como parâmetro.
+     * @param painel O painel a ser exibido na tela.
+     * @param titulo O título da tela.
+     * @return O resultado da tela.
+     */
+    private static int criarTela(JPanel painel, String titulo) {
+        return JOptionPane.showConfirmDialog(null, painel, titulo, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+    }
+
+
+    /**
+     * Cria um painel com layout vertical.
+     * @return O painel criado.
+     */
+    private static JPanel criarPainel() {
+        JPanel painel = new JPanel();
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        return painel;
+    }
+
 
 }
 
