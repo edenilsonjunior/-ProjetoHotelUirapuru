@@ -30,4 +30,9 @@ public class Mensagens {
     public static void mensagemFinal() {
         JOptionPane.showMessageDialog(null, "Obrigado por utilizar o sistema!");
     }
+
+    public static void erroAcompanhante(){
+        JOptionPane.showMessageDialog(null, "Não é possível adicionar mais acompanhantes!");
+    }
+
 }

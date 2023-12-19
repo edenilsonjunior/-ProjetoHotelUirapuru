@@ -36,9 +36,14 @@ public class Modificar {
         if (result == JOptionPane.OK_OPTION) {
             for (Funcionario f : hotel.getFuncionarios()) {
 
-                int codigo = Integer.parseInt(campoCodigo.getText());
-                if (f.getCodigo() == codigo) {
-                    return f;
+                try {
+                    int codigo = Integer.parseInt(campoCodigo.getText());
+                    if (f.getCodigo() == codigo) {
+                        return f;
+                    }
+                } catch (NumberFormatException e) {
+                    mensagemErro("O código deve ser um número inteiro.", "Erro");
+                    return removerFuncionario(hotel);
                 }
             }
         }
@@ -84,7 +89,15 @@ public class Modificar {
             LocalDate chegada = Instant.ofEpochMilli(campoChegada.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate saida = Instant.ofEpochMilli(campoSaida.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 
-            int codigo = Integer.parseInt(campoCodigo.getText());
+            int codigo;
+            try {
+                codigo = Integer.parseInt(campoCodigo.getText());
+                
+            } catch (Exception e) {
+                mensagemErro("O código deve ser um número inteiro.", "Erro");
+                return cadastrarHospedagem(hotel);
+            }
+
             Acomodacao escolhida = null;
             
             // Procura uma acomodação disponível do tipo escolhido e marca como ocupada
@@ -124,7 +137,15 @@ public class Modificar {
         if (result == JOptionPane.OK_OPTION) {
             for (Hospedagem hospedagem : hotel.getHospedagens()) {
 
-                int codigo = Integer.parseInt(campoCodigo.getText());
+                int codigo;
+                try {
+                    codigo = Integer.parseInt(campoCodigo.getText());
+                    
+                } catch (Exception e) {
+                    mensagemErro("O código deve ser um número inteiro.", "Erro");
+                    return removerHospedagem(hotel);
+                }
+
                 if (hospedagem.getCodigo() == codigo) {
                     return hospedagem;
                 }
@@ -167,13 +188,32 @@ public class Modificar {
 
         if (result == JOptionPane.OK_OPTION) {
 
-            int codigo = Integer.parseInt(campoCodigo.getText());
+            int codigo, maxAdultos, maxCriancas, andar, numeroQuarto;
+            double diaria;
+
+            try {
+                codigo = Integer.parseInt(campoCodigo.getText());
+                maxAdultos = Integer.parseInt(campoMaxAdultos.getText());
+                maxCriancas = Integer.parseInt(campoMaxCriancas.getText());
+                andar = Integer.parseInt(campoAndar.getText());
+                numeroQuarto = Integer.parseInt(campoNumeroQuarto.getText());
+
+                diaria = Double.parseDouble(campoDiaria.getText());
+                
+            } catch (Exception e) {
+
+                String erro;
+                erro = "Os campos devem ser: \n";
+                erro += "Maximo de adulto: inteiro \n";
+                erro += "Maximo de criancas: inteiro \n";
+                erro += "Andar: inteiro \n";
+                erro += "Numero do quarto: inteiro \n";
+                erro += "Diaria: numeros reais. \n";
+                mensagemErro(erro, "Erro");
+                return cadastrarAcomodacao();
+            }
+
             TipoAcomodacao tipoAcomodacao = (TipoAcomodacao) campoOpcao.getSelectedItem();
-            double diaria = Double.parseDouble(campoDiaria.getText());
-            int maxAdultos = Integer.parseInt(campoMaxAdultos.getText());
-            int maxCriancas = Integer.parseInt(campoMaxCriancas.getText());
-            int andar = Integer.parseInt(campoAndar.getText());
-            int numeroQuarto = Integer.parseInt(campoNumeroQuarto.getText());
 
             return new Acomodacao(codigo, tipoAcomodacao, diaria, maxAdultos, maxCriancas, andar, numeroQuarto);
         }
@@ -221,20 +261,29 @@ public class Modificar {
 
         if (result == JOptionPane.OK_OPTION) {
 
+            int identificacao, dadosCartao, telefone;
+
+            try {
+                identificacao = Integer.parseInt(campoIdentificacao.getText());
+                dadosCartao = Integer.parseInt(campoDadosCartao.getText());
+                telefone = Integer.parseInt(campoTelefone.getText());
+                
+            } catch (Exception e) {
+                mensagemErro("Os campos devem ser: \n" + "Identificacao: inteiro \n" + "Dados do Cartao: inteiro \n" + "Telefone: inteiro \n", "Erro");
+                return cadastrarHospede();
+            }
+
             String pais = campoPais.getText();
             String email = campoEmail.getText();
-            int identificacao = Integer.parseInt(campoIdentificacao.getText());
 
             String nomePai = campoNomePai.getText();
             String nomeMae = campoNomeMae.getText();
-            int dadosCartao = Integer.parseInt(campoDadosCartao.getText());
 
             String nome = campoNome.getText(); 
             String endereco = campoEndereco.getText();
             String cidade = campoCidade.getText();
 
             String estado = campoEstado.getText();
-            int telefone = Integer.parseInt(campoTelefone.getText());
             String dataNascimento = campoDataNascimento.getText();
 
             return new Hospede(pais, email, identificacao, nomePai, nomeMae, dadosCartao, nome, endereco, cidade, estado, telefone, dataNascimento);
@@ -274,12 +323,20 @@ public class Modificar {
        
         if (result == JOptionPane.OK_OPTION) {
 
-            int codigo = Integer.parseInt(campoCodigo.getText());
+            int codigo, telefone;
+            try {
+                codigo = Integer.parseInt(campoCodigo.getText());
+                telefone = Integer.parseInt(campoTelefone.getText());
+                
+            } catch (Exception e) {
+                mensagemErro("Os campos devem ser: \n" + "Codigo: inteiro \n" + "Telefone: inteiro \n", "Erro");
+                return CadastrarFuncionario();
+            }
+
             String nome = campoNome.getText();
             String endereco = campoEndereco.getText();
             String cidade = campoCidade.getText();
             String estado = campoEstado.getText();
-            int telefone = Integer.parseInt(campoTelefone.getText());
             String dataNascimento = campoDataNascimento.getText();
 
             return new Funcionario(codigo, nome, endereco, cidade, estado, telefone, dataNascimento);
@@ -306,9 +363,18 @@ public class Modificar {
         int result = criarTela(painel, "Cadastro de Acompanhante");
        
         if (result == JOptionPane.OK_OPTION) {
+
+            int idade;
+
+            try {
+                idade = Integer.parseInt(campoIdade.getText());
+                
+            } catch (Exception e) {
+                mensagemErro("O campo idade ser um numero inteiro.", "Erro");
+                return cadastrarAcompanhante();
+            }
             
             String nome = campoNome.getText();
-            int idade = Integer.parseInt(campoIdade.getText());
             
             return new Acompanhante(nome, idade);
         }
@@ -366,8 +432,16 @@ public class Modificar {
             int result = criarTela(painel, "Cadastro de Consumo");
 
             if (result == JOptionPane.OK_OPTION) {
+
+                int codigo;
+                try {
+                    codigo = Integer.parseInt(campoCodigo.getText());
+                    
+                } catch (Exception e) {
+                    mensagemErro("O código deve ser um número inteiro.", "Erro");
+                    return cadastrarConsumo();
+                }
                 
-                int codigo = Integer.parseInt(campoCodigo.getText());
                 TipoConsumo tipo = (TipoConsumo) campoOpcao.getSelectedItem();
                 String descricao = campoDescricao.getText();
                 
@@ -410,7 +484,14 @@ public class Modificar {
         return painel;
     }
 
-
+    /**
+     * Exibe uma mensagem de erro.
+     * @param mensagem A mensagem de erro.
+     * @param titulo O título da mensagem de erro.
+     */
+    private static void mensagemErro(String mensagem, String titulo) {
+        JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.ERROR_MESSAGE);
+    }
 }
 
 

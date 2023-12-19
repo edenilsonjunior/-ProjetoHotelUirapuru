@@ -81,13 +81,20 @@ public class Menu {
             codigos += "Quarto " + numero + ": " + hospedagem.getCodigo() + "\n";
         }
 
-        String escolhido = telaEscolherHospedagem(codigos);
-        
-        for (Hospedagem hospedagem : hospedagens) {
-            if (hospedagem.getCodigo() == Integer.parseInt(escolhido)) {
-                return hospedagem;
+        try {
+            String escolhido = telaEscolherHospedagem(codigos);
+            int escolha = Integer.parseInt(escolhido);
+
+            for (Hospedagem hospedagem : hospedagens) {
+                if (hospedagem.getCodigo() == escolha) {
+                    return hospedagem;
+                }
             }
+            
+        } catch (Exception e) {
+            mensagemErro("O codigo do quarto deve ser um inteiro", "Erro");
         }
+
         return null;
     }
 
@@ -108,13 +115,20 @@ public class Menu {
             }
         }
 
-        String escolhido = telaEscolherHospedagem(codigos);
+        try {
+            String escolhido = telaEscolherHospedagem(codigos);
+            int escolha = Integer.parseInt(escolhido);
 
-        for (Hospedagem hospedagem : hospedagens) {
-            if (hospedagem.getCodigo() == Integer.parseInt(escolhido)) {
-                return hospedagem;
+            for (Hospedagem hospedagem : hospedagens) {
+                if (hospedagem.getCodigo() == escolha) {
+                    return hospedagem;
+                }
             }
+            
+        } catch (Exception e) {
+            mensagemErro("O codigo do quarto deve ser um inteiro", "Erro");
         }
+        
         return null;
     }
 

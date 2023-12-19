@@ -272,7 +272,7 @@ public class SistemaController {
                 case ADICIONAR_ACOMPANHANTE:
                     hospedagemModificada = Menu.escolherModificado(hotel.getHospedagens());
                     if (hospedagemModificada != null) {
-                        hospedagemModificada.getHospede().addAcompanhante(Modificar.cadastrarAcompanhante());
+                        verificarDisponibilidade(hospedagemModificada);
                     }
                     break;
                 case ADICIONAR_CONSUMO:
@@ -359,6 +359,39 @@ public class SistemaController {
 
 
     /**
+     * Método responsável por verificar se é possível adicionar um acompanhante à hospedagem.
+     * @param hospedagem a hospedagem a ser verificada
+     */
+    private void verificarDisponibilidade(Hospedagem hospedagem) {
+
+        // Começa em 1 pois o hóspede já está incluso
+        int totalAdultos = 1;
+        int totalCriancas = 0;
+        
+        for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
+            if (acompanhante.getIdade() >= 18) {
+                totalAdultos++;
+            } else {
+                totalCriancas++;
+            }
+        }
+
+
+        Acompanhante acompanhante = Modificar.cadastrarAcompanhante();
+
+        int maxAdultosPermitidos = hospedagem.getAcomodacao().getMaxAdultos();
+        int maxCriancasPermitidas = hospedagem.getAcomodacao().getMaxCriancas();
+
+        if (totalAdultos <= maxAdultosPermitidos && totalCriancas <= maxCriancasPermitidas) 
+            {
+            hospedagem.getHospede().addAcompanhante(acompanhante);
+        } else {
+            Mensagens.erroAcompanhante();
+        }
+    }
+
+
+    /**
      * Método responsável por adicionar os dados iniciais do hotel.
      */
     private void adicionarDadosIniciais() {
@@ -366,23 +399,23 @@ public class SistemaController {
         // Adiciona um funcionário administrador
         hotel.addFuncionario(new Funcionario(01, "admin"));
 
-        int numero = 0;
+        int numero = 120;
 
         // Gera 4 acomodações simples
         for (int i = 0; i < 4; i++) {
-            hotel.addAcomodacao(new Acomodacao(i + 1, TipoAcomodacao.SIMPLES, 100, 1, 0, 0, numero));
+            hotel.addAcomodacao(new Acomodacao(i + 1, TipoAcomodacao.SIMPLES, 100, 1, 0, 1, numero));
             numero++;
         }
 
         // Gera 4 acomodações para casal
         for (int i = 0; i < 4; i++) {
-            hotel.addAcomodacao(new Acomodacao(i + 5, TipoAcomodacao.CASAL, 150, 2, 3, 0, numero));
+            hotel.addAcomodacao(new Acomodacao(i + 5, TipoAcomodacao.CASAL, 150, 2, 3, 2, numero));
             numero++;
         }
 
         // Gera 2 acomodações de luxo
         for (int i = 0; i < 2; i++) {
-            hotel.addAcomodacao(new Acomodacao(i + 9, TipoAcomodacao.LUXO, 300, 4, 4, 0, numero));
+            hotel.addAcomodacao(new Acomodacao(i + 9, TipoAcomodacao.LUXO, 300, 4, 4, 3, numero));
             numero++;
         }
     }
