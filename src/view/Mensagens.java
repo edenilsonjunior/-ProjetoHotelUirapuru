@@ -31,6 +31,9 @@ public class Mensagens {
         JOptionPane.showMessageDialog(null, "Obrigado por utilizar o sistema!");
     }
 
+    /**
+     * Método estático para exibir uma mensagem de erro.
+     */
     public static void erroAcompanhante(){
         JOptionPane.showMessageDialog(null, "Não é possível adicionar mais acompanhantes!");
     }

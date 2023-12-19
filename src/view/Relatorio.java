@@ -326,6 +326,11 @@ public class Relatorio {
         }
     }
 
+    /**
+     * Exibe uma mensagem.
+     *
+     * @param mensagem A mensagem a ser exibida.
+     */
     private static void exibirMensagem(String mensagem) {
         JOptionPane.showMessageDialog(null, mensagem);
     }

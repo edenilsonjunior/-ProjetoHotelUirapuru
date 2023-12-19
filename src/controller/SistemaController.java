@@ -362,7 +362,10 @@ public class SistemaController {
         }
     }
 
-
+    /**
+     * Método responsável por criar um objeto Gson.
+     * @return o objeto Gson criado
+     */
     private Gson createGson() {
 
         return new GsonBuilder()
@@ -457,7 +460,5 @@ public class SistemaController {
     public void setLogado(Pessoa logado) {
         this.logado = logado;
     }
-
-
 
 }

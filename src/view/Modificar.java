@@ -501,7 +501,6 @@ public class Modificar {
     /**
      * Exibe uma mensagem de erro.
      * @param mensagem A mensagem de erro.
-     * @param titulo O título da mensagem de erro.
      */
     private static void mensagemErro(String mensagem) {
         JOptionPane.showMessageDialog(null, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);

@@ -187,6 +187,11 @@ public class Menu {
         return tipo.cast(escolha);
     }
 
+    /**
+     * Exibe uma tela para o usuário escolher uma hospedagem.
+     * @param codigos Lista de códigos de hospedagens
+     * @return O código da hospedagem escolhida pelo usuário
+     */
     private static String telaEscolherHospedagem(String codigos) {
         return JOptionPane.showInputDialog(
                                             null, 
