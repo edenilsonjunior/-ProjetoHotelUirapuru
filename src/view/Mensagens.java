@@ -1,6 +1,9 @@
 package view;
 import javax.swing.*;
 
+/**
+ * Classe que representa as mensagens genéricas que serão exibidas ao usuário.
+ */
 public class Mensagens {
 
     /**

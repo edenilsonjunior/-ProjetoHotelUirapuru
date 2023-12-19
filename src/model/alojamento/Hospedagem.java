@@ -2,11 +2,12 @@ package model.alojamento;
 
 import java.time.LocalDate;
 
-import model.pagamento.Pagamento;
-import model.pagamento.TipoPagamento;
-import model.pessoa.Acompanhante;
-import model.pessoa.Hospede;
+import model.pagamento.*;
+import model.pessoa.*;
 
+/**
+ * Classe que representa uma hospedagem no hotel.
+ */
 public class Hospedagem {
     
     private Acomodacao acomodacao;

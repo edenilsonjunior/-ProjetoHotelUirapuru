@@ -1,5 +1,8 @@
 package model.pessoa;
 
+/**
+ * Classe que representa uma pessoa.
+ */
 public abstract class Pessoa {
 
     private String nome;

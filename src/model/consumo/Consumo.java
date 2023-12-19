@@ -1,5 +1,8 @@
 package model.consumo;
 
+/**
+ * Classe que representa um consumo realizado pelo hóspede.
+ */
 public class Consumo {
 
     private int codigo;

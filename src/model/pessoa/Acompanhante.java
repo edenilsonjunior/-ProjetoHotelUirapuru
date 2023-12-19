@@ -1,5 +1,8 @@
 package model.pessoa;
 
+/**
+ * Classe que representa um acompanhante.
+ */
 public class Acompanhante {
 
     private String nome;

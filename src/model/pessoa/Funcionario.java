@@ -1,5 +1,8 @@
 package model.pessoa;
 
+/**
+ * Classe que representa um funcionário.
+ */
 public class Funcionario extends Pessoa{
     
     private int codigo;

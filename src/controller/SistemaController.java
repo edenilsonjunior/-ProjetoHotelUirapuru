@@ -13,6 +13,9 @@ import model.hotel.*;
 import model.pessoa.*;
 import view.*;
 
+/**
+ * Classe responsável por controlar o sistema do hotel.
+ */
 public class SistemaController {
 
     private Hotel hotel;

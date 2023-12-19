@@ -11,7 +11,9 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-
+/**
+ * Classe que representa as diversas telas de relatório do sistema.
+ */
 public class Relatorio {
     
     /**

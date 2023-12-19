@@ -4,6 +4,9 @@ import model.alojamento.Hospedagem;
 import java.time.Duration;
 import java.time.LocalDate;
 
+/**
+ * Classe que representa um pagamento de hospedagem.
+ */
 public class Pagamento {
 
     private TipoPagamento opcao;

@@ -1,5 +1,6 @@
 unnamed package
 controller
+controller.opcoes
 model.alojamento
 model.consumo
 model.hotel

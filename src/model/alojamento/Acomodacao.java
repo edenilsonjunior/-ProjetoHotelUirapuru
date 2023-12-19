@@ -1,5 +1,9 @@
 package model.alojamento;
 
+
+/**
+ * Classe que representa uma acomodação do hotel.
+ */
 public class Acomodacao {
 
     private int codigo;

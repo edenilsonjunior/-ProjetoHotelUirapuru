@@ -6,6 +6,9 @@ import model.pessoa.*;
 import java.time.*;
 import java.util.*;
 
+/**
+ * Classe que representa um hotel.
+ */
 public class Hotel {
 
     private List<Funcionario> funcionarios;

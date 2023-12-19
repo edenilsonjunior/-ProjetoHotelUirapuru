@@ -5,6 +5,9 @@ import java.util.List;
 
 import model.consumo.Consumo;
 
+/**
+ * Classe que representa um hóspede.
+ */
 public class Hospede extends Pessoa {
 
     private String pais;

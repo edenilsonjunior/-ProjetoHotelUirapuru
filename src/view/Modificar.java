@@ -11,6 +11,9 @@ import model.hotel.*;
 import model.pagamento.*;
 import model.pessoa.*;
 
+/**
+ * Classe que representa as telas que modificam o hotel (cadastrar, remover, etc).
+ */
 public class Modificar {
 
 
