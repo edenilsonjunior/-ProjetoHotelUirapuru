@@ -41,6 +41,12 @@ Se você deseja visualizar a documentação, cole o link abaixo no seu navegador
 ```bash
 file:///caminho/do/projeto/ProjetoHotelUirapuru/docs/index.html
 ```
+## Divisão de Trabalhos
+
+- Henrique: model
+- Edenilson: controller
+- Gabriel: view
+- Endrew: docs
 
 ## Curso
 
