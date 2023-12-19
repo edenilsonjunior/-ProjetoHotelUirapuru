@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import model.pagamento.Pagamento;
 import model.pagamento.TipoPagamento;
+import model.pessoa.Acompanhante;
 import model.pessoa.Hospede;
 
 public class Hospedagem {
@@ -109,6 +110,31 @@ public class Hospedagem {
                 this.pagamento.setDataVencimento(getSaida().plusDays(30));
                 break;
         }
+    }
+
+
+
+    /**
+     * Metodo que retorna uma string com a descricao da hospedagem
+     * @return String com a descricao da hospedagem
+     */
+    public String getDescricaoHospede(){
+        String str = "";
+
+        str += "Acomodacao: " + getAcomodacao().getNumeroQuarto() + "\n";
+        str += "Hospede: " + getHospede().getNome() + "\n";
+
+        if (!getHospede().getAcompanhantes().isEmpty()) {
+            str += "Acompanhantes: \n";
+            for (Acompanhante acompanhante : getHospede().getAcompanhantes()) {
+                str += acompanhante.getNome() + ", " + acompanhante.getIdade() + " anos\n";
+            }
+        }
+
+        str += "Check-in: " + getChegada() + "\n";
+        str += "Check-out: " + getSaida() + "\n";
+        
+        return str;
     }
 
 
