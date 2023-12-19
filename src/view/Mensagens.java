@@ -35,4 +35,12 @@ public class Mensagens {
         JOptionPane.showMessageDialog(null, "Não é possível adicionar mais acompanhantes!");
     }
 
+
+    /**
+     * Método estático para exibir uma mensagem de pagamento.
+     * @param mensagem Mensagem a ser exibida.
+     */
+    public static void mensagemPagamento(String mensagem){
+        JOptionPane.showMessageDialog(null, mensagem);
+    }
 }

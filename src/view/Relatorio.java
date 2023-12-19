@@ -3,10 +3,12 @@ package view;
 import model.alojamento.*;
 import model.consumo.*;
 import model.hotel.*;
+import model.pagamento.TipoPagamento;
 import model.pessoa.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -267,6 +269,8 @@ public class Relatorio {
      */
     public static void relatorioAtrasados(LocalDate inicio, LocalDate fim, Hotel hotel) {
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         if (inicio.isAfter(fim)) {
             exibirMensagem("Data de inicio maior que data de fim!");
         }
@@ -276,8 +280,8 @@ public class Relatorio {
                 if (hospedagem.isStatus()) {
                     if (hospedagem.getSaida().isAfter(inicio) && hospedagem.getSaida().isBefore(fim)) {
                         str += "Hospede: " + hospedagem.getHospede().getNome() + "\n";
-                        str += "Data de Saída: " + hospedagem.getSaida() + "\n";
-                        str += "Data de Vencimento: " + hospedagem.getPagamento().getDataVencimento() + "\n";
+                        str += "Data de Saída: " + hospedagem.getSaida().format(formatter) + "\n";
+                        str += "Data de Vencimento: " + hospedagem.getPagamento().getDataVencimento().format(formatter) + "\n";
                         str += "Valor Devido: " + hospedagem.getPagamento().calcularTotal(hospedagem) + "\n";
                         str += "\n";
                         exibirMensagem(str);
@@ -296,22 +300,28 @@ public class Relatorio {
     public static void relatorioTipoFaturado(List<Hospedagem> hospedagens, Hospede hospede) {
 
         String str = "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        for (Hospedagem hospedagem : hospedagens) {
-            if (hospedagem.getHospede().equals(hospede)) {
-                for (int i = 0;  hospedagem.getSaida().plusDays(i).isAfter(LocalDate.now()); i++) {
-
-                    str += "Dia: " + (i + 1) + "\n";
-                    str += "Nome: " + hospedagem.getHospede().getNome() + "\n";
-                    str += "Identificacao: " + hospedagem.getHospede().getIdentificacao() + "\n";
-                    str += "Data de Saída: " + hospedagem.getSaida() + "\n";
-                    str += "Total Diarias: R$" + hospedagem.getAcomodacao().getDiaria() + "\n";
+        for (Hospedagem hospedagem : hospedagens) 
+        {
+            if (hospedagem.getHospede().equals(hospede) && hospedagem.getPagamento().getOpcao() == TipoPagamento.FATURADO) 
+            {
+                str += "Acomodacao: " + hospedagem.getAcomodacao().getNumeroQuarto() + "\n";
+                str += "Nome: " + hospedagem.getHospede().getNome() + "\n";
+                str += "Identificacao: " + hospedagem.getHospede().getIdentificacao() + "\n";
+                str += "Data de Saída: " + hospedagem.getSaida() + "\n";
+                str += "Valor diária: R$" + hospedagem.getAcomodacao().getDiaria()  + "\n";
+                
+                if (hospedagem.getPagamento().isStatus()) {
                     str += "Total Geral: R$" + hospedagem.getPagamento().calcularTotal(hospedagem) + "\n";
+                    str += "Valor das parcelas: " + hospedagem.getPagamento().calcularTotal(hospedagem) / 30 + "\n";
                     str += "Descontos (Multa/Juros): R$" + (hospedagem.getMulta() + hospedagem.getPagamento().calcularJuros()) + "\n";
-                    str += "Data de Vencimento: " + hospedagem.getPagamento().getDataVencimento() + "\n";
-
-                    exibirMensagem(str);
+                    str += "Data de Vencimento: " + hospedagem.getPagamento().getDataVencimento().format(formatter) + "\n";
                 }
+
+                exibirMensagem(str);
+                break;
+        
             }
         }
     }

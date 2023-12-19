@@ -3,6 +3,8 @@ package model.pagamento;
 import model.alojamento.Hospedagem;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 /**
  * Classe que representa um pagamento de hospedagem.
@@ -22,12 +24,13 @@ public class Pagamento {
      *
      * @param opcao O tipo de pagamento escolhido.
      */
-    public Pagamento(TipoPagamento opcao) {
+    public Pagamento(TipoPagamento opcao, LocalDate dataVencimento) {
         this.opcao = opcao;
         this.numeroFatura = 0;
         this.dataPagamento = null;
         this.juros = 10;
         this.status = false;
+        this.dataVencimento = dataVencimento;
     }
 
 
@@ -44,18 +47,13 @@ public class Pagamento {
         if (isStatus()) {
 
             mensagem = "Nome: " + hospedagem.getHospede().getNome() + "\n";
-            mensagem += "Pagamento realizado em: " + this.dataPagamento + "\n";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            mensagem += "Pagamento realizado em: " + this.dataPagamento.format(formatter) + "\n";
 
             return mensagem;
         }
-        else if (this.dataPagamento.isAfter(this.dataVencimento)) {
-            this.dataPagamento = LocalDate.now();
-            this.dataVencimento = null;
-            this.status = true;
-        }
         else {
             this.dataPagamento = LocalDate.now();
-            this.dataVencimento = null;
             this.status = true;
         }
 
@@ -112,6 +110,9 @@ public class Pagamento {
     }
 
     public LocalDate getDataVencimento() {
+        if (dataVencimento == null) {
+            return null;
+        }
         return dataVencimento;
     }
 
@@ -119,8 +120,13 @@ public class Pagamento {
         this.dataVencimento = dataVencimento;
     }
 
-    public LocalDate getDataPagamento() {
-        return dataPagamento;
+    public String getDataPagamento() {
+        if (dataPagamento == null) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return dataPagamento.format(formatter);
     }
 
     public void setDataPagamento(LocalDate dataPagamento) {

@@ -20,7 +20,7 @@ public class Funcionario extends Pessoa{
      * @param telefone        O número de telefone do funcionário.
      * @param dataNascimento  A data de nascimento do funcionário.
      */
-    public Funcionario(int codigo, String nome, String endereco, String cidade, String estado, int telefone, LocalDate dataNascimento) {
+    public Funcionario(int codigo, String nome, String endereco, String cidade, String estado, String telefone, LocalDate dataNascimento) {
         super(nome, endereco, cidade, estado, telefone, dataNascimento);
         this.codigo = codigo;
     }

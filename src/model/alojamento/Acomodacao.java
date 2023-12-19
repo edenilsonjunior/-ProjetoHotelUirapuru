@@ -54,7 +54,11 @@ public class Acomodacao {
         descricao += "Número máximo de crianças: " + getMaxCriancas() + "\n";
         descricao += "Andar: " + getAndar() + "\n";
         descricao += "Número do quarto: " + getNumeroQuarto() + "\n";
-        descricao += "Status de ocupação: " + isOcupado() + "\n";
+
+        if (isOcupado())
+            descricao += "Status de ocupação: Quarto ocupado\n";
+        else
+            descricao += "Status de ocupação: Quarto livre\n";
 
         return descricao;
     }

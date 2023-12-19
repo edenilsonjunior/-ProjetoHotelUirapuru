@@ -226,11 +226,29 @@ public class SistemaController {
                 case RELATORIO_PAGAMENTO_FATURADO:
                     Relatorio.relatorioTipoFaturado(hotel.getHospedagens(), (Hospede) logado);
                     break;
+                case FAZER_PAGAMENTO:
+                    Hospedagem iraFazerPagamento = acharHospedagemPorHospede((Hospede) logado);
+                    Mensagens.mensagemPagamento(iraFazerPagamento.getPagamento().fazerPagamento(iraFazerPagamento));
                 default:
                     break;
             }
 
         } while (escolha != OpcoesHospede.SAIR);
+    }
+
+
+    /**
+     * Método responsável por achar uma hospedagem a partir de um hóspede.
+     * @param hospede o hóspede a ser procurado
+     * @return a hospedagem encontrada, ou null se não for encontrada
+     */
+    private Hospedagem acharHospedagemPorHospede(Hospede hospede) {
+        for (Hospedagem hospedagem : hotel.getHospedagens()) {
+            if (hospedagem.getHospede().equals(hospede)) {
+                return hospedagem;
+            }
+        }
+        return null;
     }
 
 
@@ -259,10 +277,10 @@ public class SistemaController {
                         hotel.removeReserva(removido);
                     }
                     break;
-                case REGISTRAR_CHEKIN:
+                case REGISTRAR_CHECK_IN:
                     hospedagemModificada = Menu.escolherCheckIn(hotel.getHospedagens());
                     if (hospedagemModificada != null) {
-                        hotel.getHospedagens().get(hotel.getHospedagens().indexOf(hospedagemModificada)).setStatus(true);
+                        hotel.getHospedagens().get(hotel.getHospedagens().indexOf(hospedagemModificada)).transformarResevaEmHospedagem();;
                     }
                     break;
 

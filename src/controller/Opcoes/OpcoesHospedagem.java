@@ -19,7 +19,7 @@ public enum OpcoesHospedagem {
     /**
      * Opção para registrar o check-in.
      */
-    REGISTRAR_CHEKIN,
+    REGISTRAR_CHECK_IN,
 
     /**
      * Opção para cadastrar uma nova acomodação.

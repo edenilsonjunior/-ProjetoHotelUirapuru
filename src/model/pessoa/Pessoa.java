@@ -12,7 +12,7 @@ public abstract class Pessoa {
     private String endereco;
     private String cidade;
     private String estado;
-    private int telefone;
+    private String telefone;
     private LocalDate dataNascimento;
     private String login;
     private String senha;
@@ -27,7 +27,7 @@ public abstract class Pessoa {
      * @param telefone O número de telefone da pessoa.
      * @param dataNascimento A data de nascimento da pessoa.
      */
-    public Pessoa(String nome, String endereco, String cidade, String estado, int telefone, LocalDate dataNascimento) {
+    public Pessoa(String nome, String endereco, String cidade, String estado, String telefone, LocalDate dataNascimento) {
         this.nome = nome;
         this.endereco = endereco;
         this.cidade = cidade;
@@ -82,11 +82,11 @@ public abstract class Pessoa {
         this.estado = estado;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 

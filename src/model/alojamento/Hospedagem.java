@@ -39,24 +39,28 @@ public class Hospedagem {
         this.codigo = codigo;
         this.multa = 0;
         this.status = status;
+        this.acomodacao.setOcupado(true);
+        this.tipoPagamento = tipoPagamento;
+        
         if (status) {
-            this.pagamento = new Pagamento(tipoPagamento);
+
+            LocalDate dataVencimento = null;
             switch (tipoPagamento) {
                 case DINHEIRO:
-                    this.pagamento.setDataVencimento(getChegada().plusDays(1));
+                    dataVencimento = getChegada().plusDays(1);
                     break;
                 case CHEQUE:
-                    this.pagamento.setDataVencimento(getChegada().plusDays(10));
+                    dataVencimento = getChegada().plusDays(10);
                     break;
                 case CREDITO:
-                    this.pagamento.setDataVencimento(getChegada().plusDays(30));
+                    dataVencimento = getChegada().plusDays(30);
                     break;
                 case FATURADO:
-                    this.pagamento.setDataVencimento(getSaida().plusDays(30));
+                    dataVencimento = getSaida().plusDays(30);
                     break;
             }
+            this.pagamento = new Pagamento(tipoPagamento, dataVencimento);
         }
-        this.acomodacao.setOcupado(true);
     }
 
 
@@ -95,21 +99,28 @@ public class Hospedagem {
      * Transforma uma reserva em uma hospedagem, atualizando o status e criando um novo pagamento.
      */
     public void transformarResevaEmHospedagem() {
+
         this.status = true;
-        this.pagamento = new Pagamento(this.tipoPagamento);
+
+        LocalDate dataVencimento = null;
+        
         switch (tipoPagamento) {
             case DINHEIRO:
-                this.pagamento.setDataVencimento(getChegada().plusDays(1));
+                dataVencimento = getChegada().plusDays(1);
                 break;
             case CHEQUE:
-                this.pagamento.setDataVencimento(getChegada().plusDays(10));
+                dataVencimento = getChegada().plusDays(10);
                 break;
             case CREDITO:
-                this.pagamento.setDataVencimento(getChegada().plusDays(30));
+                dataVencimento = getChegada().plusDays(30);
                 break;
             case FATURADO:
-                this.pagamento.setDataVencimento(getSaida().plusDays(30));
+                dataVencimento = getSaida().plusDays(30);
                 break;
+        }
+
+        if (dataVencimento != null) {
+            this.pagamento = new Pagamento(tipoPagamento, dataVencimento);
         }
     }
 

@@ -17,6 +17,11 @@ public enum OpcoesHospede {
     RELATORIO_ESTADIA, 
 
     /**
+     * Opção para registrar o check-out.
+     */
+    FAZER_PAGAMENTO,
+
+    /**
      * Opção para visualizar o relatório de pagamento faturado.
      */
     RELATORIO_PAGAMENTO_FATURADO, 

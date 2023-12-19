@@ -26,7 +26,7 @@ public class Modificar {
      */
     public static Funcionario removerFuncionario(Hotel hotel) {
         
-        JTextField campoCodigo = new JTextField(10);
+        JTextField campoCodigo = new JTextField(20);
         
         JPanel painel = criarPainel();
         addComponente(painel, "Codigo:", campoCodigo);
@@ -64,7 +64,7 @@ public class Modificar {
         
         JDateChooser campoChegada = new JDateChooser();
         JDateChooser campoSaida = new JDateChooser();
-        JTextField campoCodigo = new JTextField(10);
+        JTextField campoCodigo = new JTextField(20);
         
 
         JPanel painel = criarPainel();
@@ -131,7 +131,7 @@ public class Modificar {
      */
     public static Hospedagem removerHospedagem(Hotel hotel) {
 
-        JTextField campoCodigo = new JTextField(10);
+        JTextField campoCodigo = new JTextField(20);
 
         JPanel painel = criarPainel();
         addComponente(painel, "Codigo:", campoCodigo);
@@ -170,12 +170,12 @@ public class Modificar {
 
         JComboBox<TipoAcomodacao> campoOpcao = new JComboBox<>(TipoAcomodacao.values());
 
-        JTextField campoCodigo = new JTextField(10);
-        JTextField campoDiaria = new JTextField(10);
-        JTextField campoMaxAdultos = new JTextField(10);
-        JTextField campoMaxCriancas = new JTextField(10);
-        JTextField campoAndar = new JTextField(10);
-        JTextField campoNumeroQuarto = new JTextField(10);
+        JTextField campoCodigo = new JTextField(20);
+        JTextField campoDiaria = new JTextField(20);
+        JTextField campoMaxAdultos = new JTextField(20);
+        JTextField campoMaxCriancas = new JTextField(20);
+        JTextField campoAndar = new JTextField(20);
+        JTextField campoNumeroQuarto = new JTextField(20);
 
         JPanel painel = criarPainel();  
 
@@ -233,17 +233,17 @@ public class Modificar {
      */
     public static Hospede cadastrarHospede() {
 
-        JTextField campoNome = new JTextField(10);
-        JTextField campoEndereco = new JTextField(10);
-        JTextField campoCidade = new JTextField(10);
-        JTextField campoEstado = new JTextField(10);
-        JTextField campoTelefone = new JTextField(10);
-        JTextField campoPais = new JTextField(10);
-        JTextField campoEmail = new JTextField(10);
-        JTextField campoIdentificacao = new JTextField(10);
-        JTextField campoNomePai = new JTextField(10);
-        JTextField campoNomeMae = new JTextField(10);
-        JTextField campoDadosCartao = new JTextField(10);
+        JTextField campoNome = new JTextField(20);
+        JTextField campoEndereco = new JTextField(20);
+        JTextField campoCidade = new JTextField(20);
+        JTextField campoEstado = new JTextField(20);
+        JTextField campoTelefone = new JTextField(20);
+        JTextField campoPais = new JTextField(20);
+        JTextField campoEmail = new JTextField(20);
+        JTextField campoIdentificacao = new JTextField(20);
+        JTextField campoNomePai = new JTextField(20);
+        JTextField campoNomeMae = new JTextField(20);
+        JTextField campoDadosCartao = new JTextField(20);
         
         JDateChooser campoDataNascimento = new JDateChooser();
 
@@ -266,26 +266,25 @@ public class Modificar {
 
         if (result == JOptionPane.OK_OPTION) {
 
-            int identificacao, dadosCartao, telefone;
+            int identificacao, dadosCartao;
             LocalDate dataNascimento;
 
             try {
                 identificacao = Integer.parseInt(campoIdentificacao.getText());
                 dadosCartao = Integer.parseInt(campoDadosCartao.getText());
-                telefone = Integer.parseInt(campoTelefone.getText());
                 dataNascimento = Instant.ofEpochMilli(campoDataNascimento.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 
             } catch (Exception e) {
                 String str = "Os campos devem ser: \n";
                 str += "Identificacao: inteiro \n";
                 str += "Dados do Cartao: inteiro \n";
-                str += "Telefone: inteiro \n";
                 str += "Data de nasimento: data \n";
-
+                
                 mensagemErro(str);
                 return cadastrarHospede();
             }
-
+            
+            String telefone = campoTelefone.getText();
             String pais = campoPais.getText();
             String email = campoEmail.getText();
             String nomePai = campoNomePai.getText();
@@ -310,12 +309,12 @@ public class Modificar {
      */
     public static Funcionario CadastrarFuncionario() {
 
-        JTextField campoNome = new JTextField(10);
-        JTextField campoEndereco = new JTextField(10);
-        JTextField campoCidade = new JTextField(10);
-        JTextField campoEstado = new JTextField(10);
-        JTextField campoTelefone = new JTextField(10);
-        JTextField campoCodigo = new JTextField(10);
+        JTextField campoNome = new JTextField(20);
+        JTextField campoEndereco = new JTextField(20);
+        JTextField campoCidade = new JTextField(20);
+        JTextField campoEstado = new JTextField(20);
+        JTextField campoTelefone = new JTextField(20);
+        JTextField campoCodigo = new JTextField(20);
         
         JDateChooser campoDataNascimento = new JDateChooser();
 
@@ -335,22 +334,24 @@ public class Modificar {
        
         if (result == JOptionPane.OK_OPTION) {
 
-            int codigo, telefone;
+            int codigo;
+            LocalDate dataNascimento;
+
             try {
                 codigo = Integer.parseInt(campoCodigo.getText());
-                telefone = Integer.parseInt(campoTelefone.getText());
+                dataNascimento = Instant.ofEpochMilli(campoDataNascimento.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 
             } catch (Exception e) {
-                mensagemErro("Os campos devem ser: \n" + "Codigo: inteiro \n" + "Telefone: inteiro \n");
+                mensagemErro("Os campos devem ser: \n" + "Codigo: inteiro \n" + "Telefone: inteiro\n " + "Data de nascimento: data");
                 return CadastrarFuncionario();
             }
-
+            
+            String telefone = campoTelefone.getText();
             String nome = campoNome.getText();
             String endereco = campoEndereco.getText();
             String cidade = campoCidade.getText();
             String estado = campoEstado.getText();
             
-            LocalDate dataNascimento = Instant.ofEpochMilli(campoDataNascimento.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 
             return new Funcionario(codigo, nome, endereco, cidade, estado, telefone, dataNascimento);
         }
@@ -364,8 +365,8 @@ public class Modificar {
      */
     public static Acompanhante cadastrarAcompanhante(){
         
-        JTextField campoNome = new JTextField(10);
-        JTextField campoIdade = new JTextField(10);
+        JTextField campoNome = new JTextField(20);
+        JTextField campoIdade = new JTextField(20);
         
         JPanel painel = criarPainel();
 
@@ -432,8 +433,8 @@ public class Modificar {
             
             JComboBox<TipoConsumo> campoOpcao = new JComboBox<>(TipoConsumo.values());
 
-            JTextField campoCodigo = new JTextField(10);
-            JTextField campoDescricao = new JTextField(10);
+            JTextField campoCodigo = new JTextField(20);
+            JTextField campoDescricao = new JTextField(20);
             
             JPanel painel = criarPainel();
 

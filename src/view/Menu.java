@@ -18,8 +18,8 @@ public class Menu {
      */
     public static String[] menuLogin() {
 
-        JTextField campoLogin = new JTextField(10);
-        JPasswordField campoSenha = new JPasswordField(10);
+        JTextField campoLogin = new JTextField(20);
+        JPasswordField campoSenha = new JPasswordField(23);
 
         JPanel painel = new JPanel();
         painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
