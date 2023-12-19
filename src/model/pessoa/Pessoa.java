@@ -1,5 +1,8 @@
 package model.pessoa;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Classe que representa uma pessoa.
  */
@@ -10,7 +13,7 @@ public abstract class Pessoa {
     private String cidade;
     private String estado;
     private int telefone;
-    private String dataNascimento;
+    private LocalDate dataNascimento;
     private String login;
     private String senha;
 
@@ -24,7 +27,7 @@ public abstract class Pessoa {
      * @param telefone O número de telefone da pessoa.
      * @param dataNascimento A data de nascimento da pessoa.
      */
-    public Pessoa(String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
+    public Pessoa(String nome, String endereco, String cidade, String estado, int telefone, LocalDate dataNascimento) {
         this.nome = nome;
         this.endereco = endereco;
         this.cidade = cidade;
@@ -88,10 +91,16 @@ public abstract class Pessoa {
     }
 
     public String getDataNascimento() {
-        return dataNascimento;
+
+        if (dataNascimento == null) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return dataNascimento.format(formatter);
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

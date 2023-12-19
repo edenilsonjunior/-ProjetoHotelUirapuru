@@ -42,7 +42,7 @@ public class Modificar {
                         return f;
                     }
                 } catch (NumberFormatException e) {
-                    mensagemErro("O código deve ser um número inteiro.", "Erro");
+                    mensagemErro("O código deve ser um número inteiro.");
                     return removerFuncionario(hotel);
                 }
             }
@@ -84,17 +84,22 @@ public class Modificar {
             Hospede hospede = cadastrarHospede();
             TipoAcomodacao tipoAcomodacao = (TipoAcomodacao) campoOpcao.getSelectedItem();
             TipoPagamento tipoPagamento = (TipoPagamento) campoPagamento.getSelectedItem();
-
             boolean status = campoStatus.getSelectedItem().equals("RESERVA") ? false : true;
-            LocalDate chegada = Instant.ofEpochMilli(campoChegada.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate saida = Instant.ofEpochMilli(campoSaida.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-
+            
             int codigo;
+            LocalDate chegada, saida;
             try {
                 codigo = Integer.parseInt(campoCodigo.getText());
+
+                chegada = Instant.ofEpochMilli(campoChegada.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                saida = Instant.ofEpochMilli(campoSaida.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 
             } catch (Exception e) {
-                mensagemErro("O código deve ser um número inteiro.", "Erro");
+                String str = "Os campos devem ser: \n";
+                str += "Codigo: inteiro \n";
+                str += "Chegada: data \n";
+                str += "Saida: data \n";
+                mensagemErro(str);
                 return cadastrarHospedagem(hotel);
             }
 
@@ -142,7 +147,7 @@ public class Modificar {
                     codigo = Integer.parseInt(campoCodigo.getText());
                     
                 } catch (Exception e) {
-                    mensagemErro("O código deve ser um número inteiro.", "Erro");
+                    mensagemErro("O código deve ser um número inteiro.");
                     return removerHospedagem(hotel);
                 }
 
@@ -209,7 +214,7 @@ public class Modificar {
                 erro += "Andar: inteiro \n";
                 erro += "Numero do quarto: inteiro \n";
                 erro += "Diaria: numeros reais. \n";
-                mensagemErro(erro, "Erro");
+                mensagemErro(erro);
                 return cadastrarAcomodacao();
             }
 
@@ -233,14 +238,14 @@ public class Modificar {
         JTextField campoCidade = new JTextField(10);
         JTextField campoEstado = new JTextField(10);
         JTextField campoTelefone = new JTextField(10);
-        JTextField campoDataNascimento = new JTextField(10);
         JTextField campoPais = new JTextField(10);
         JTextField campoEmail = new JTextField(10);
         JTextField campoIdentificacao = new JTextField(10);
         JTextField campoNomePai = new JTextField(10);
         JTextField campoNomeMae = new JTextField(10);
         JTextField campoDadosCartao = new JTextField(10);
-
+        
+        JDateChooser campoDataNascimento = new JDateChooser();
 
         JPanel painel = criarPainel();
 
@@ -262,29 +267,34 @@ public class Modificar {
         if (result == JOptionPane.OK_OPTION) {
 
             int identificacao, dadosCartao, telefone;
+            LocalDate dataNascimento;
 
             try {
                 identificacao = Integer.parseInt(campoIdentificacao.getText());
                 dadosCartao = Integer.parseInt(campoDadosCartao.getText());
                 telefone = Integer.parseInt(campoTelefone.getText());
+                dataNascimento = Instant.ofEpochMilli(campoDataNascimento.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
                 
             } catch (Exception e) {
-                mensagemErro("Os campos devem ser: \n" + "Identificacao: inteiro \n" + "Dados do Cartao: inteiro \n" + "Telefone: inteiro \n", "Erro");
+                String str = "Os campos devem ser: \n";
+                str += "Identificacao: inteiro \n";
+                str += "Dados do Cartao: inteiro \n";
+                str += "Telefone: inteiro \n";
+                str += "Data de nasimento: data \n";
+
+                mensagemErro(str);
                 return cadastrarHospede();
             }
 
             String pais = campoPais.getText();
             String email = campoEmail.getText();
-
             String nomePai = campoNomePai.getText();
             String nomeMae = campoNomeMae.getText();
 
             String nome = campoNome.getText(); 
-            String endereco = campoEndereco.getText();
             String cidade = campoCidade.getText();
-
             String estado = campoEstado.getText();
-            String dataNascimento = campoDataNascimento.getText();
+            String endereco = campoEndereco.getText();
 
             return new Hospede(pais, email, identificacao, nomePai, nomeMae, dadosCartao, nome, endereco, cidade, estado, telefone, dataNascimento);
                 
@@ -305,9 +315,11 @@ public class Modificar {
         JTextField campoCidade = new JTextField(10);
         JTextField campoEstado = new JTextField(10);
         JTextField campoTelefone = new JTextField(10);
-        JTextField campoDataNascimento = new JTextField(10);
         JTextField campoCodigo = new JTextField(10);
+        
+        JDateChooser campoDataNascimento = new JDateChooser();
 
+        
         JPanel painel = criarPainel();
 
         addComponente(painel, "Nome:", campoNome);
@@ -329,7 +341,7 @@ public class Modificar {
                 telefone = Integer.parseInt(campoTelefone.getText());
                 
             } catch (Exception e) {
-                mensagemErro("Os campos devem ser: \n" + "Codigo: inteiro \n" + "Telefone: inteiro \n", "Erro");
+                mensagemErro("Os campos devem ser: \n" + "Codigo: inteiro \n" + "Telefone: inteiro \n");
                 return CadastrarFuncionario();
             }
 
@@ -337,7 +349,8 @@ public class Modificar {
             String endereco = campoEndereco.getText();
             String cidade = campoCidade.getText();
             String estado = campoEstado.getText();
-            String dataNascimento = campoDataNascimento.getText();
+            
+            LocalDate dataNascimento = Instant.ofEpochMilli(campoDataNascimento.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 
             return new Funcionario(codigo, nome, endereco, cidade, estado, telefone, dataNascimento);
         }
@@ -370,7 +383,7 @@ public class Modificar {
                 idade = Integer.parseInt(campoIdade.getText());
                 
             } catch (Exception e) {
-                mensagemErro("O campo idade ser um numero inteiro.", "Erro");
+                mensagemErro("O campo idade ser um numero inteiro.");
                 return cadastrarAcompanhante();
             }
             
@@ -438,7 +451,7 @@ public class Modificar {
                     codigo = Integer.parseInt(campoCodigo.getText());
                     
                 } catch (Exception e) {
-                    mensagemErro("O código deve ser um número inteiro.", "Erro");
+                    mensagemErro("O código deve ser um número inteiro.");
                     return cadastrarConsumo();
                 }
                 
@@ -489,8 +502,8 @@ public class Modificar {
      * @param mensagem A mensagem de erro.
      * @param titulo O título da mensagem de erro.
      */
-    private static void mensagemErro(String mensagem, String titulo) {
-        JOptionPane.showMessageDialog(null, mensagem, titulo, JOptionPane.ERROR_MESSAGE);
+    private static void mensagemErro(String mensagem) {
+        JOptionPane.showMessageDialog(null, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
     }
 }
 

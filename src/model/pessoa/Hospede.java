@@ -1,5 +1,6 @@
 package model.pessoa;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class Hospede extends Pessoa {
      * @param telefone O número de telefone do hóspede.
      * @param dataNascimento A data de nascimento do hóspede.
      */
-    public Hospede(String pais, String email, int identificacao, String nomePai, String nomeMae, int dadosCartao, String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
+    public Hospede(String pais, String email, int identificacao, String nomePai, String nomeMae, int dadosCartao, String nome, String endereco, String cidade, String estado, int telefone, LocalDate dataNascimento) {
         super(nome, endereco, cidade, estado, telefone, dataNascimento);
         this.pais = pais;
         this.email = email;

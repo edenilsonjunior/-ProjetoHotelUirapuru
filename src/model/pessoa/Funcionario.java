@@ -1,4 +1,5 @@
 package model.pessoa;
+import java.time.LocalDate;
 
 /**
  * Classe que representa um funcionário.
@@ -19,7 +20,7 @@ public class Funcionario extends Pessoa{
      * @param telefone        O número de telefone do funcionário.
      * @param dataNascimento  A data de nascimento do funcionário.
      */
-    public Funcionario(int codigo, String nome, String endereco, String cidade, String estado, int telefone, String dataNascimento) {
+    public Funcionario(int codigo, String nome, String endereco, String cidade, String estado, int telefone, LocalDate dataNascimento) {
         super(nome, endereco, cidade, estado, telefone, dataNascimento);
         this.codigo = codigo;
     }
@@ -53,7 +54,6 @@ public class Funcionario extends Pessoa{
         str += "Estado: " + getEstado() + "\n";
         str += "Telefone: " + getTelefone() + "\n";
         str += "Data de nascimento: " + getDataNascimento() + "\n";
-        
         return str;
     }
 
