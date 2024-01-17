@@ -1,9 +1,9 @@
 package controller;
 
 import java.io.*;
-import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import com.google.gson.*;
 
@@ -51,20 +51,22 @@ public class SistemaController {
         
         while (saiu == false) {
 
-            String[] usuario = Menu.menuLogin();
+            String[] credenciais = Menu.menuLogin();
 
             // Se usuário fechou a tela de login, sair do loop
-            if (usuario == null || usuario.length == 0) {
+            if (credenciais == null || credenciais.length == 0) {
                 break;
             }
 
-            descobrirMenu(usuario);
-            salvarEstadoHotel(hotel);
+            logado = descobrirLogado(credenciais);
+        
+            descobrirMenu();
 
+            salvarEstadoHotel();
             saiu = Mensagens.verificarSair();
         }
         
-        salvarEstadoHotel(hotel);
+        salvarEstadoHotel();
         Mensagens.mensagemFinal();
     }
     
@@ -78,77 +80,125 @@ public class SistemaController {
      */
     private void verificarPrimeiroAcesso() {
 
-        if (!Files.exists(Paths.get("data/hotel.json")) || hotel == null) {
+        Gson gson = createGson();
+        
+        try (Reader dadosJSON = new FileReader("data/hotel.json")) {
+            
+            Hotel hotel = gson.fromJson(dadosJSON, Hotel.class);
+            
+            if (hotel != null) {
+                this.hotel = hotel;
+                return;
+            }
+
+            adicionarDadosIniciais();
+        } 
+        catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
             adicionarDadosIniciais();
         }
-        else{
-            // Gson: biblioteca para converter objetos Java para JSON e vice-versa
-            Gson gson = createGson();
-    
-            // Tenta ler o arquivo
-            try (Reader dadosJSON = new FileReader("data/hotel.json")) {
-    
-                // Instancia um novo hotel com os dados do arquivo
-                Hotel hotel = gson.fromJson(dadosJSON, Hotel.class);
-                if (hotel != null) {
-                    this.hotel = hotel;
-                }
-                
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
-    
+
+
 
     /**
      * Método para descobrir o usuário logado no sistema.
      * 
-     * @param hotel o hotel em que o usuário está logado
-     * @param usuario um array contendo o login e senha do usuário
+     * @param credenciais um array contendo o login e senha do usuário
      * @return a pessoa logada no sistema, ou null se nenhum usuário for encontrado
      */
-    private Pessoa descobrirLogado(Hotel hotel, String[] usuario) {
-        for (Funcionario funcionario : hotel.getFuncionarios()) 
+    private Pessoa descobrirLogado(String[] credenciais) {
+
+        if (credenciais == null || credenciais.length == 0) {
+            return null;
+        }
+
+        for (Funcionario x : hotel.getFuncionarios()) 
         {
-            if (usuario[0].equals(funcionario.getLogin()) && usuario[1].equals(funcionario.getSenha())) {
-                return funcionario;
+            if (verificaLogin(credenciais, x)) {
+                return x;
             }
         }
+
         for (Hospedagem hospedagem : hotel.getHospedagens()) 
         {
-            Hospede atual = hospedagem.getHospede();
-            if (usuario[0].equals(atual.getLogin()) && usuario[1].equals(atual.getSenha())) {
-                return atual;
+            Hospede y = hospedagem.getHospede();
+            if (verificaLogin(credenciais, y)) {
+                return y;
             }
         }
+
         return null;
+    }
+ 
+    /**
+     * Método para verificar se as credenciais de login são válidas.
+     * @param credenciais credenciais de login
+     * @param pessoa pessoa a ser verificada
+     * @return true se as credenciais forem válidas, false caso contrário
+     */
+    private boolean verificaLogin(String[] credenciais, Pessoa pessoa) {
+        return credenciais[0].equals(pessoa.getLogin()) && credenciais[1].equals(pessoa.getSenha());
     }
 
 
     /**
      * Método responsável por descobrir o menu de funcionalidades disponíveis para o usuário logado.
      * 
-     * @param usuario um array de strings contendo as informações do usuário
      */
-    private void descobrirMenu(String[] usuario) {
+    private void descobrirMenu() {
 
-        logado = descobrirLogado(hotel, usuario);
-
-        if (logado != null) {
-            if (logado instanceof Funcionario) {
-                if (logado.getLogin().equals("admin")) {
-                    funcoesAdmin();
-                } else {
-                    funcoesFuncionario();
-                }
-            } else if (logado instanceof Hospede) {
-                funcoesHospede();
-            }
-        } else {
+        if (logado == null) {
             Mensagens.erroLogin();
+            return;
         }
+
+        if (logado instanceof Hospede){
+            funcoesHospede();
+        } 
+        else if ((logado instanceof Funcionario) && (logado.getLogin().equals("admin"))) {
+            funcoesAdmin();
+        }
+        else {
+            funcoesFuncionario();
+        }
+        
     }
+    
+    /**
+     * Método responsável por executar as opções disponíveis para os hóspedes.
+     */
+    private void funcoesHospede() {
+        OpcoesHospede escolha;
+
+        Hospede hospede = (Hospede) logado;
+        List<Hospedagem> hospedagens = hotel.getHospedagens();
+
+        do {
+            escolha = Menu.menuGenerico(OpcoesHospede.class, "Menu Hóspede");
+
+            if (escolha == null) {
+                break;
+            }
+
+            if (escolha == OpcoesHospede.RELATORIO_CONSUMO) {
+                Relatorio.relatorioConsumo(hospedagens, hospede);
+            }
+            else if(escolha == OpcoesHospede.RELATORIO_ESTADIA){
+                Relatorio.relatorioEstadia(hospedagens, hospede);
+            }
+            else if(escolha == OpcoesHospede.RELATORIO_PAGAMENTO_FATURADO){
+                Relatorio.relatorioTipoFaturado(hospedagens, hospede);
+            }
+            else if(escolha == OpcoesHospede.FAZER_PAGAMENTO){
+                Hospedagem iraFazerPagamento = acharHospedagemPorHospede(hospede);
+                Mensagens.mensagemPagamento(iraFazerPagamento.getPagamento().fazerPagamento(iraFazerPagamento));
+            }
+        } 
+        while (escolha != OpcoesHospede.SAIR);
+    }
+    
+
 
 
     /**
@@ -162,20 +212,18 @@ public class SistemaController {
             if (escolha == null) {
                 break;
             }
-            switch (escolha) {
-                case CADASTRAR_FUNC:
-                    hotel.addFuncionario(Modificar.CadastrarFuncionario());
-                    break;
-                case LISTAR_FUNC:
-                    Relatorio.relatorioFuncionarios(hotel);
-                    break;
-                case REMOVER_FUNC:
-                hotel.removeFuncionario(Modificar.removerFuncionario(hotel));
-                break;
-                default:
-                    break;
+
+            if(escolha == OpcoesAdmin.CADASTRAR_FUNC){
+                hotel.addFuncionario(Modificar.CadastrarFuncionario());
             }
-        } while (escolha != OpcoesAdmin.SAIR);
+            else if(escolha == OpcoesAdmin.LISTAR_FUNC){
+                Relatorio.relatorioFuncionarios(hotel);
+            }
+            else if(escolha == OpcoesAdmin.REMOVER_FUNC){
+                hotel.removeFuncionario(Modificar.removerFuncionario(hotel));
+            }
+        } 
+        while (escolha != OpcoesAdmin.SAIR);
     }
 
     
@@ -190,82 +238,36 @@ public class SistemaController {
             if (escolha == null) {
                 break;
             }
-            switch (escolha) {
-                case OPCOES_HOSPEDAGEM:
-                    funcoesHospedagem();
-                    break;
-                case RELATORIOS:
-                    funcoesRelatorio();
-                    break;
-                default:
-                    break;
-            }
 
-        } while (escolha != OpcoesFuncionario.SAIR);
+            if (escolha == OpcoesFuncionario.OPCOES_HOSPEDAGEM){
+                funcoesHospedagem();
+            }
+            else if (escolha == OpcoesFuncionario.RELATORIOS){
+                funcoesRelatorio();
+            }
+        } 
+        while (escolha != OpcoesFuncionario.SAIR);
     }
 
     
-    /**
-     * Método responsável por executar as opções disponíveis para os hóspedes.
-     */
-    private void funcoesHospede() {
-        OpcoesHospede escolha;
-        do {
-            escolha = Menu.menuGenerico(OpcoesHospede.class, "Menu Hóspede");
-
-            if (escolha == null) {
-                break;
-            }
-            switch (escolha) {
-                case RELATORIO_CONSUMO:
-                    Relatorio.relatorioConsumo(hotel.getHospedagens(), (Hospede) logado);
-                    break;
-                case RELATORIO_ESTADIA:
-                    Relatorio.relatorioEstadia(hotel.getHospedagens(), (Hospede) logado);
-                    break;
-                case RELATORIO_PAGAMENTO_FATURADO:
-                    Relatorio.relatorioTipoFaturado(hotel.getHospedagens(), (Hospede) logado);
-                    break;
-                case FAZER_PAGAMENTO:
-                    Hospedagem iraFazerPagamento = acharHospedagemPorHospede((Hospede) logado);
-                    Mensagens.mensagemPagamento(iraFazerPagamento.getPagamento().fazerPagamento(iraFazerPagamento));
-                default:
-                    break;
-            }
-
-        } while (escolha != OpcoesHospede.SAIR);
-    }
 
 
-    /**
-     * Método responsável por achar uma hospedagem a partir de um hóspede.
-     * @param hospede o hóspede a ser procurado
-     * @return a hospedagem encontrada, ou null se não for encontrada
-     */
-    private Hospedagem acharHospedagemPorHospede(Hospede hospede) {
-        for (Hospedagem hospedagem : hotel.getHospedagens()) {
-            if (hospedagem.getHospede().equals(hospede)) {
-                return hospedagem;
-            }
-        }
-        return null;
-    }
-
-
+    
+    
     /**
      * Método responsável por executar as opções disponíveis para as hospedagens.
      */
     private void funcoesHospedagem(){
         OpcoesHospedagem escolha;
         Hospedagem hospedagemModificada;
-
+        
         do {
             escolha = Menu.menuGenerico(OpcoesHospedagem.class, "Menu Hospedagem");
-
+            
             if (escolha == null) {
                 break;
             }
-
+            
             switch (escolha) {
                 case CADASTRAR_HOSPEDAGEM:
                     hotel.addHospedagem(Modificar.cadastrarHospedagem(hotel));
@@ -283,7 +285,6 @@ public class SistemaController {
                         hotel.getHospedagens().get(hotel.getHospedagens().indexOf(hospedagemModificada)).transformarResevaEmHospedagem();;
                     }
                     break;
-
                 case CADASTRAR_ACOMODACAO:
                     hotel.addAcomodacao(Modificar.cadastrarAcomodacao());
                     break;
@@ -302,66 +303,80 @@ public class SistemaController {
                 default:
                     break;
             }
-        } while (escolha != OpcoesHospedagem.VOLTAR);
+        } 
+        while (escolha != OpcoesHospedagem.VOLTAR);
     }
-
-
+        
+        
     /**
      * Método responsável por executar as opções disponíveis para os relatórios.
      */
     private void funcoesRelatorio(){
         OpcoesRelatorios escolha;
-
+        
         LocalDate date[];
-
+        
         do {
             escolha = Menu.menuGenerico(OpcoesRelatorios.class, "Menu Relatórios");
-
+            
             if (escolha == null) {
                 break;
             }
             switch (escolha) {
                 case RELATORIO_HOSPEDES:
-                    Relatorio.relatorioHospedes(hotel);
-                    break;
+                Relatorio.relatorioHospedes(hotel);
+                break;
                 case RELATORIO_RESERVAS_HOJE:
-                    Relatorio.relatorioReservasHoje(hotel);
-                    break;
+                Relatorio.relatorioReservasHoje(hotel);
+                break;
                 case RELATORIO_ACOMODACOES:
-                    Relatorio.relatorioAcomodacoes(hotel);
-                    break;
+                Relatorio.relatorioAcomodacoes(hotel);
+                break;
                 case RELATORIO_FATURAMENTO:
-                    date = Modificar.escolherData();
-                    Relatorio.relatorioFaturamento(date[0], date[1], hotel);
-                    break;
+                date = Modificar.escolherData();
+                Relatorio.relatorioFaturamento(date[0], date[1], hotel);
+                break;
                 case RELATORIO_ATRASADOS:
-                    date = Modificar.escolherData();
-                    Relatorio.relatorioAtrasados(date[0], date[1], hotel);
-                    break;
+                date = Modificar.escolherData();
+                Relatorio.relatorioAtrasados(date[0], date[1], hotel);
+                break;
                 default:
-                    break;
+                break;
             }
-
+            
         } while (escolha != OpcoesRelatorios.VOLTAR);
     }
     
-
+    /**
+     * Método responsável por achar uma hospedagem a partir de um hóspede.
+     * @param hospede o hóspede a ser procurado
+     * @return a hospedagem encontrada, ou null se não for encontrada
+     */
+    private Hospedagem acharHospedagemPorHospede(Hospede hospede) {
+        for (Hospedagem hospedagem : hotel.getHospedagens()) {
+            if (hospedagem.getHospede().equals(hospede)) {
+                return hospedagem;
+            }
+        }
+        return null;
+    }
+    
     /**
      * Método responsável por salvar o estado do hotel em um arquivo JSON.
-     * @param hotel o hotel a ser salvo
      */
-    private void salvarEstadoHotel(Hotel hotel) {
-
+    private void salvarEstadoHotel() {
+        
         String caminhoData = "data/hotel.json";
         Gson gson = createGson();
-
+        
         try (FileWriter localArmazenamento = new FileWriter(caminhoData)) {
             gson.toJson(hotel, localArmazenamento);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } 
+        catch (IOException e) {
+            System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
         }
     }
-
+    
     /**
      * Método responsável por criar um objeto Gson.
      * @return o objeto Gson criado
@@ -385,28 +400,36 @@ public class SistemaController {
      */
     private void verificarDisponibilidade(Hospedagem hospedagem) {
 
+        // Variaveis que armazenam a quantidade máxima de adultos e crianças
+        int maxAdultos = hospedagem.getAcomodacao().getMaxAdultos();
+        int maxCriancas = hospedagem.getAcomodacao().getMaxCriancas();
+
         // Começa em 1 pois o hóspede já está incluso
-        int totalAdultos = 1;
-        int totalCriancas = 0;
+        int adultos = 1;
+        int criancas = 0;
         
-        for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
-            if (acompanhante.getIdade() >= 18) {
-                totalAdultos++;
-            } else {
-                totalCriancas++;
-            }
+        // Cria um acompanhante e verifica se é adulto ou criança
+        Acompanhante acompanhante = Modificar.cadastrarAcompanhante();
+        if (acompanhante.getIdade() >= 18) {
+            adultos++;
+        } else {
+            criancas++;
         }
 
-
-        Acompanhante acompanhante = Modificar.cadastrarAcompanhante();
-
-        int maxAdultosPermitidos = hospedagem.getAcomodacao().getMaxAdultos();
-        int maxCriancasPermitidas = hospedagem.getAcomodacao().getMaxCriancas();
-
-        if (totalAdultos <= maxAdultosPermitidos && totalCriancas <= maxCriancasPermitidas) 
-            {
+        // Verifica a quantidade de adultos e crianças na hospedagem
+        for (Acompanhante x : hospedagem.getHospede().getAcompanhantes()) {
+            if (x.getIdade() >= 18) {
+                adultos++;
+            } else {
+                criancas++;
+            }
+        }
+        
+        // Verifica se é possível adicionar o acompanhante
+        if (adultos <= maxAdultos && criancas <= maxCriancas) {
             hospedagem.getHospede().addAcompanhante(acompanhante);
-        } else {
+        } 
+        else {
             Mensagens.erroAcompanhante();
         }
     }
