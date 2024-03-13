@@ -100,6 +100,10 @@ public abstract class Pessoa {
         return dataNascimento.format(formatter);
     }
 
+    public LocalDate getDataNascimentoDate() {
+        return dataNascimento;
+    }
+
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }

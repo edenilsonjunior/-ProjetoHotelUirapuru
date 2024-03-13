@@ -1,7 +1,9 @@
 package model.alojamento;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+import model.consumo.Consumo;
 import model.pagamento.*;
 import model.pessoa.*;
 
@@ -150,6 +152,49 @@ public class Hospedagem {
     }
 
 
+    public String getRelatorioConsumo() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Acomodaçao: " + getAcomodacao().getNumeroQuarto() + "\n");
+        sb.append("Hospede: " + getHospede().getNome() + "\n");
+        sb.append("Total Consumo: " + getHospede().totalConsumo()  + "R$" + "\n");
+
+        if(!getHospede().getListaConsumo().isEmpty()){
+
+            sb.append("Consumo: \n");
+
+            for (Consumo c : getHospede().getListaConsumo()) {
+                sb.append(c.getTipo() + " - " + c.getDescricao() + " - " + c.getValor() + "R$" + "\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public String getRelatorioTipoFaturado() {
+
+        StringBuilder sb = new StringBuilder();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        sb.append("Acomodaçao: " + getAcomodacao().getNumeroQuarto() + "\n");
+        sb.append("Hospede: " + getHospede().getNome() + "\n");
+        sb.append("Identificação: " + getCodigo() + "\n");
+
+        sb.append("Check-in: " + getChegada().format(formatter) + "\n");
+        sb.append("Check-out: " + getSaida().format(formatter) + "\n");
+
+        if(getPagamento().isStatus()) {
+            sb.append("Total Geral: R$" + getPagamento().calcularTotal(this) + "\n");
+            sb.append("Valor das parcelas: " + getPagamento().calcularTotal(this) / 30 + "\n");
+            sb.append("Descontos (Multa/Juros): R$" + (getMulta() + getPagamento().calcularJuros()) + "\n");
+            sb.append("Data de Vencimento: " + getPagamento().getDataVencimento().format(formatter) + "\n");
+        }
+
+        return sb.toString();
+    }
+
+
+
     public Acomodacao getAcomodacao() {
         return acomodacao;
     }
@@ -213,4 +258,11 @@ public class Hospedagem {
         this.status = status;
     }
 
+    public TipoPagamento getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+    public void setTipoPagamento(TipoPagamento tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+    }
 }

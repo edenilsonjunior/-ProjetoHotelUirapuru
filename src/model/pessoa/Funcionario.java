@@ -57,7 +57,20 @@ public class Funcionario extends Pessoa{
         return str;
     }
 
-    
+    public String getDescricaoCurta(){
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Código: ");
+        sb.append(getCodigo());
+        sb.append("- Nome: ");
+        sb.append(getNome());
+        sb.append("\n");
+
+        return sb.toString();
+    }
+
+
     public int getCodigo() {
         return codigo;
     }

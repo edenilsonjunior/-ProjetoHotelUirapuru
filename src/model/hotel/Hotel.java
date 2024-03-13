@@ -11,10 +11,12 @@ import java.util.*;
  */
 public class Hotel {
 
-    private List<Funcionario> funcionarios;
-    private List<Hospedagem> hospedagens;
-    private List<Acomodacao> acomodacoes;
+    private static Hotel instance;
 
+
+    private List<Funcionario> funcionarios;
+    private List<Acomodacao> acomodacoes;
+    private Map<Hospede, Hospedagem> hospedagens;
 
     /**
      * Construtor padrão da classe Hotel.
@@ -22,10 +24,16 @@ public class Hotel {
      */
     public Hotel() {
         this.funcionarios = new ArrayList<>();
-        this.hospedagens = new ArrayList<>();
         this.acomodacoes = new ArrayList<>();
+        this.hospedagens = new HashMap<>();
     }
 
+    public static Hotel getInstance() {
+        if (instance == null) {
+            instance = new Hotel();
+        }
+        return instance;
+    }
 
     /**
      * Adiciona uma acomodação à lista de acomodações do hotel.
@@ -66,18 +74,9 @@ public class Hotel {
         this.funcionarios.remove(funcionario);
     }
 
-
-    /**
-     * Adiciona uma reserva à lista de hospedagens do hotel, caso a hospedagem não esteja no status de ocupada.
-     *
-     * @param hospedagem A hospedagem a ser adicionada.
-     */
-    public void addReserva(Hospedagem hospedagem) {
-        if (!hospedagem.isStatus()) {
-            hospedagens.add(hospedagem);
-        }
+    public void removeFuncionario(int codigo){
+        this.funcionarios.remove(codigo);
     }
-
 
     /**
      * Remove uma reserva da lista de hospedagens do hotel, se a hospedagem não estiver no status de ocupada.
@@ -86,12 +85,16 @@ public class Hotel {
      * @param hospedagem A hospedagem a ser removida.
      */
     public void removeReserva(Hospedagem hospedagem) {
-        if (!hospedagem.isStatus()) {
-            hospedagens.remove(hospedagem);
+        if (!hospedagem.isStatus()) 
+        {
             LocalDateTime chegadatime = hospedagem.getChegada().atStartOfDay();
-            if (LocalDateTime.now().plusHours(12).isAfter(chegadatime)) {
+
+            if (LocalDateTime.now().plusHours(12).isAfter(chegadatime)) 
+            {
                 hospedagem.setMulta(hospedagem.totalDiarias() * 0.1);
             }
+
+            hospedagens.remove(hospedagem.getHospede());
         }
     }
 
@@ -102,24 +105,23 @@ public class Hotel {
      * @param hospedagem A hospedagem a ser adicionada.
      * @return true se a hospedagem foi adicionada com sucesso, false caso contrário.
      */
-    public boolean addHospedagem(Hospedagem hospedagem) {
+    public boolean addHospedagem(Hospedagem hospedagem, Hospede hospede) {
 
         // Ja considerando que já existe um adulto (Hospede no qual foi feito o cadastro)
         int totalAdultos = 1; 
         int totalCriancas = 0;
 
-        for (Acompanhante acompanhante : hospedagem.getHospede().getAcompanhantes()) {
-            if (acompanhante.getIdade() >= 18) {
+        for (Acompanhante acompanhante : hospede.getAcompanhantes()) {
+            if (acompanhante.getIdade() >= 18) 
                 totalAdultos++;
-            }
-            else if (acompanhante.getIdade() < 18 && acompanhante.getIdade() >= 0) {
+            else if (acompanhante.getIdade() < 18 && acompanhante.getIdade() >= 0) 
                 totalCriancas++;
-            }
         }
 
         if (hospedagem.getAcomodacao().getMaxAdultos() <= totalAdultos &&
             hospedagem.getAcomodacao().getMaxCriancas() <= totalCriancas) {
-            hospedagens.add(hospedagem);
+
+            hospedagens.put(hospede, hospedagem);
             return true;
         }
         return false;
@@ -133,10 +135,20 @@ public class Hotel {
      */
     public void removeHospedagem(Hospedagem hospedagem) {
         if (hospedagem.isStatus()) {
-            hospedagens.remove(hospedagem);
+            hospedagens.remove(hospedagem.getHospede());
         }
     }
 
+    public String[] listarFuncionarios() {
+
+        String[] lista = new String[funcionarios.size()];
+
+        for (int i = 0; i < funcionarios.size(); i++) {
+            lista[i] = funcionarios.get(i).getDescricao();
+        }
+
+        return lista;
+    }
     
     public List<Funcionario> getFuncionarios() {
         return funcionarios;
@@ -146,11 +158,11 @@ public class Hotel {
         this.funcionarios = funcionarios;
     }
 
-    public List<Hospedagem> getHospedagens() {
+    public Map<Hospede, Hospedagem> getHospedagens() {
         return hospedagens;
     }
 
-    public void setHospedagens(List<Hospedagem> hospedagens) {
+    public void setHospedagens(Map<Hospede, Hospedagem> hospedagens) {
         this.hospedagens = hospedagens;
     }
 
